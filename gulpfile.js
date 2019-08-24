@@ -8,39 +8,49 @@ const imagemin = require('gulp-imagemin') // 图片压缩
 const pngquant = require('imagemin-pngquant')
 const clean = require('gulp-clean') // 清空文件夹
 const replace = require('gulp-replace') // 替换
-var gulpif = require('gulp-if') // 判断
-var minimist = require('minimist') // 获取命令行传递参数
-var babel = require('gulp-babel') // ES6转ES5
-var webserver = require('gulp-webserver') // 启服务
+const gulpif = require('gulp-if') // 判断
+const minimist = require('minimist') // 获取命令行传递参数
+const babel = require('gulp-babel') // ES6转ES5
+const webserver = require('gulp-webserver') // 启服务
 const cache = require('gulp-cache') // 缓存，只处理修改过的文件
 
-var knownOptions = {
+const ejs = require('gulp-ejs') // 处理模板引入
+
+let knownOptions = {
   string: 'env',
-  default: { env: process.env.NODE_ENV || 'development' }
+  default: {
+    env: process.env.NODE_ENV || 'development'
+  }
 }
 // 配置
-var config = {
-  cssPath: ['./src/**/*.less'],
-  jsPath: ['./src/**/*.js'],
-  htmlPath: ['./src/**/*.html'],
-  imagePath: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
+let config = {
+  filePath: {
+    less: ['./src/**/*.less'],
+    art: ['./src/**/*.art'],
+    js: ['./src/**/*.js'],
+    html: ['./src/**/*.html'],
+    image: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
+  },
   command: minimist(process.argv.slice(2), knownOptions)
 }
 console.log(JSON.stringify(config))
 
 gulp.task('del', function () {
-  return gulp.src(['./dist/'], { read: false, allowEmpty: true }).pipe(clean())
+  return gulp.src(['./dist/'], {
+    read: false,
+    allowEmpty: true
+  }).pipe(clean())
 })
 gulp.task('js', function () {
   return gulp
-    .src(config.jsPath)
+    .src(config.filePath.js)
     .pipe(babel())
     .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist'))
 })
 gulp.task('css', function () {
   return gulp
-    .src(config.cssPath)
+    .src(config.filePath.less)
     .pipe(replace('@/', '../../'))
     .pipe(less())
     .pipe(gulpif(config.command.env === 'production', csso()))
@@ -48,7 +58,7 @@ gulp.task('css', function () {
 })
 gulp.task('images', function () {
   return gulp
-    .src(config.imagePath)
+    .src(config.filePath.image)
     .pipe(
       gulpif(
         config.command.env === 'production',
@@ -57,7 +67,9 @@ gulp.task('images', function () {
             optimizationLevel: 5, // 默认：3  取值范围：0-7（优化等级）
             progressive: true, // 默认：false 无损压缩jpg图片
             multipass: true, // 默认：false 多次优化svg直到完全优化
-            svgoPlugins: [{ removeViewBox: false }], // 不要移除svg的viewbox属性
+            svgoPlugins: [{
+              removeViewBox: false
+            }], // 不要移除svg的viewbox属性
             use: [pngquant()]
           })
         )
@@ -67,7 +79,8 @@ gulp.task('images', function () {
 })
 gulp.task('html', function () {
   return gulp
-    .src(config.htmlPath)
+    .src(config.filePath.html)
+    .pipe(ejs())
     .pipe(replace('.less', '.css'))
     .pipe(replace('@/', '../../'))
     .pipe(
@@ -86,10 +99,10 @@ gulp.task('cache-clean', function () {
   cache.clearAll()
 })
 gulp.task('watch', function () {
-  gulp.watch(config.htmlPath, ['js'])
-  gulp.watch(config.cssPath, ['css'])
-  gulp.watch(config.imagePath, ['images'])
-  gulp.watch(config.htmlPath, ['html'])
+  gulp.watch(config.filePath.js, ['js'])
+  gulp.watch(config.filePath.less, ['css'])
+  gulp.watch(config.filePath.image, ['images'])
+  gulp.watch([...config.filePath.html, ...config.filePath.art], ['html'])
 })
 gulp.task('server', function () {
   gulp.src('./').pipe(
@@ -98,7 +111,7 @@ gulp.task('server', function () {
       port: '8787',
       livereload: true,
       directoryListing: true,
-      open: 'http://localhost:8787/dist/pages/customer/customer.html'
+      open: 'http://localhost:8787/dist/pages/customer/index.html'
     })
   )
 })
