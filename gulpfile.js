@@ -15,6 +15,7 @@ const webserver = require('gulp-webserver') // 启服务
 const cache = require('gulp-cache') // 缓存，只处理修改过的文件
 
 const ejs = require('gulp-ejs') // 处理模板引入
+// const template  = require('gulp-art-include') // 处理文件引入解析
 
 let knownOptions = {
   string: 'env',
@@ -81,6 +82,7 @@ gulp.task('html', function () {
   return gulp
     .src(config.filePath.html)
     .pipe(ejs())
+    // .pipe(template())
     .pipe(replace('.less', '.css'))
     .pipe(replace('@/', '../../'))
     .pipe(
