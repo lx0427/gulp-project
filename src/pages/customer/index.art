@@ -1,0 +1,8 @@
+<!-- 姓名列表 -->
+<script id="list" type="text/html">
+  <ul>
+    {{each list value i}}
+    <li>{{value}} -- {{i}}</li>
+    {{/each}}
+  </ul>
+</script>
