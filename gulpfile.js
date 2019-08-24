@@ -27,9 +27,10 @@ let knownOptions = {
 let config = {
   filePath: {
     commonLess: ['./src/assets/css/common/*.less'],
+    commonJs: ['./src/assets/js/common/*.js'],
     less: ['./src/**/*.less', '!./src/assets/css/common/*.less'],
     art: ['./src/**/*.art'],
-    js: ['./src/**/*.js'],
+    js: ['./src/**/*.js', '!./src/assets/js/common/*.js'],
     html: ['./src/**/*.html'],
     image: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
   },
@@ -43,6 +44,14 @@ gulp.task('del', function () {
     allowEmpty: true
   }).pipe(clean())
 })
+gulp.task('commonJs', function () {
+  return gulp
+    .src(config.filePath.commonJs)
+    .pipe(babel())
+    .pipe(concat('common.js'))
+    .pipe(gulpif(config.command.env === 'production', uglify()))
+    .pipe(gulp.dest('dist/assets/js/'))
+})
 gulp.task('js', function () {
   return gulp
     .src(config.filePath.js)
@@ -50,7 +59,7 @@ gulp.task('js', function () {
     .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist'))
 })
-gulp.task('commonCss', function () {
+gulp.task('commonLess', function () {
   return gulp
     .src(config.filePath.commonLess)
     .pipe(replace('@/', '../../'))
@@ -59,7 +68,7 @@ gulp.task('commonCss', function () {
     .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist/assets/css/'))
 })
-gulp.task('css', function () {
+gulp.task('less', function () {
   return gulp
     .src(config.filePath.less)
     .pipe(replace('@/', '../../'))
@@ -111,9 +120,10 @@ gulp.task('cache-clean', function () {
   cache.clearAll()
 })
 gulp.task('watch', function () {
+  gulp.watch(config.filePath.commonJs, ['commonJs'])
   gulp.watch(config.filePath.js, ['js'])
-  gulp.watch(config.filePath.commonLess, ['commonCss'])
-  gulp.watch(config.filePath.less, ['css'])
+  gulp.watch(config.filePath.commonLess, ['commonLess'])
+  gulp.watch(config.filePath.less, ['less'])
   gulp.watch(config.filePath.image, ['images'])
   gulp.watch([...config.filePath.html, ...config.filePath.art], ['html'])
 })
@@ -129,6 +139,6 @@ gulp.task('server', function () {
   )
 })
 gulp.task('default', ['del'], function () {
-  gulp.start('js','commonCss', 'css', 'images', 'html')
+  gulp.start('commonJs', 'js', 'commonLess', 'less', 'images', 'html')
 })
 gulp.task('start', ['server', 'watch'])
