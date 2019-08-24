@@ -26,7 +26,8 @@ let knownOptions = {
 // 配置
 let config = {
   filePath: {
-    less: ['./src/**/*.less'],
+    commonLess: ['./src/assets/css/common/*.less'],
+    less: ['./src/**/*.less', '!./src/assets/css/common/*.less'],
     art: ['./src/**/*.art'],
     js: ['./src/**/*.js'],
     html: ['./src/**/*.html'],
@@ -48,6 +49,15 @@ gulp.task('js', function () {
     .pipe(babel())
     .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist'))
+})
+gulp.task('commonCss', function () {
+  return gulp
+    .src(config.filePath.commonLess)
+    .pipe(replace('@/', '../../'))
+    .pipe(less())
+    .pipe(concat('common.css'))
+    .pipe(gulpif(config.command.env === 'production', csso()))
+    .pipe(gulp.dest('dist/assets/css/'))
 })
 gulp.task('css', function () {
   return gulp
@@ -102,6 +112,7 @@ gulp.task('cache-clean', function () {
 })
 gulp.task('watch', function () {
   gulp.watch(config.filePath.js, ['js'])
+  gulp.watch(config.filePath.commonLess, ['commonCss'])
   gulp.watch(config.filePath.less, ['css'])
   gulp.watch(config.filePath.image, ['images'])
   gulp.watch([...config.filePath.html, ...config.filePath.art], ['html'])
@@ -118,6 +129,6 @@ gulp.task('server', function () {
   )
 })
 gulp.task('default', ['del'], function () {
-  gulp.start('js', 'css', 'images', 'html')
+  gulp.start('js','commonCss', 'css', 'images', 'html')
 })
 gulp.task('start', ['server', 'watch'])

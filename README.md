@@ -33,3 +33,7 @@ background-image: url(@/assets/images/2.jpg);
   }));
 </script>
 ```
+
+## css
+### 公用css
+* `common/*.less` => `assets/css/common.css`
