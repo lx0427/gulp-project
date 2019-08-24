@@ -18,34 +18,40 @@ var knownOptions = {
   string: 'env',
   default: { env: process.env.NODE_ENV || 'development' }
 }
-var options = minimist(process.argv.slice(2), knownOptions)
-console.log(JSON.stringify(options))
+// 配置
+var config = {
+  cssPath: ['./src/**/*.less'],
+  jsPath: ['./src/**/*.js'],
+  htmlPath: ['./src/**/*.html'],
+  imagePath: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
+  command: minimist(process.argv.slice(2), knownOptions)
+}
+console.log(JSON.stringify(config))
 
-gulp.task('del', function() {
+gulp.task('del', function () {
   return gulp.src(['./dist/'], { read: false, allowEmpty: true }).pipe(clean())
 })
-
-gulp.task('js', function() {
+gulp.task('js', function () {
   return gulp
-    .src(['./src/**/*.js'])
+    .src(config.jsPath)
     .pipe(babel())
-    .pipe(gulpif(options.env === 'production', uglify()))
+    .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist'))
 })
-gulp.task('css', function() {
+gulp.task('css', function () {
   return gulp
-    .src(['./src/**/*.less'])
-    .pipe(replace('@/', '../../../'))
+    .src(config.cssPath)
+    .pipe(replace('@/', '../../'))
     .pipe(less())
-    .pipe(gulpif(options.env === 'production', csso()))
+    .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist'))
 })
-gulp.task('images', function() {
+gulp.task('images', function () {
   return gulp
-    .src(['./src/**/*.{jpg,png,gif,jpeg,svg}'])
+    .src(config.imagePath)
     .pipe(
       gulpif(
-        options.env === 'production',
+        config.command.env === 'production',
         cache(
           imagemin({
             optimizationLevel: 5, // 默认：3  取值范围：0-7（优化等级）
@@ -59,14 +65,14 @@ gulp.task('images', function() {
     )
     .pipe(gulp.dest('dist'))
 })
-gulp.task('html', function() {
+gulp.task('html', function () {
   return gulp
-    .src(['./src/**/*.html'])
+    .src(config.htmlPath)
     .pipe(replace('.less', '.css'))
-    .pipe(replace('@/', '../../../'))
+    .pipe(replace('@/', '../../'))
     .pipe(
       gulpif(
-        options.env === 'production',
+        config.command.env === 'production',
         htmlmin({
           collapseWhitespace: true,
           minifyCSS: true,
@@ -76,30 +82,27 @@ gulp.task('html', function() {
     )
     .pipe(gulp.dest('dist'))
 })
-// 清理缓存
-gulp.task('cache-clean', function() {
+gulp.task('cache-clean', function () {
   cache.clearAll()
 })
-// 监听
-gulp.task('watch', function() {
-  gulp.watch(['./src/**/*.js'], ['js'])
-  gulp.watch(['./src/**/*.less'], ['css'])
-  gulp.watch(['./src/**/*.{jpg,png,gif,jpeg,svg}'], ['images'])
-  gulp.watch(['./src/**/*.html'], ['html'])
+gulp.task('watch', function () {
+  gulp.watch(config.htmlPath, ['js'])
+  gulp.watch(config.cssPath, ['css'])
+  gulp.watch(config.imagePath, ['images'])
+  gulp.watch(config.htmlPath, ['html'])
 })
-// 服务
-gulp.task('server', function() {
+gulp.task('server', function () {
   gulp.src('./').pipe(
     webserver({
       host: '0.0.0.0',
       port: '8787',
       livereload: true,
       directoryListing: true,
-      open: 'http://localhost:8787/dist/pages/customer/customer/customer.html'
+      open: 'http://localhost:8787/dist/pages/customer/customer.html'
     })
   )
 })
-gulp.task('default', ['del'], function() {
+gulp.task('default', ['del'], function () {
   gulp.start('js', 'css', 'images', 'html')
 })
 gulp.task('start', ['server', 'watch'])
