@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "gulp && gulp start",
-    "build": "gulp cache-clean && gulp --env production"
+    "build": "gulp cache-clean && gulp delRev &&  gulp build --env production"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,8 @@
     "gulp-uglify": "^3.0.2",
     "gulp-webserver": "^0.9.1",
     "imagemin-pngquant": "^8.0.0",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "xfx-gulp-rev": "^1.0.0",
+    "xfx-gulp-rev-collector": "^1.0.0"
   }
 }

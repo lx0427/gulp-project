@@ -16,6 +16,8 @@ const cache = require('gulp-cache') // 缓存，只处理修改过的文件
 
 const ejs = require('gulp-ejs') // 处理模板引入
 // const template  = require('gulp-art-include') // 处理文件引入解析
+var rev = require('xfx-gulp-rev') // 文件生成MD5
+var revCollector = require('xfx-gulp-rev-collector') // 版本控制
 
 let knownOptions = {
   string: 'env',
@@ -31,35 +33,35 @@ let config = {
     less: ['./src/**/*.less', '!./src/assets/css/common/*.less'],
     art: ['./src/**/*.art'],
     js: ['./src/**/*.js', '!./src/assets/js/common/*.js'],
-    html: ['./src/**/*.html'],
-    image: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
+    html: ['./rev/**/*.json', './src/**/*.html'],
+    image: ['./src/**/*.{jpg,png,gif,jpeg,svg}']
   },
   command: minimist(process.argv.slice(2), knownOptions)
 }
 console.log(JSON.stringify(config))
 
-gulp.task('del', function () {
-  return gulp.src(['./dist/'], {
-    read: false,
-    allowEmpty: true
-  }).pipe(clean())
-})
-gulp.task('commonJs', function () {
+gulp.task('commonJs', function() {
   return gulp
     .src(config.filePath.commonJs)
     .pipe(babel())
     .pipe(concat('common.js'))
     .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist/assets/js/'))
+    .pipe(rev())
+    .pipe(rev.manifest())
+    .pipe(gulp.dest('./rev/commonJs/'))
 })
-gulp.task('js', function () {
+gulp.task('js', function() {
   return gulp
     .src(config.filePath.js)
     .pipe(babel())
     .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist'))
+    .pipe(rev())
+    .pipe(rev.manifest())
+    .pipe(gulp.dest('./rev/js/'))
 })
-gulp.task('commonLess', function () {
+gulp.task('commonLess', function() {
   return gulp
     .src(config.filePath.commonLess)
     .pipe(replace('@/', '../../'))
@@ -67,16 +69,22 @@ gulp.task('commonLess', function () {
     .pipe(concat('common.css'))
     .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist/assets/css/'))
+    .pipe(rev())
+    .pipe(rev.manifest())
+    .pipe(gulp.dest('./rev/commonLess/'))
 })
-gulp.task('less', function () {
+gulp.task('less', function() {
   return gulp
     .src(config.filePath.less)
     .pipe(replace('@/', '../../'))
     .pipe(less())
     .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist'))
+    .pipe(rev())
+    .pipe(rev.manifest())
+    .pipe(gulp.dest('./rev/less/'))
 })
-gulp.task('images', function () {
+gulp.task('images', function() {
   return gulp
     .src(config.filePath.image)
     .pipe(
@@ -87,9 +95,11 @@ gulp.task('images', function () {
             optimizationLevel: 5, // 默认：3  取值范围：0-7（优化等级）
             progressive: true, // 默认：false 无损压缩jpg图片
             multipass: true, // 默认：false 多次优化svg直到完全优化
-            svgoPlugins: [{
-              removeViewBox: false
-            }], // 不要移除svg的viewbox属性
+            svgoPlugins: [
+              {
+                removeViewBox: false
+              }
+            ], // 不要移除svg的viewbox属性
             use: [pngquant()]
           })
         )
@@ -97,29 +107,50 @@ gulp.task('images', function () {
     )
     .pipe(gulp.dest('dist'))
 })
-gulp.task('html', function () {
-  return gulp
-    .src(config.filePath.html)
-    .pipe(ejs())
-    // .pipe(template())
-    .pipe(replace('.less', '.css'))
-    .pipe(replace('@/', '../../'))
-    .pipe(
-      gulpif(
-        config.command.env === 'production',
-        htmlmin({
-          collapseWhitespace: true,
-          minifyCSS: true,
-          minifyJS: true
-        })
+gulp.task('html', function() {
+  return (
+    gulp
+      .src(config.filePath.html)
+      .pipe(ejs())
+      // .pipe(template())
+      .pipe(replace('.less', '.css'))
+      .pipe(replace('@/', '../../'))
+      .pipe(revCollector())
+      .pipe(
+        gulpif(
+          config.command.env === 'production',
+          htmlmin({
+            collapseWhitespace: true,
+            minifyCSS: true,
+            minifyJS: true
+          })
+        )
       )
-    )
-    .pipe(gulp.dest('dist'))
+      .pipe(gulp.dest('dist'))
+  )
 })
-gulp.task('cache-clean', function () {
+// 删除dist
+gulp.task('del', function() {
+  return gulp
+    .src(['./dist/'], {
+      read: false,
+      allowEmpty: true
+    })
+    .pipe(clean())
+})
+// 清理上个版本rev-manifest.json
+gulp.task('delRev', function() {
+  return gulp
+    .src(['./rev/'], {
+      read: false,
+      allowEmpty: true
+    })
+    .pipe(clean())
+})
+gulp.task('cache-clean', function() {
   cache.clearAll()
 })
-gulp.task('watch', function () {
+gulp.task('watch', function() {
   gulp.watch(config.filePath.commonJs, ['commonJs'])
   gulp.watch(config.filePath.js, ['js'])
   gulp.watch(config.filePath.commonLess, ['commonLess'])
@@ -127,7 +158,7 @@ gulp.task('watch', function () {
   gulp.watch(config.filePath.image, ['images'])
   gulp.watch([...config.filePath.html, ...config.filePath.art], ['html'])
 })
-gulp.task('server', function () {
+gulp.task('server', function() {
   gulp.src('./').pipe(
     webserver({
       host: '0.0.0.0',
@@ -138,7 +169,18 @@ gulp.task('server', function () {
     })
   )
 })
-gulp.task('default', ['del'], function () {
+gulp.task('default', ['del'], function() {
   gulp.start('commonJs', 'js', 'commonLess', 'less', 'images', 'html')
 })
+
+// dev
 gulp.task('start', ['server', 'watch'])
+
+// build
+gulp.task(
+  'build',
+  ['commonJs', 'js', 'commonLess', 'less', 'images'],
+  function() {
+    gulp.start('html') // 确保上述css,js对应的rev-manifest.json生成完毕后执行
+  }
+)
