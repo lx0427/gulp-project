@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
   <title name="complaintInfo_title">客户投诉</title>
@@ -20,32 +21,45 @@
       text-align: center;
       padding: 0px 10px;
     }
-    .tslx.active{
+
+    .tslx.active {
       background: #3e7baf none repeat scroll 0 0;
       border: medium none;
       color: #fff;
       line-height: 26px;
     }
 
-    #img_ul img {width:75px; height: 75px;}
+    #img_ul img {
+      width: 75px;
+      height: 75px;
+    }
 
-    .wrapper{height:20px;}
-    
-    .li{float:left;width:26px;height:20px;background:url(../../images/star.png) 0 0px no-repeat; margin-right: 15px;}/*开始默认选中*/
+    .wrapper {
+      height: 20px;
+    }
 
+    .li {
+      float: left;
+      width: 26px;
+      height: 20px;
+      background: url(../../images/star.png) 0 0px no-repeat;
+      margin-right: 15px;
+    }
 
+    /*开始默认选中*/
   </style>
 
 </head>
+
 <body>
-   <article class="wx_layout">
-        <section class="wx_main" id="main">
-        </section>
-    </article>
-    <% include ../../_foot.html %>
-    <script src="../../lib/swiper.min.js"></script>
-        <script src="../complaint/complaintInfo.js"></script>
-        <script id="main_page" type="text/html">
+  <article class="wx_layout">
+    <section class="wx_main" id="main">
+    </section>
+  </article>
+  <% include ../../components/_foot.art %>
+  <script src="../../lib/swiper.min.js"></script>
+  <script src="../complaint/complaintInfo.js"></script>
+  <script id="main_page" type="text/html">
         <div class="wx_addsitebox">
         <div class="commontype">
          <span class="i18n" name="cu_customername">客户名称</span>

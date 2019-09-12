@@ -2,6 +2,7 @@ const gulp = require('gulp')
 const less = require('gulp-less') // 合并文件
 const concat = require('gulp-concat') // 合并文件
 const uglify = require('gulp-uglify') // js 压缩
+const rename = require('gulp-rename')
 const csso = require('gulp-csso') // css压缩
 const htmlmin = require('gulp-htmlmin') // html压缩
 const imagemin = require('gulp-imagemin') // 图片压缩
@@ -25,31 +26,47 @@ let knownOptions = {
     env: process.env.NODE_ENV || 'development'
   }
 }
+let pkg = require('./package.json')
+let appType = pkg.appType
+let project = pkg.project
+
 // 配置
 let config = {
   filePath: {
-    commonLess: ['./src/assets/css/common/*.less'],
-    commonJs: ['./src/assets/js/common/*.js'],
-    less: ['./src/**/*.less', '!./src/assets/css/common/*.less'],
+    commonLess: ['./src/css/common/*.less'],
+    appJs: ['./src/js/' + appType + '/app.min.js', './src/js/app_config.js'],
+    less: ['./src/**/*.{less,css}', '!./src/css/common/*.less'],
     art: ['./src/**/*.art'],
-    js: ['./src/**/*.js', '!./src/assets/js/common/*.js'],
+    js: [
+      './src/**/*.js',
+      '!./src/js/' + appType + '/*.js',
+      '!./src/js/app_config.js'
+    ],
     html: ['./rev/**/*.json', './src/**/*.html'],
-    image: ['./src/**/*.{jpg,png,gif,jpeg,svg}']
+    image: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
+    fonts: ['./src/fonts/*.*'],
+    i18n: ['./src/i18n/*.*']
   },
   command: minimist(process.argv.slice(2), knownOptions)
 }
 console.log(JSON.stringify(config))
 
-gulp.task('commonJs', function() {
+gulp.task('fonts', function() {
+  return gulp.src(config.filePath.fonts).pipe(gulp.dest('dist/fonts/'))
+})
+gulp.task('i18n', function() {
+  return gulp.src(config.filePath.i18n).pipe(gulp.dest('dist/i18n/'))
+})
+gulp.task('appJs', function() {
   return gulp
-    .src(config.filePath.commonJs)
+    .src(config.filePath.appJs)
     .pipe(babel())
-    .pipe(concat('common.js'))
+    .pipe(concat('app.min.js'))
     .pipe(gulpif(config.command.env === 'production', uglify()))
-    .pipe(gulp.dest('dist/assets/js/'))
+    .pipe(gulp.dest('dist/js/'))
     .pipe(rev())
     .pipe(rev.manifest())
-    .pipe(gulp.dest('./rev/commonJs/'))
+    .pipe(gulp.dest('./rev/appJs/'))
 })
 gulp.task('js', function() {
   return gulp
@@ -66,9 +83,9 @@ gulp.task('commonLess', function() {
     .src(config.filePath.commonLess)
     .pipe(replace('@/', '../../'))
     .pipe(less())
-    .pipe(concat('common.css'))
+    .pipe(concat('common.min.css'))
     .pipe(gulpif(config.command.env === 'production', csso()))
-    .pipe(gulp.dest('dist/assets/css/'))
+    .pipe(gulp.dest('dist/css/'))
     .pipe(rev())
     .pipe(rev.manifest())
     .pipe(gulp.dest('./rev/commonLess/'))
@@ -151,7 +168,7 @@ gulp.task('cache-clean', function() {
   cache.clearAll()
 })
 gulp.task('watch', function() {
-  gulp.watch(config.filePath.commonJs, ['commonJs'])
+  gulp.watch(config.filePath.appJs, ['appJs'])
   gulp.watch(config.filePath.js, ['js'])
   gulp.watch(config.filePath.commonLess, ['commonLess'])
   gulp.watch(config.filePath.less, ['less'])
@@ -170,7 +187,16 @@ gulp.task('server', function() {
   )
 })
 gulp.task('default', ['del'], function() {
-  gulp.start('commonJs', 'js', 'commonLess', 'less', 'images', 'html')
+  gulp.start(
+    'fonts',
+    'i18n',
+    'appJs',
+    'js',
+    'commonLess',
+    'less',
+    'images',
+    'html'
+  )
 })
 
 // dev
@@ -179,7 +205,7 @@ gulp.task('start', ['server', 'watch'])
 // build
 gulp.task(
   'build',
-  ['commonJs', 'js', 'commonLess', 'less', 'images'],
+  ['fonts', 'i18n', 'appJs', 'js', 'commonLess', 'less', 'images'],
   function() {
     gulp.start('html') // 确保上述css,js对应的rev-manifest.json生成完毕后执行
   }

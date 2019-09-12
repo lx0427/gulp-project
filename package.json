@@ -1,5 +1,6 @@
 {
   "name": "gulp-project",
+  "appType": "wx",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -24,6 +25,7 @@
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^6.1.0",
     "gulp-less": "^4.0.1",
+    "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-webserver": "^0.9.1",
