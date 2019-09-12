@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title name="mdl_title">供求展示</title>
+	<% include ../../components/_head.art %>
+	<style>
+		.wx_main {
+			top: 89px;
+		}
+
+		.wx_searchbox .searchbg {
+			opacity: 1;
+			border-radius: 4px;
+		}
+
+		.wx_searchbox .search_s {
+			color: #3e7baf;
+		}
+
+		.wx_searchbox,
+		.wx_searchboxbg {
+			padding: 0px;
+		}
+
+		.rq {
+			opacity: 0;
+			top: 0;
+			position: absolute;
+			left: 0px;
+			width: 100%;
+		}
+
+		.wx_hyfilter li {
+			width: 50%;
+		}
+
+		.sjzs_item {
+			padding: 0 10px;
+			background: #fff;
+		}
+
+		.sjzs_list {
+			padding: 15px 0;
+			border-bottom: 1px solid #ddd;
+			position: relative;
+			min-height: 70px;
+		}
+
+		.sjzs_img {
+			position: absolute;
+			left: 0;
+			top: 50%;
+			margin-top: -35px;
+			width: 70px;
+			height: 70px;
+		}
+
+		.sjzs_img img {
+			width: 100%;
+			height: 52.78px;
+		}
+
+		.sjzs_team {
+			padding-left: 80px;
+			padding-right: 40px;
+		}
+
+		.sjzs_team .sjzs_title,
+		.sjzs_team .sjzs_detail {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.sjzs_team .sjzs_title {
+			line-height: 24px;
+			font-size: 1.5rem;
+			color: #333;
+		}
+
+		.sjzs_team .sjzs_detail {
+			font-size: 1.3rem;
+			line-height: 23px;
+			color: #666;
+		}
+
+		.iconfont {
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			font-family: "iconfont" !important;
+		}
+
+		.wx_hyordermesbox .wx_hycontactlist li .icon-tel {
+			font-size: 25px;
+			line-height: 25px;
+			color: #3e7baf;
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			margin-top: -11px;
+		}
+
+		.wx_hyordermesbox .wx_hynewlylist li .icon-name,
+		.wx_hyordermesbox .wx_hynewlylist li .icon-power,
+		.wx_hyordermesbox .wx_hynewlylist li .icon-telephone,
+		.wx_hyordermesbox .wx_hynewlylist li .icon-quanxian {
+			font-size: 18px;
+			line-height: 18px;
+			color: #999;
+			position: absolute;
+			left: 10px;
+			top: 50%;
+			margin-top: -8px;
+		}
+
+		.sjzs_list .icon-tel {
+			font-size: 25px;
+			position: absolute;
+			right: 0;
+			top: 50%;
+			margin-top: -13px;
+			color: #3e7baf;
+		}
+	</style>
+	<link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+	<header class="wx_searchbox">
+		<div class="weui_search_bar">
+			<form id="form" class="weui_search_outer">
+				<div class="weui_search_inner">
+					<i class="weui_icon_search"></i>
+					<input type="search" class="weui_search_input i18n_ph" name="mdl_entersearchtip" id="querykey"
+						placeholder="输入搜索条件" value="" />
+					<a href="javascript:" class="weui_icon_clear"></a>
+				</div>
+				<label for="querykey" class="weui_search_text">
+					<i class="weui_icon_search"></i>
+					<span class="i18n" name="mdl_searchinfo">搜索供求信息</span>
+				</label>
+			</form>
+			<a href="javascript:" class="weui_search_cancel">
+				<span class="i18n" name="mdl_qx">取消</span>
+			</a>
+		</div>
+	</header>
+	<article class="wx_layout">
+		<ul class="wx_hyfilter">
+			<input type="hidden" id="str01" value="" />
+
+			<li onclick="changeSupply('供应');" id='supply_w'> <span class="i18n" name="mdl_gongying">供应</span>
+				<span class="xl" id='supply_n'></span>
+			</li>
+
+			<li onclick="changeSupply('求购');" id="demand_w"> <span class="i18n" name="mdl_qiugou">求购</span>
+				<span class="xl" id="demand_n"></span>
+			</li>
+		</ul>
+		<section class="wx_main" id="infinitePage">
+
+			<div id="list"></div>
+
+			<div class="weui-infinite-scroll">
+				<div class="infinite-preloader"></div><span class="i18n" name="mdl_zzjz">正在加载</span>
+			</div>
+		</section>
+		<footer class="wx_btnnext" onclick="toInfo();"><span class="i18n" name="mdl_add">新增</span></footer>
+	</article>
+	<% include ../../_foot.html %>
+	<script src="../customer/mySupplyDemandList.js"></script>
+	<script id="list_page" type="text/html">
+       				<div class="wx_hyordermesbox">
+       					<ul class="gqlb_item">
+       				{{each data as value i}}
+            	<li onclick="toInfo('{{value.pkid}}','{{value.str02}}');" class="gqlb_list">
+	             <p class="gqlb_title">
+	             		{{if (value.str02 != null)}}
+	             			<span>{{#getStr02(value.str02)}}</span>
+	             		{{/if}}
+									{{if (value.str02 == null)}}
+	             			<span>{{value.pm}}</span><span>{{value.ph}}</span><span>{{value.cd}}{{value.gg}}</span>
+	             		{{/if}}
+	            </p>
+	             <p class="gqlb_sum"><span class="i18n" name="mdl_total">数量</span>：<span>{{value.zl}}</span></p>
+	             <p class="gqlb_time">{{#getDate(value.cdate,"yyyy-MM-dd HH:mm")}}</p>
+	             <p class="gqlb_price"><span>￥</span>{{value.price}}</p>
+	             <p class="gqlb_linkman">
+	             
+	             		{{if (value.mobile != null )}}
+		             		<a href="tel:{{value.mobile}}"><i class="iconfont icon-linkman"></i></a>
+		             	{{/if}}
+	             		
+	             		{{value.lxr}}</p>
+	          </li>
+		          {{/each}}
+		          </ul>
+    				</div>        	
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>信息反馈</title>
+    <% include ../../components/_head.art %>
+<style>
+.wx_infofk {bottom:49px;}
+.wx_infofk .ttwrap .note {font-size: 10px;}
+.fileli {overflow: hidden;text-overflow: ellipsis; list-style-type:none;}
+.fileem {position: absolute; width: 27px;margin-left: 3px;margin-top: 11px;background: linear-gradient(to bottom,#1b8ad2 50%,#1580c3 50%,#0668a4 100%);
+    border-radius: 15px}
+.fileem  i {color: red}
+</style>
+
+<script>
+  /**
+   * 文本框根据输入内容自适应高度
+   * @param                {HTMLElement}        输入框元素
+   * @param                {Number}                设置光标与输入框保持的距离(默认0)
+   * @param                {Number}                设置最大高度(可选)
+   */
+  var autoTextarea = function(elem, extra, maxHeight) {
+    extra = extra || 0;
+    var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+      isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+      addEvent = function(type, callback) {
+        elem.addEventListener ?
+          elem.addEventListener(type, callback, false) :
+          elem.attachEvent('on' + type, callback);
+      },
+      getStyle = elem.currentStyle ? function(name) {
+        var val = elem.currentStyle[name];
+        if (name === 'height' && val.search(/px/i) !== 1) {
+          var rect = elem.getBoundingClientRect();
+          return rect.bottom - rect.top -
+            parseFloat(getStyle('paddingTop')) -
+            parseFloat(getStyle('paddingBottom')) + 'px';
+        };
+        return val;
+      } : function(name) {
+        return getComputedStyle(elem, null)[name];
+      },
+      minHeight = parseFloat(getStyle('height'));
+    elem.style.resize = 'none';
+    var change = function() {
+      var scrollTop, height,
+        padding = 0,
+        style = elem.style;
+      if (elem._length === elem.value.length) return;
+      elem._length = elem.value.length;
+      if (!isFirefox && !isOpera) {
+        padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+      };
+      scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      elem.style.height = minHeight + 'px';
+      if (elem.scrollHeight > minHeight) {
+        if (maxHeight && elem.scrollHeight > maxHeight) {
+          height = maxHeight - padding + 20;
+          style.overflowY = 'auto';
+        } else {
+          height = elem.scrollHeight - padding + 20;
+          style.overflowY = 'hidden';
+        };
+        style.height = height + extra + 'px';
+        scrollTop += parseInt(style.height) - elem.currHeight;
+        document.body.scrollTop = scrollTop;
+        document.documentElement.scrollTop = scrollTop;
+        elem.currHeight = parseInt(style.height);
+      };
+    };
+    addEvent('propertychange', change);
+    addEvent('input', change);
+    addEvent('focus', change);
+    change();
+  };
+</script>
+</head>
+
+<body>
+<article class="wx_layout">
+  <header class="wx_ssjgsite wx_ssjgsite1" style="z-index: 99">
+    <ul class="hy_xxsb">
+      <li class="xxsb_list" onclick="c(this);" val="2"><span class="typeSpan" style="">客户拜访</span></li>
+      <li class="xxsb_list xxsb_list_checked" onclick="c(this);" val="3"><span class="typeSpan" style="background:#ffffff;color:#3e7baf;">周 报</span></li>
+    </ul>
+    <input type="hidden" name="pm" id="pm" value="POY">
+    <input type="hidden" name="pkid" id="pkid" >
+  </header>
+  <section class="wx_infofk">
+    <div class="bfff wx_selline mt10">
+      <div class="itemline">
+        <span class="lt"><b>产品线</b></span>
+        <div class="rt" id="pmDiv">
+          <a class="pmmeau on" href="javascript:void(0)" id="poya" onclick="toPmDiv(this)" >POY</a>
+          <a class="pmmeau" href="javascript:void(0)" id="dtya" onclick="toPmDiv(this)" >DTY</a>
+          <a class="pmmeau" href="javascript:void(0)" id="fdya" onclick="toPmDiv(this)" >FDY</a>
+          <a class="pmmeau" href="javascript:void(0)" id="dlqpa" onclick="toPmDiv(this)" >涤纶切片</a>
+          <a class="pmmeau" href="javascript:void(0)" id="jlqpa" onclick="toPmDiv(this)" >锦纶切片</a>
+          <a class="pmmeau" href="javascript:void(0)" id="dqa" onclick="toPmDiv(this)" >短纤</a>
+          <a class="pmmeau" href="javascript:void(0)" id="diffa" onclick="toPmDiv(this)" >差异化</a>
+        </div>
+      </div>
+    </div>  
+    <div class="txtc">
+      <form name="form1" id="form1">  
+          <p>上传本周销量表:
+            <input type='file' class="bluebtn" name='files' id="fileUpload" onchange="fsubmit();" style="width: 50%;" />
+          </p>  
+      </form> 
+      <div style="text-align: center;">
+        <ul id="exsitfileul">
+   
+        </ul>
+      </div>
+    </div>
+
+    <div id="poy" style="display: block;">
+    <div class="bfff wx_weekly">
+      <h2>一、月度目标完成情况<span class="fs12">（车丝、塑料托盘推广情况）</span></h2>
+      <div class="ttwrap">
+        <textarea class="box h120" id="monthGoalFinishPresentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>例如：</p>
+          <p>1、截止今天为止订单完成XX吨 完成率X%，出库X吨；</p>
+          <p>2、塑料托盘：客户、规格、数量</p>
+        </div>
+      </div>
+      <h2 class="mt10">二、市场行情分析</h2>
+      <p class="tit">市场方面：</p>
+      <div class="ttwrap">
+        <textarea class="box h120" id="marketPrisentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>例如：</p>
+          <p>1、下游客户库存</p>
+          <p>2、同行库存</p>
+        </div>
+      </div>
+      <p class="tit">产品方面：</p>
+      <div class="ttwrap">
+        <textarea class="box h120" id="productPrisentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>建议从紧张规格、宽裕规格、同行库存情况阐述</p>
+        </div>
+      </div>
+      <p class="tit">预测：</p>
+      <div class="ttwrap">
+        <textarea class="box h120" id="restorePrisentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>客户预测及个人预测</p>
+        </div>
+      </div>
+      <h2 class="mt10">三、下周工作计划</h2>
+      <p class="tit">上周走访回馈：</p>
+      <div class="ttwrap">
+        <textarea class="box h160" id="lastWeekVistSuggestions" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+        </div>
+      </div>
+      <p class="tit">下周计划走访客户：</p>
+      <div class="ttwrap">
+        <textarea class="box h160" id="nextWeekVistSuggestions" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+        </div>
+      </div>    
+    </div>
+    </div>
+
+<div id="dty" style="display: none;">
+    <div class="bfff wx_weekly">
+      <h2>一、月度目标完成情况<span class="fs12">（车丝、塑料托盘推广情况）</span></h2>
+      <div class="ttwrap">
+        <textarea class="box h120" id="monthGoalFinishPresentation2" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>例如：</p>
+          <p>1、截止今天为止订单完成XX吨 完成率X%，出库X吨；</p>
+          <p>2、塑料托盘：客户、规格、数量</p>
+        </div>
+      </div>
+      <h2 class="mt10">二、市场行情分析</h2>
+      <p class="tit">市场方面：</p>
+      <div class="ttwrap">
+        <textarea class="box h120" id="marketPrisentation2" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>例如：</p>
+          <p>1、下游客户库存</p>
+          <p>2、同行库存</p>
+        </div>
+      </div>
+      <p class="tit">产品方面：</p>
+      <div class="ttwrap">
+        <textarea class="box h120" id="productPrisentation2" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>建议从紧张规格、宽裕规格、同行库存情况阐述</p>
+        </div>
+      </div>
+      <p class="tit">预测：</p>
+      <div class="ttwrap">
+        <textarea class="box h120" id="restorePrisentation2" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>客户预测及个人预测</p>
+        </div>
+      </div>
+      <h2 class="mt10">三、下周计划</h2>
+        <p class="tit">销售计划：</p>
+        <div><textarea class="box h120" id="salePlan2"></textarea></div>
+        <p class="tit">出差计划：</p>
+        <div><textarea class="box h120" id="evectionPlan2"></textarea></div>
+        <p class="tit">学习计划：</p>
+        <div><textarea class="box h120" id="learnPlan2"></textarea></div>
+    </div>
+    </div>
+
+
+<!-- fdy -->
+  <div id="fdy" style="display: none;">
+    <div class="bfff wx_weekly">
+      <h2>一、下游客户开机率情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="downMarketCustomerOpenRate" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>1、目前海宁，桐乡地区市场开机率在XX附近，KS经编XX%，双轴向XX%；</p>
+          <p>2、目前开机主要在产品种为XXX；</p>
+          <p>3、典型客户XXX开机率，开几停几。</p>
+        </div>
+      </div>
+      <h2 class="mt10">二、原料及面料库存情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="inventoryPresentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>1:手上原料库存XX天左右，面料库存XX天附近；</p>
+          <p>2:典型客户XXX情况。</p>
+        </div>
+      </div>
+      <h2 class="mt10">三、下游客户盈利状况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="downMarketCustomerPayOff" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>1、KS经编，氨纶超柔，目前售价XX，加工费XX，总体盈利XX；不倒绒，目前售价XX，加工费XX，总体盈利XX；</p>
+          <p>2、双轴向经编网布，目前售价XX，加工费XX，盈利XX。</p>
+        </div>
+      </div>
+      <h2 class="mt10">四、同行价格对比情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="priceComparePresentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>目前我司主要竞争对手价格情况，新凤鸣，恒力，天圣，桐昆，荣盛等价差情况对比</p>
+        </div>
+      </div>
+      <h2 class="mt10">五、市场趋势判断情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="marketRestorePresentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>1、预估下周下游客户变化情况；</p>
+          <p>2、预估下周原料价格变化情况。</p>
+        </div>
+      </div>
+      <h2 class="mt10">六、自身客户变动情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="customerChangePresentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>1、本周新增客户XX，机台数量，主要应用规格，主要竞争对手；</p>
+          <p>2、本周流失客户XX，流失去向XX公司，流失原因XXX。</p>
+        </div>
+      </div>
+      <h2 class="mt10">七、外围倍捻客户情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="externalCustomerPresentation" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>1、目前外围客户倍捻开机率XX%</p>
+          <p>2、原料XX天，面料XX天</p>
+          <p>3、目前典型规格布价售价XX，利润XX元/米，单机台利润XX元/台/天。</p>
+          <p>4、典型同行价格XX，与我司价差XX</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="diff_qp" style="display: none;">
+    <div class="bfff wx_weekly">
+        <h2>一、本周销售情况及存在问题</h2>
+        <p class="tit">任务完成情况：</p>
+        <div><textarea class="box h120" id="taskFinishPresentation"></textarea></div>
+        <p class="tit">客户开发情况：</p>
+        <div><textarea class="box h120" id="customerDevelopPresentation"></textarea></div>
+        <p class="tit">存在的问题：</p>
+        <div><textarea class="box h120" id="existProblem"></textarea></div>
+        <h2 class="mt10">二、行情分析</h2>
+        <div><textarea class="box h120" id="marketAnalyses" placeholder="对市场上下游产品的库存、价格、开工率进行分析"></textarea></div>
+        <h2 class="mt10">三、下周计划</h2>
+        <p class="tit">销售计划：</p>
+        <div><textarea class="box h120" id="salePlan"></textarea></div>
+        <p class="tit">出差计划：</p>
+        <div><textarea class="box h120" id="evectionPlan"></textarea></div>
+        <p class="tit">学习计划：</p>
+        <div><textarea class="box h120" id="learnPlan"></textarea></div>
+        <h2 class="mt10">四、改进建议</h2>
+        <div><textarea class="box h120" placeholder="请输入改进建议" id="suggestions"></textarea></div>
+      </div>
+  </div>
+
+<!-- 短纤 -->
+  <div id="dq" style="display: none;">
+    <div class="bfff wx_weekly">
+      <h2>一、本周质量反馈</h2>
+      <div class="ttwrap">
+        <textarea class="box h120" id="taskFinishPresentation1" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>客户, 批号, 生成日期, 具体质量反馈；</p>
+        </div>
+      </div>
+      <h2>二、客户开发情况</h2>
+      <div class="ttwrap">
+        <textarea class="box h120" id="customerDevelopPresentation1" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>客户, 完成情况, 未完成原因；</p>
+        </div>
+      </div>
+      <h2>三、遇到问题</h2>
+      <div class="ttwrap">
+        <textarea class="box h120" id="existProblem1" ></textarea>
+      </div>
+      <h2>四、行情分析</h2>
+      <div class="ttwrap">
+        <textarea class="box h120" id="marketAnalyses1" onfocus="$(this).next().hide();"></textarea>
+        <div id="note" class="note">
+          <p>请输入您的内容（不超过500字）</p>
+          <p class="mt10">例如：</p>
+          <p>对市场上下游产品的库存, 价格, 开工率进行分析；</p>
+        </div>
+      </div>
+      <h2 class="mt10">五、下周计划</h2>
+      <p class="tit">销售计划：</p>
+      <div><textarea class="box h120" id="salePlan1"></textarea></div>
+      <p class="tit">出差计划：</p>
+      <div><textarea class="box h120" id="evectionPlan1"></textarea></div>
+      <p class="tit">学习计划：</p>
+      <div><textarea class="box h120" id="learnPlan1"></textarea></div>
+      </div>
+  </div>
+
+  <div id="list">
+    
+  </div>
+
+    <div class="wx_weeklyadd mt10 mb10" onclick="addDiv()"><i class="iconfont">&#xe612;</i>新增填写项</div>
+    <p class="c3d729e history txtr pt10" onclick="toHistoryList()"><i class="iconfont">&#xeab1;</i>查看历史周报</p>
+  </section>
+  <footer class="wx_footerbtn">
+    <ul>
+      <li class="whitebtn" onclick="doSave(0)">存为草稿</li>
+      <li class="bluebtn" onclick="doSave(1)">提交</li>
+    </ul>
+  </footer> 
+</article>
+
+
+<% include ../../_foot.html %>
+<script src="../informationReport/messageWeekAdd.js"></script>
+
+<script id="list_page" type="text/html">
+{{if data.informationReportsMx == null}}
+  <div class="bfff wx_weekly">
+    <h2 class="mt10"><input type="text" id="title_{{data}}" placeholder="输入标题" />：</h2>
+    <div class="ttwrap">
+      <textarea class="box h160" id="content_{{data}}" onfocus="$(this).next().hide();"></textarea>
+      <div id="note" class="note">
+        <p>请输入您的内容（不超过500字）</p>
+      </div>
+    </div>
+  </div>
+{{/if}}
+
+{{if data.informationReportsMx != null}}
+  {{each data.informationReportsMx as mx i}}  
+    <div class="bfff wx_weekly">
+      <h2 class="mt10"><input type="text" id="title_{{i+1}}" value="{{mx.title}}" />：</h2>
+      <div class="ttwrap">
+        <textarea class="box h160" id="content_{{i+1}}">{{#toTextarea(mx.content)}}</textarea>
+      </div>
+    </div>
+  {{/each}}
+{{/if}}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

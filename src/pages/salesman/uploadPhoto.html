@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title name="xxfk_xxsb">上传图片</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    #img_ul img {
+      width: 75px;
+      height: 75px;
+    }
+
+    .wrapper {
+      height: 20px;
+    }
+
+    .li {
+      margin-bottom: 10px;
+      float: left;
+      width: 26px;
+      height: 20px;
+      background: url(../../images/star.png) 0 0px no-repeat;
+      margin-right: 15px;
+    }
+
+    /*开始默认选中*/
+
+    .wx_qdphoto {
+      background: #fff;
+      overflow: hidden;
+      padding-bottom: 10px;
+    }
+  </style>
+
+  <style>
+    /*.wx_main{top:45px;}*/
+  </style>
+
+
+</head>
+
+<body>
+  <input type='hidden' name="pkid" id="pkid" value='' />
+  <input type='hidden' name="type" id="type" value='' />
+  <article class="wx_layout">
+    <section class="wx_main" style="bottom: 50px;">
+      <!--图片路径，可能多张,逗号分隔-->
+      <input type="hidden" id="complaintImages" value="" />
+      <ul class="wx_qdphoto wx_cjht" id="img_ul">
+        <li id="addImg" style="top:10px;">
+          <p><img src="../../images/add.jpg"></p>
+        </li>
+        <imgs id="imgs">
+
+        </imgs>
+      </ul>
+    </section>
+  </article>
+  <footer class="wx_btnnew">
+    <div onclick="savePhoto();" class="i18n" name="ui_save">保存</div>
+  </footer>
+  <% include ../../_foot.html %>
+  <script src="../../js/oauth2.min.js"></script>
+  <script src="../../lib/swiper.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script>
+    $(function () {
+      wxconfig();
+    });
+  </script>
+  <script src="../salesman/uploadPhoto.js"></script>
+  <script id="imgs_page" type="text/html">
+    	{{if data[0].photoUrl != null }}
+    	 {{#getImg(filePath,data[0].photoUrl)}} 
+    	{{/if}}
+    </script>
+</body>
+
+</html>

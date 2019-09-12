@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="al_title">我的秒杀</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 49px;
+        }
+
+        .input_class_current {
+            background: #3e7baf !important;
+            color: #fff !important;
+        }
+
+        .input_class_nocurrent {
+            background: #f2f2f2 !important;
+            color: #666 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <div class="my_shop">
+            <p class="my_shop_btn my_shop_btn1"><input type="button" id="input1" value="我秒杀到的"
+                    class="input_class_current i18n_va" name="al_myjinpai" onclick="loadData('1');" /></p>
+            <p class="my_shop_btn my_shop_btn2"><input type="button" id="input2" value="我参与的"
+                    class="input_class_nocurrent i18n_va" name="al_mycanyu" onclick="loadData('2');" /></p>
+        </div>
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_myfocus" id="list">
+
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/seckillList.js"></script>
+    <!--显示悬浮图标-->
+    <script type="text/javascript">
+        $(function () {
+            initSuspendIcon();
+        });
+    </script>
+
+    <!--我秒杀到的 begin-->
+    <script id="list_page1" type="text/html">
+        {{each data as value i}}
+		<ul class="focuslist focuslist1 focuslist2" onclick="toDetailInfo('{{value.pkid}}')">
+         <li >
+            <p class="proname">{{value.pm}}
+             <span class="perty">{{value.title}}</span>  
+            </p>
+            {{each value.mxList as fvalue}}
+            <p class="size">
+	            <span class="perty">{{fvalue.cz}}</span> 
+	            {{if value.pm == "DTY"}}
+	            <span class="perty">{{fvalue.str02}}</span>
+	            <span class="perty">{{fvalue.str03}}</span> 
+	            {{else}}
+	            <span class="perty">{{fvalue.wzlb}}</span> 
+	                {{if fvalue.str04 != null}}
+	                <span class="perty">{{fvalue.str04}}</span> 
+	                {{/if}} 
+	                {{if fvalue.str02 != null}}
+	                <span class="perty">{{fvalue.str02}}</span> 
+	                {{/if}} 
+	            {{/if}}	
+	            {{if (value.pm != "切片" && value.pm != "锦纶切片")}} 
+	            {{fvalue.gg}}&nbsp;&nbsp;
+	            {{/if}} {{fvalue.cd}}
+            </p>
+            <p class="size">
+				<span class="i18n" name="al_luggagenum">数量</span>
+		  		{{fvalue.sl}}
+				<span class="i18n" name="al_pack">秒杀价:{{fvalue.msprice}}</span>
+		    </p>
+            {{/each}}
+            
+		    <div class="price price_b" >
+             <ul class="price_ul">
+                <li class="price_list">
+					<span class="i18n" name="al_cjprice">总价格</span>
+				<em class="price_item1"> ￥<span class="price_num">{{value.totalPrice}}</span></em></li>
+              </ul>
+            </div>
+		  </li>
+	    <li>
+	        <p class="size">开始时间:&nbsp;{{#getDate(value.startDate,"yyyy.MM.dd HH:mm:ss")}}</p> 
+	    </li>
+       </ul>
+       {{/each}}
+        </script>
+    <!--我秒杀到的 end-->
+
+    <!--我参与的 begin-->
+    <script id="list_page2" type="text/html">
+        {{each data as value i}}
+        <ul class="focuslist focuslist1 focuslist2" onclick="toDetailInfo('{{value.pkid}}')">
+         <li >
+            <p class="proname">{{value.pm}}
+             <span class="perty">{{value.title}}</span>  
+            </p>
+            <p class="size" >
+             	{{#getDate(value.startDate,"yyyy.MM.dd HH:mm:ss")}}
+            </p>
+            {{each value.mxList as fvalue}}
+            <p class="size">
+	            <span class="perty">{{fvalue.cz}}</span> 
+	            {{if value.pm == "DTY"}}
+	            <span class="perty">{{fvalue.str02}}</span>
+	            <span class="perty">{{fvalue.str03}}</span> 
+	            {{else}}
+	            <span class="perty">{{fvalue.wzlb}}</span> 
+	                {{if fvalue.str04 != null}}
+	                <span class="perty">{{fvalue.str04}}</span> 
+	                {{/if}} 
+	                {{if fvalue.str02 != null}}
+	                <span class="perty">{{fvalue.str02}}</span> 
+	                {{/if}} 
+	            {{/if}}	
+	            {{if (value.pm != "切片" && value.pm != "锦纶切片")}} 
+	            {{fvalue.gg}}&nbsp;&nbsp;
+	            {{/if}} {{fvalue.cd}}
+            </p>
+            <p class="size">
+				<span class="i18n" name="al_luggagenum">数量</span>
+		  		{{fvalue.sl}}
+				<span class="i18n" name="al_pack">秒杀价:{{fvalue.msprice}}</span>
+		    </p>
+            {{/each}}
+            
+		    <div class="price price_b" >
+             <ul class="price_ul">
+                <li class="price_list">
+					<span class="i18n" name="al_cjprice">总价格</span>
+				<em class="price_item1"> ￥<span class="price_num">{{value.totalPrice}}</span></em></li>
+              </ul>
+            </div>
+		  </li>
+	    <li>
+	        <p class="size">秒杀得主:&nbsp;{{value.mbname}}</p> 
+	    </li>
+       </ul>
+       {{/each}}
+        </script>
+    <!--我参与的 end-->
+</body>
+
+</html>

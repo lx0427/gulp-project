@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="uo_title" >还款计划</title>
+    <% include ../../components/_head.art %>
+        <style>
+.wx_main{}
+.wx_searchbox .searchbg { opacity:1; border-radius:4px;}
+.wx_searchbox .search_s { color:#50c6d8;}
+        </style>
+        <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+   <article class="wx_layout">
+  <section class="wx_main">
+    <div class="hk_table">
+      <ul class="hk_item"  id="list" >
+        
+  
+      </ul>
+    </div>
+  </section>
+</article>
+    <% include ../../_foot.html %>
+        <script src="../customer/xfHkjh.js"></script>
+        <script id="list_page" type="text/html">
+		 <li class="hk_list hk_list1">
+          <p class="hk_team2">日期</p>
+          <p class="hk_team1">本金</p>
+          <p class="hk_team">利息</p>
+          <p class="hk_team">服务费</p>
+        </li>
+        {{each data as value i}}
+        <li class="hk_list">
+          <p class="hk_team2">{{#getDate(value.planEndDate,"yyyy-MM-dd")}}{{#getDate(value.feeEndDate,"/dd")}}</p>
+          <p class="hk_team1">{{#getPrice(value.repayCapital)}}</p>
+          <p class="hk_team">{{#getPrice(value.repayInterest)}}</p>
+          <p class="hk_team">{{#getPrice(value.feeTotal)}}</p>
+        </li>
+		 {{/each}}
+        </script>
+</body>
+
+</html>

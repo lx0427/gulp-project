@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>价格预测首页</title>
+	<% include ../../components/_head.art %>
+	<link rel="stylesheet" href="../../css/weui-select.min.css">
+	<style>
+		body {
+			background: #1b89d1;
+		}
+
+		.wx_main {
+			bottom: 49px;
+		}
+
+		.txtr,
+		.wx_expcomment .reply .btn,
+		.wx_prindex .wx_exppro li p {
+			text-align: center;
+		}
+
+		#mypoint {
+			display: inline-block;
+			width: 10px;
+			height: 10px;
+			right: -5px;
+			top: 3px;
+			background: #f92c04;
+			border-radius: 50%;
+		}
+	</style>
+</head>
+
+<body>
+	<article class="wx_layout">
+		<section class="wx_main wx_prindex">
+			<div class="wx_priceexp">
+				<div class="tit">
+					<h2>有奖价格预测<label>第 <span id="flag2"></span> 期</label></h2>
+					<p class="fs13 c5d5d5d" id="effectProud"></p>
+					<p class="fs13 c5d5d5d" id="effectProud" style="color: red;">活动仅供娱乐，与产品定价等无关</p>
+					<div class="wx_infofk">
+						<a href="../../images/guessPriceRule.jpg" class="bluebtn" id="rule">活动规则</a>
+						<a href="guessPricePassed.html" class="bluebtn">上期结果</a>
+						<a href="javaScript:void(0)" onclick="toDiscuss();" class="bluebtn">
+							讨论区
+						</a>
+					</div>
+				</div>
+				<div id="list"> </div>
+
+				<div class="wx_prompt2 " id="isLoginAlert" style="display:none;">
+					<h2> 操作提示</h2>
+					<div class="bd">
+						<div class="cont"
+							style="margin-right: 0;padding-right:8px;overflow-x:hidden; overflow-y:auto;min-height: 20px;max-height:270px;">
+							您还没有登录,登录后才能进行下一步操作!
+						</div>
+						<div class="btnarea"><a class="operbtn" onclick="closeAlert()">关闭</a></div>
+					</div>
+				</div>
+				<!--<div class="wx_pop rule22" style="display: none;">
+	  		<div class="wx_pricetip">
+	  			<div class="price">
+	  				<h1>我来猜价</h1>
+	  				<p><b>单价：</b><input type="number" id="price" placeholder="请输入预测价格" /><label>元/千克</label></p>
+	  				<input type="hidden" id="parentId">
+	  				<div class="sbtn">
+	  					<a href="javaScript:void(0)" onclick="doCancel()" class="gray">取消</a>
+	  					<a href="javaScript:void(0)" onclick="doOk()" class="blue">确定</a>
+	  				</div>
+	  			</div>
+	  		</div>
+		</div>-->
+
+			</div>
+
+			<div style="text-align: center; margin-top: 120px; display: none;" id="noneData">
+				<img src="../../images/zwt.png" style="width: 109px;">
+			</div>
+
+			<div class="wx_priceexp discussid">
+				<div class="tit">
+					<h2 class="c040404">讨论区</h2>
+				</div>
+				<div class="wx_expcomment" id="discussArea">
+				</div>
+
+				<a href="javaScript:void(0)" onclick="toDiscuss();" class="more">查看更多<i class="iconfont icon-jiantou"></i></a>
+			</div>
+			<div class="wx_expcomment myreply">
+				<div class="reply">
+					<label>我有话讲</label>
+					<div class="box">
+						<textarea placeholder="请输入您的内容（不超过300字）" id="content"></textarea>
+					</div>
+					<p class="btn">
+						<a class="replybtn" href="javaScript:void(0)" onclick="doReply('')">回复</a>
+						<a class="cancelbtn" href="javaScript:void(0)" onclick="replyCancel('')">取消</a>
+					</p>
+				</div>
+			</div>
+		</section>
+	</article>
+	<footer class="wx_footerbtn">
+		<ul>
+			<li class="whitebtn" onclick="toIndex();"><i class="iconfont icon-shouye"></i>返回首页</li>
+			<li class="whitebtn" onclick="toDiscuss();"><i class="iconfont icon-qysl"></i>
+				讨论区<span style="right:8%;top: 6px;display: none;" id="mypoint"></span></li>
+		</ul>
+	</footer>
+
+	<div class="rule rule22" style="display: none;">
+		<div class="pop-up">
+			<div class="pop-up-top">
+				<p class="pop-up-logo"><img src="../../images/icon_logo.jpg" /></p>
+				<p class="pop-up-text"><span class="i18n" name="gbi_hywsc">恒逸微商城·为您服务</span></p>
+			</div>
+			<div class="pop-up-main">
+				<p class="pop-up-title"><span class="i18n" name="gbi_wypt">请输入您预测的价格</span></p>
+				<input type="number" id="price" class="pop-up-box" /><label>元/千克</label>
+				<input type="hidden" id="parentId">
+			</div>
+			<div class="pop-up-bottom">
+				<p class="pop-up-cancel" onclick="doCancel()"><span class="i18n" name="gbi_qx">取消</span></p>
+				<p class="pop-up-sure" onclick="doOk()"><span class="i18n" name="gbi_qd">确定</span></p>
+			</div>
+		</div>
+	</div>
+
+	<% include ../../_foot.html %>
+	<script src="../../js/oauth2.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script>
+		$(function () {
+			wxconfig();
+		});
+	</script>
+	<script src="../customer/guessPriceIndex.js"></script>
+	<script src="../../lib/swiper.min.js"></script>
+
+	<script id="list_page" type="text/html">
+     	{{each groupList as group}}
+		<div class="wx_exppro">
+	    	<div class="sign">{{group.pm}}预测</div>
+	    	<ul>
+	    		{{each group.mxList as value i}}
+		        <li>
+		          <dl>
+		            <dt>{{value.pm}} {{value.gg}}</dt>
+		            <dd>{{value.cz}} {{value.cd}}</dd>
+		          </dl>
+		          <div class="price txtc">
+		            <p>本期均价：<span class="cdb0a0f">¥ {{if value.avgPrice!=null}}{{value.avgPrice}}{{else}}???{{/if}}</span></p>
+			        {{if value.guessPrice==null}}
+						<a href="javaScript:void(0)" 
+							{{if group.guessFlag!=null && group.guessFlag==1}}onclick="toGuess('{{value.pkid}}')"
+							{{else}}style="background: #b6b5b5;"
+							{{/if}}
+							 class="b1b89d1">
+							{{if group.guessFlag!=null && group.guessFlag==2}}即将开始
+							{{else}}我要预测
+							{{/if}}
+						</a>
+	                {{else}}
+						<p>我的预测：<span class="cdb0a0f">¥ {{value.guessPrice}}</span></p>
+	                {{/if}}
+		          </div>
+		        </li>
+		        {{/each}}
+	    	</ul>
+	    </div>
+	    {{/each}}
+      </script>
+
+	<script id="discussArea_page" type="text/html">
+		  <ul>
+		  	{{each discussList as discuss}}
+				<li>
+		          <div class="item">
+		            <dl class="top">
+		              <dt><h2>{{discuss.str02}} {{discuss.creatorName}}</h2><span class="time">{{#getDate(discuss.cdate,"yyyy-MM-dd HH:mm")}}</span></dt>
+		              <dd class="cont">{{discuss.content}}</dd>
+		              <dd class="txtr">
+		              	{{if discuss.collectFlag!=null && discuss.collectFlag==1}}
+		              	<span class="zan" onclick="toCollect('{{discuss.pkid}}',1)">
+		              	<i class="iconfont icon-aixin-shi"></i>{{else}}
+		              	<span class="zan" onclick="toCollect('{{discuss.pkid}}',0)">
+		              	<i class="iconfont icon-aixin-xian"></i>{{/if}}
+		              {{discuss.collectNum}}</span>
+		              <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{discuss.pkid}}')">回复({{discuss.flag01}})</a></dd>
+		            </dl>
+					<div class="reply" id="id_{{discuss.pkid}}" style="display: none;">
+				        <div class="box">
+				          <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{discuss.pkid}}"></textarea>
+				        </div>
+				        <p class="btn">
+				          <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{discuss.pkid}}')">评价</a>
+				          <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{discuss.pkid}}')">取消</a>
+				        </p>
+			        </div>
+
+
+					<div class="replylist" {{if discuss.list==null||discuss.list.length==0}}style="display:none;"{{/if}}>
+					{{each discuss.list as item}}
+					{{if item.parentidccid==null}}
+		              <div class="subitem">
+		                <span class="lt">回复:</span>
+		                <dl class="top">
+		                  <dt><h2>{{item.str02}} {{item.creatorName}}</h2><span class="time">{{#getDate(item.cdate,"yyyy-MM-dd HH:mm")}}</span></dt>
+		                  <dd class="cont">{{item.content}} </dd>
+		                  <dd class="txtr">
+		                  {{if item.collectFlag!=null && item.collectFlag==1}}
+		                <span class="zan" onclick="toCollect('{{item.pkid}}', 1)">
+		              	<i class="iconfont icon-aixin-shi"></i>{{else}}
+		              	<span class="zan" onclick="toCollect('{{item.pkid}}', 0)">
+		              	<i class="iconfont icon-aixin-xian"></i>{{/if}}
+		              {{item.collectNum}}</span><a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a></dd>
+		                </dl>
+		              </div>
+					{{else}}
+	                  <div class="subitem">
+	                      <dl class="top">
+	                        <dt><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+	                        <dt><h2>{{item.str02}} {{item.creatorName}}<em>回复</em>{{item.str04}} {{item.str03}}</h2></dt>
+	                        <dd class="cont">{{item.content}} </dd>
+	                        <dd class="txtr">
+	                          {{if item.collectFlag!=null && item.collectFlag==1}}
+	                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+	                            <i class="iconfont icon-aixin-shi"></i>
+	                            {{else}}
+	                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+	                            <i class="iconfont icon-aixin-xian"></i>
+	                          {{/if}}
+	                          {{item.collectNum}}</span>
+	                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+	                        </dd>
+	                      </dl>
+	                  </div>
+	                {{/if}}
+		              <div class="reply" id="id_{{item.pkid}}" style="display: none;">
+				        <div class="box">
+				          <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{item.pkid}}"></textarea>
+				        </div>
+				        <p class="btn">
+				          <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{item.pkid}}')">评价</a>
+				          <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{item.pkid}}')">取消</a>
+				        </p>
+				      </div>
+		            {{/each}}
+		            </div>
+		          </div>
+		        </li>
+		  	{{/each}}
+	      </ul>
+
+	      
+	    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khgl">融资订单</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_functionbox">
+                <p class="gntext i18n" name="sm_khglgnlb">融资订单列表</p>
+                <ul class="gnlist">
+                    <li onclick="financingList();">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">逸控代订单</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <em class="infor" id="fcUnauditedCount">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="loanCreditList(13)">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khdj">逸信代订单</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <em class="infor" id="loansUnauditedCount">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="eloanCreditList(7)">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khdj">逸白条订单</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <!--<em class="infor" id="loansUnauditedCount">0</em>-->
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/financing.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="acm_title">限时抢购</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 0px;
+        }
+
+        .focuslist .overplus .overplus_3.end {
+            background: #a2a0a0;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+
+        <div class="rule" style="display: none;">
+            <div class="rule_bg">
+                <p class="rule_title i18n" name="acm_hdgz" id="rulename">活动规则</p>
+                <p class="rule_detail" id="exDiscountRulesList"></p>
+                <p class="rule_close i18n" name="acm_showdown">关闭</p>
+            </div>
+        </div>
+        <section class="wx_main" id="infinitePage">
+            <div id="list"></div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+
+    <script src="../customer/activityManager.js"></script>
+
+    <script id="activityList_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_myfocus">
+                <div class="commontil hytil">
+                    <span class="line"></span>
+                    <span class="tiltext i18n" name="acm_xsqh">限时抢购</span>
+                    <p class="activity">{{value.activityName}}</p>
+                    <i class="iconfont icon-mark" onclick="showrule('{{value.rulesRemark}}')"></i>
+                </div>
+                {{each value.mxList as mx i}}
+                <ul class="focuslist">
+                    <li>
+                        <p class="proname">
+                            {{mx.hangsource.pm}}
+                            <span class="perty">{{mx.hangsource.cz}}</span> {{if mx.hangsource.pm == "DTY"}}
+                            <span class="perty">{{mx.hangsource.str02}}</span>
+                            <span class="perty">{{mx.hangsource.str03}}</span> {{else}}
+                            <span class="perty">{{mx.hangsource.wzlb}}</span> {{if mx.hangsource.str04 != null}}
+                            <span class="perty">{{mx.hangsource.str04}}</span> {{/if}} {{if mx.hangsource.str02 != null}}
+                            <span class="perty">{{mx.hangsource.str02}}</span> {{/if}} {{/if}}
+                        </p>
+                        <p class="size">
+                            {{if (mx.hangsource.pm != "切片" && mx.hangsource.pm != "锦纶切片")}} {{mx.hangsource.gg}}&nbsp;&nbsp;{{/if}} {{mx.hangsource.cd}}
+                        </p>
+                        {{if isLogin}}
+                        <div class="price">{{#mx.hangsource.price00Str}}</div>
+                        {{/if}}
+                    </li>
+                    <li class="overplus">
+                        <p class="overplus_1"><span class="i18n" name="acm_sykc">剩余库存量</span>：<span id="surplus_{{mx.pkid}}" class="overplus_2">{{mx.surplus}}</span></p>
+                        {{if (mx.surplus == 0)}}
+                        <input value="抢购结束" class="overplus_3 end i18n_va" name="acm_qgjs" type="button"> {{else}}
+                        <input id="flashSale_{{mx.pkid}}" onclick="doFlashSale('{{value.pkid}}', '{{value.activityName}}', '{{mx.pkid}}', '{{mx.wzid}}', '{{mx.depid}}', '{{mx.salesType}}');" value="立即抢购" name="acm_ljqg" class="overplus_3 i18n_va" type="button"> {{/if}}
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+            {{/each}}            
+        </script>
+</body>
+
+</html>

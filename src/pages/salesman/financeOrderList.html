@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_ddlb">订单列表</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 89px;
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .zxf_a {
+            font-size: 1.3rem;
+            line-height: 23px;
+            color: #999;
+        }
+
+        .wx_hyfilter li {
+            width: 50%;
+        }
+
+        .size_a .price {
+            color: #fe9311;
+            margin-right: 10px;
+        }
+
+        .buybtn {
+            position: absolute;
+            right: 0px;
+            bottom: 10px;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input" id="querykey" placeholder="搜索订单" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="sm_ssdd">搜索订单</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="com_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <ul class="wx_hyfilter">
+            <li class="" style="position: relative;"><em id="dateli" class="i18n" name="sm_rq">日期</em>
+                <span class="xl"></span>
+                <input type="text" id="date10Str" value=""
+                    style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+            </li>
+            <li class="" id="status" style="display:none;">
+                <span class="i18n" name="com_status">状态</span><span class="xl"></span>
+            </li>
+            <li class="" id="sort">
+                <span class="i18n" name="com_sorting">排序</span><span class="xl"></span>
+            </li>
+            <input type="hidden" id="cdate" value="" />
+            <input type="hidden" id="shStatus" value="1" />
+            <input type="hidden" id="orderName" value="" />
+            <input type="hidden" id="order" value="" />
+        </ul>
+        <section class="wx_main" id="infinitePage">
+            <div id="list"></div>
+            <div class="weui-infinite-scroll">
+                <div class="infinite-preloader"></div><span class="i18n" name="sd_loading">正在加载</span>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/financeOrderList.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_hyordermesbox">
+                <p class="ddnumber">{{value.extbill}}<span>
+              （{{value.mbname}}）
+            </span></p>
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        {{each value.contract.mxlist as mx i}}
+                        <li id="{{mx.wzgid}}" gpls="{{mx.extbillno}}">
+                            <input type="hidden" id="cfxx_{{mx.wzgid}}" value="{{value.circleId}}_{{value.hzdm}}_{{mx.pm}}_{{value.depid2}}_{{value.orderType}}" />
+                            <p class="proname_a">
+                                {{mx.pm}}
+                                <span class="perty_a">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                                <span class="perty_a">{{mx.str02}}</span>
+                                <span class="perty_a">{{mx.str03}}</span> {{else if (mx.pm == "切片" || mx.pm == "锦纶切片")}}
+                                <span class="perty_a">{{mx.gg}}</span>
+                                <span class="perty_a">{{mx.cd}}</span> {{else}}
+                                <span class="perty_a">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                                <span class="perty_a">{{mx.str04}}</span> {{/if}} {{if mx.str02 != null}}
+                                <span class="perty_a">{{mx.str02}}</span> {{/if}} {{/if}}
+                            </p>
+                            {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}}
+                            <p class="size">{{mx.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{mx.cd}}</p>
+                            {{/if}}
+                            <p class="size_a">
+                                 <span class="i18n" name="sm_zl">总重量</span>：{{mx.sl2}}{{mx.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="i18n" name="sm_xbs">总箱包数</span>：{{mx.sl1}}
+                            </p>
+                            <div class="buybtn" style="line-height: 105px;"> <span class="price">￥<em>{{mx.price}}</em></span></div>
+                            <p class="size_a">
+                                 <span class="i18n" name="sm_zl">已发货重量</span>：{{mx.hdsl2}}{{mx.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="i18n" name="sm_xbs">已发货箱包数</span>：{{mx.hdsl1}}
+                            </p>
+                            <p class="size_a">
+                                 <span class="i18n" name="sm_zl">未发货重量</span>：{{mx.rzsl2}}{{mx.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="i18n" name="sm_xbs">未发货箱包数</span>：{{mx.rzsl1}}
+                            </p>
+                            
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <div class="time">{{#getDate(value.cdate,"yyyy-MM-dd HH:mm")}}
+                        <div class="total">
+                            <span class="jg">
+                             {{if value.status == 100}} 
+                              <span class="i18n" name="sm_dkxd">已完结</span>
+                             {{else}} 
+                                  <span class="i18n" name="sm_khxd">还款中</span>
+                             {{/if}}
+                            </span>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+</body>
+
+</html>

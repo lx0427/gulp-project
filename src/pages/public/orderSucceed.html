@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>高达微鑫</title>
+<% include ../../components/_head.art %>
+<% include ../../_foot.html %>
+<script>
+</script>
+<style>
+.wx_main{}
+.wx_searchbox .searchbg { opacity:1; border-radius:4px;}
+.wx_searchbox .search_s { color:#3e7baf;}
+</style>
+</head>
+
+<body>
+<article class="wx_layout">
+  <input type="hidden" id="fcOrderFlag" value="0"/>
+  <section class="wx_main">
+    <div class="xdcg_box">
+      <div class="xdcg_info">
+        <p>提交成功！</p>
+        <span onclick="toOrderList();" id="checkButtom">点击查看订单(5)</span>
+      </div>
+      <div class="xdcg_pic" id="list">
+        <!-- <div class="xdcg_img"><img src="../../images/xdcg_img1.jpg" /></div>
+        <div class="xdcg_img"><img src="../../images/xdcg_img2.jpg" /></div>
+        <div class="xdcg_img"><img src="../../images/xdcg_img3.jpg" /></div> -->
+      </div>
+    </div>
+  </section>
+</article>
+<script src="../public/orderSucceed.js"></script>
+<script id="list_page" type="text/html">
+  {{each list as value i}}
+        <div class="xdcg_img" style="width:100%;"><img src="{{filePath}}{{value.imgUrl}}"/></div>
+  {{/each}}
+</script>
+</body>
+</html>

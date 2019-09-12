@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sa_title">客户销售数据</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 44px;
+            bottom: 45px;
+
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="sa_enkeywordtip" id="querykey"
+                        placeholder="请输入客户名称/拼音首字母/编码" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span name="sa_enkeyword" class="i18n">请输入关键字</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="com_com_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    <span class="i18n" name="com_loading">正在加载</span>
+                </div>
+            </div>
+
+        </section>
+    </article>
+    <footer class="wx_btnnext" onclick="tongBu();"><span class="i18n" name="">同步客户销售数据</span></footer>
+    <% include ../../_foot.html %>
+    <script src="../salesman/salesData.js"></script>
+    <script id="list_page" type="text/html">
+                {{each data as value i}}
+                <li>
+                    <p class="customlist_name">{{value.sapCustomerId}}</p>
+                    <p class="customlist_detail"><span>{{value.depid}}</span></p>
+
+                </li>
+                {{/each}}               
+            </script>
+</body>
+
+</html>

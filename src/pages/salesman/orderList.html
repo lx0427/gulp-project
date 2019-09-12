@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_ddlb">订单列表</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 89px;
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .zxf_a {
+            font-size: 1.3rem;
+            line-height: 23px;
+            color: #999;
+        }
+
+        .wx_hyfilter li {
+            width: 50%;
+        }
+
+        .size_a .price {
+            color: #fe9311;
+            margin-right: 10px;
+        }
+
+        .buybtn {
+            position: absolute;
+            right: 0px;
+            bottom: 10px;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input" id="querykey" placeholder="搜索订单" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="sm_ssdd">搜索订单</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="com_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <ul class="wx_hyfilter">
+            <li class="" style="position: relative;"><em id="dateli" class="i18n" name="sm_rq">日期</em>
+                <span class="xl"></span>
+                <input type="text" id="date10Str" value=""
+                    style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+            </li>
+            <li class="" id="status" style="display:none;">
+                <span class="i18n" name="com_status">状态</span><span class="xl"></span>
+            </li>
+            <li class="" id="sort">
+                <span class="i18n" name="com_sorting">排序</span><span class="xl"></span>
+            </li>
+            <input type="hidden" id="cdate" value="" />
+            <input type="hidden" id="shStatus" value="" />
+            <input type="hidden" id="orderName" value="" />
+            <input type="hidden" id="order" value="" />
+        </ul>
+        <section class="wx_main" id="infinitePage">
+            <div id="list"></div>
+            <div class="weui-infinite-scroll">
+                <div class="infinite-preloader"></div><span class="i18n" name="sd_loading">正在加载</span>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/orderList.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_hyordermesbox">
+                <p class="ddnumber">{{value.fphm}}<span>
+              （{{value.hyname}}）
+            </span></p>
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        {{each value.mxlist as mx i}}
+                        <li id="{{mx.wzgid}}" gpls="{{mx.extbillno}}">
+                            <input type="hidden" id="cfxx_{{mx.wzgid}}" value="{{value.circleId}}_{{value.hzdm}}_{{mx.pm}}_{{value.depid2}}_{{value.orderType}}" />
+                            <p class="proname_a">
+                                {{mx.pm}}
+                                <span class="perty_a">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                                <span class="perty_a">{{mx.str02}}</span>
+                                <span class="perty_a">{{mx.str03}}</span> {{else if (mx.pm == "切片" || mx.pm == "锦纶切片")}}
+                                <span class="perty_a">{{mx.gg}}</span>
+                                <span class="perty_a">{{mx.cd}}</span> {{else}}
+                                <span class="perty_a">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                                <span class="perty_a">{{mx.str04}}</span> {{/if}} {{if mx.str02 != null}}
+                                <span class="perty_a">{{mx.str02}}</span> {{/if}} {{/if}}
+                            </p>
+                            {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}}
+                            <p class="size">{{mx.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{mx.cd}}</p>
+                            {{/if}}
+                            <p class="size_a">
+                                <span class="price">￥<em>{{mx.price}}</em></span> <span class="i18n" name="sm_zl">重量</span>：{{mx.sl2}}{{mx.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="i18n" name="sm_xbs">箱包数</span>：{{mx.sl1}}
+                            </p>
+                            <div class="status">
+                                {{if mx.shStatus == 100}} <span class="i18n" name="sm_dsh">待审核</span> 
+                                {{else if mx.shStatus == 200}} <span class="i18n" name="sm_shz">审核中</span> 
+                                {{else if mx.shStatus == 300}} <span class="i18n" name="sm_yjj">已拒绝</span> 
+                                {{else if mx.shStatus == 400}} 
+                                <span class="i18n" name="sm_ysh">已审核</span> 
+                                	{{if value.couponType!=null && value.couponType!=null==13 && value.status00!=null && value.status00==100}} 
+                                	<span class="i18n" name="sm_ysh">已还款</span>
+                                	{{/if}}
+                                {{/if}}
+                            </div>    
+                            <div class="buybtn">{{if mx.shStatus == 400}} {{mx.sapFphm}} {{/if}}</div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <div class="time">{{#getDate(value.cdate,"yyyy-MM-dd HH:mm")}}
+                        <div class="total">
+                            <span class="xd">
+                            	{{if value.couponType!=null && value.couponType==13}}
+                            	<span class="i18n" name="sm_dkxd" style="color: #3e7baf;">逸信代</span>
+                            	{{/if}}
+                         {{if value.orderType == 1}} 
+                              <span class="i18n" name="sm_dkxd">代客下单</span>
+                         {{else value.orderType == 0}} 
+                              <span class="i18n" name="sm_khxd">客户下单</span>
+                         {{/if}}
+                  </span> <span class="i18n" name="sm_hj">合计</span>
+                            <span class="jg">￥<em>{{value.htamt}}</em></span>
+                        </div>
+                    </div>
+                    {{if (value.couponType != null && value.couponAmt != null && value.couponAmt != 0)}}
+                    <div class="time" style="border-top: 1px solid #ddd;">
+                        {{value.couponName}}
+                        <div class="total">
+                            <span class="i18n" name="sm_yh">优惠</span><span class="jg">￥<em>{{value.couponAmt}}</em></span>
+                        </div>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+            {{/each}}
+        </script>
+</body>
+
+</html>

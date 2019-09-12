@@ -1,0 +1,152 @@
+<style>
+.weui-popup-container,
+.weui-popup-overlay {
+    z-index: 1000;
+}
+
+.weui-popup-modal {
+    z-index: 1000;
+}
+
+.ordermesbox {
+    padding: 0 10px;
+    background: #fff;
+}
+
+.ordermesbox .ordermes li {
+    border: none;
+}
+
+.ordermes li .size_a {
+    font-size: 1.3rem;
+}
+
+.weui_toptips {
+    z-index: 1000;
+}
+
+.wx_setlist .jhway .way {
+    margin-left: 5px;
+}
+.weui_mask {z-index: 1000}
+.weui_dialog, .weui_toast {z-index: 1000}
+</style>
+<div id="infoPopup" class='weui-popup-container'>
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal">
+        <article class="wx_layout">
+            <section class="wx_main" id="info_main" style="bottom: 49px; top: 0px;">
+            </section>
+        </article>
+        <footer class="wx_btntwo" style="bottom: 3px;">
+            <div class="backbuy" onclick="toShoppingCart();">
+                <i class="iconfont icon-hybuyk"></i>
+                <p class="buynum">购物车<span id="gwcsl" style="display:none;">(15)</span></p>
+            </div>
+            <ul class="btntwo">
+                <li class="gwc" onclick="saveShoppingInfo();">加入购物车</li>
+                <li class="gm" onclick="createbill();">立即购买</li>
+            </ul>
+        </footer>
+    </div>
+</div>
+<script src="../include/resourceInfo.js"></script>
+<script id="info_main_page" type="text/html">
+    <div class="tradecomp">分公司：{{data.depname}}
+        <span class="delete close-popup">关闭</span>
+    </div>
+    <div class="ordermesbox">
+        <ul class="ordermes">
+            <li> 
+
+			   {{if shop != null}}
+						<input type="hidden" id="pkid" value="{{shop.pkid}}" />
+						<input type="hidden" id="kpdm" value="{{shop.customerId}}" />
+		                <input type="hidden" id="kpname" value="{{shop.customerName}}" />
+						<input type="hidden" id="packNum" value="{{shop.packstr}}">
+
+                {{if shop.differentiation != null&&shop.differentiation==1}}
+                <input type="hidden" id="cfxx" value="{{shop.circleId}}_{{shop.hzdm}}_{{shop.pm}}_{{shop.depid}}_{{shop.orderType}}_{{shop.flag11}}_{{shop.differentiation}}_{{shop.activityMxId}}" />
+                {{else}}
+				<input type="hidden" id="cfxx" value="{{shop.circleId}}_{{shop.hzdm}}_{{shop.pm}}_{{shop.depid}}_{{shop.orderType}}_{{shop.flag11}}_0_{{shop.activityMxId}}" />
+				{{/if}}
+                {{else}}
+				<input type="hidden" id="packNum" value="{{data.packstr}}">
+				{{/if}}
+                <input type="hidden" id="gpls" value="{{data.gpls}}">
+                <input type="hidden" id="wzid" value="{{data.wzid}}">
+                <input type="hidden" id="depid" value="{{data.depid}}">
+                <input type="hidden" id="str02" value="{{data.str02}}">
+                <input type="hidden" id="packNum" value="{{data.packstr}}">
+                <input type="hidden" id="cd_" value="{{data.cd}}">
+                <input type="hidden" id="salesType" value="{{data.salesType}}">
+                <p class="proname_a">
+                    {{data.pm}}
+                    <span class="perty_a">{{data.cz}}</span> {{if data.pm == "DTY"}}
+                    <span class="perty_a">{{data.str02}}</span>
+                    <span class="perty_a">{{data.str03}}</span> {{else}}
+                    <span class="perty_a">{{data.wzlb}}</span> {{if data.str04 != null}}
+                    <span class="perty_a">{{data.str04}}</span> {{/if}} {{if data.str02 != null}}
+                    <span class="perty_a">{{data.str02}}</span> {{/if}} {{/if}}
+                    {{if data.differentiation != null&&data.differentiation==1}}
+                            <span class="perty">差异化</span> {{/if}}
+                </p>
+                <p class="size_a">
+                    {{if data.pm != "切片" && data.pm != "锦纶切片"}} {{data.gg}}&nbsp;&nbsp; {{/if}} {{data.cd}}
+                </p>
+                {{if isLogin}}
+                <p class="jgpri">
+                    <span class="jg">{{#data.price00Str}}</span>
+                    <span class="zt">自提</span>
+                </p>
+                {{else}}
+                <p class="jgpri"><span class="zt" style="margin-left:0px;">自提</span></p>
+                {{/if}} {{if focusFlag == "1"}}
+                <div class="yfocus" id="focus" onclick="cancelFocus();">已收藏</div>
+                {{else}}
+                <div class="focus" id="focus" onclick="doFocus();">收藏</div>
+                {{/if}}
+                <!--          
+          <div class="case">10kg/箱</div>
+          -->
+            </li>
+        </ul>
+    </div>
+    <ul class="wx_setlist">
+        <li><span>重量：</span>
+            <input id="sl02" type="number"  placeholder="请输入重量" oninput="updateShopping();" {{if shop != null}} value="{{shop.sl02}}" {{/if}}  /><em class="dwkg">{{data.sldw2}}</em></li>
+        <li class="write"><span>箱包数：</span>
+            <input id="sl01" type="number" oninput="changeSl1();" placeholder="请输入箱包数" {{if shop != null}} value="{{shop.sl01}}" {{/if}} />
+        </li>
+        {{if packstrList != null }}
+        <li class="jhway" id="packstr">
+            <span>箱包净重：</span> {{each packstrList as value i}} {{if i == 0}}
+            <em class="way current" val="{{value}}">{{value}}{{data.sldw2}}</em> {{else}}
+            <em class="way" val="{{value}}">{{value}}{{data.sldw2}}</em> {{/if}} {{/each}}
+        </li>
+        {{else}}
+        <li class="write" style="text-align: right;">
+            <span>箱包净重：</span> {{if (data.packstr != null && data.packstr != "")}} {{data.packstr}}{{data.sldw2}} {{else}} 不定重 {{/if}}
+        </li>
+        {{/if}} {{if data.lsxs != null && data.lsxs != 0}}
+        <li class="write" style="text-align: right;"><span>单丝净重：</span> {{data.lsxs}}{{data.sldw2}}
+        </li>
+        {{/if}}
+        <li class="write"><span>备注：</span>
+            <input id="remark" type="text" oninput="updateShopping();" placeholder="请输入备注"  {{if shop != null}} value="{{shop.remark}}" {{/if}}/>
+        </li>
+    </ul>
+    {{if opt != null}}
+    <div class="wx_hylxrcont">
+        <div class="commontil"><span class="line"></span><span class="tiltext">联系人</span></div>
+        <ul class="lxrmess">
+            <li>
+                <p class="name">{{opt.name}}</p>
+                {{if opt.mobile != null}}
+                <p class="tel">{{opt.mobile}}</p>
+                <span class="telbtn" onclick="doCall('{{opt.mobile}}');"></span> {{/if}}
+            </li>
+        </ul>
+    </div>
+    {{/if}}
+</script>

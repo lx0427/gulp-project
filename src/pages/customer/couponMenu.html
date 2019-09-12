@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khgl">我的优惠券</title>
+    <% include ../../components/_head.art %>
+</head>
+<style>
+    .gnlist li .til {
+        line-height: 49px;
+    }
+</style>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_functionbox">
+                <p class="gntext i18n" name="sm_khglgnlb">优惠券列表</p>
+                <ul class="gnlist">
+                    <li onclick="toCounponList();">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">代金券列表</p>
+                        <!--<p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>-->
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="toFcCouponList()">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khdj">免息券列表</p>
+                        <!--<p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>-->
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/couponMenu.js"></script>
+</body>
+
+</html>

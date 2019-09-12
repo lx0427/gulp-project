@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title name="complaintInfo_title">客户投诉</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .tslx {
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      box-sizing: border-box;
+      color: #333;
+      display: block;
+      float: right;
+      font-size: 1.4rem;
+      height: 26px;
+      line-height: 24px;
+      margin-left: 10px;
+      text-align: center;
+      padding: 0px 10px;
+    }
+    .tslx.active{
+      background: #3e7baf none repeat scroll 0 0;
+      border: medium none;
+      color: #fff;
+      line-height: 26px;
+    }
+
+    #img_ul img {width:75px; height: 75px;}
+
+    .wrapper{height:20px;}
+    
+    .li{float:left;width:26px;height:20px;background:url(../../images/star.png) 0 0px no-repeat; margin-right: 15px;}/*开始默认选中*/
+
+
+  </style>
+
+</head>
+<body>
+   <article class="wx_layout">
+        <section class="wx_main" id="main">
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../../lib/swiper.min.js"></script>
+        <script src="../complaint/complaintInfo.js"></script>
+        <script id="main_page" type="text/html">
+        <div class="wx_addsitebox">
+        <div class="commontype">
+         <span class="i18n" name="cu_customername">客户名称</span>
+         <input type="text" readonly id="mbname" value="{{data.mbname}}"/>
+        </div>
+        <div class="commontype">
+         <span class="i18n" name="cu_contactperson">联系人</span>
+         <input type="text" readonly  id="coplxr" value="{{data.copLxr}}"/>
+        </div>
+        <div class="commontype">
+         <span class="i18n" name="cu_phonenumber">联系电话</span>
+         <input type="text"  readonly  id="coptel" value="{{data.copMobile}}"/>
+        </div>
+        <div class="commontype">
+         <span class="i18n" name="cu_address">联系地址</span>
+         <input type="text"  readonly  id="copaddr" value="{{data.copAddr}}"/>      
+        </div>
+		</div>
+		<div class="wx_addsitebox">
+        <div class="commontype">
+         <span class="i18n" name="cu_producttype">产品分类</span>
+         <input type="text" id="pmtitle" readonly value="{{data.pm}}" />
+		</div>
+        <div class="commontype">
+         <span class="i18n" name="cu_salesman">所属业务员</span>
+         <input type="text" id="useridtitle" readonly value="{{data.opt}}" />
+		 </div>
+        </div>
+        <div class="wx_addsitebox">
+        <div class="commontype">
+          <span class="i18n" name="cu_complainttype">投诉类型</span>
+		  {{if data.complaintType==1 }}
+		  <em val="1" class="tslx active i18n" id="f1" name="cu_serviceattitude">服务态度投诉</em>
+          {{/if}}
+		  {{if data.complaintType==2 }}
+		   <em val="2" class="tslx active i18n" id="f2" name="cu_productquality">产品质量投诉</em>  
+		  {{/if}}
+       </div>
+	    </div>
+	 {{if data.complaintType==1 }}
+    <div id="fwtdts">
+ <div class="wx_addsitebox">
+   <div class="commontype">
+           <span class="i18n" name="cu_salesman">业务员</span>
+           <!--星星评分-->
+           <div  id="t_ywyStar">
+              <ul class="wrapper">
+			   {{if data.rated1>=1 }}<li class="li"></li>{{/if}}
+			   {{if data.rated1>=2 }}<li class="li"></li>{{/if}}
+			   {{if data.rated1>=3 }}<li class="li"></li>{{/if}}
+			   {{if data.rated1>=4 }}<li class="li"></li>{{/if}}
+			   {{if data.rated1>=5 }}<li class="li"></li>{{/if}}
+               </ul>
+            </div>
+        </div>
+        <div class="commontype">
+            <input type="text" id="ywy" readonly  style="text-align:left;" value="{{data.rated1Detail}}" />
+            
+        </div>
+       <div class="commontype">
+           <span class="i18n" name="cu_storekeeper">仓库人员</span>
+           <!--星星评分-->
+           <div  id="t_ckyStar">
+              <ul class="wrapper">
+               {{if data.rated2>=1 }}<li class="li"></li>{{/if}}
+			   {{if data.rated2>=2 }}<li class="li"></li>{{/if}}
+			   {{if data.rated2>=3 }}<li class="li"></li>{{/if}}
+			   {{if data.rated2>=4 }}<li class="li"></li>{{/if}}
+			   {{if data.rated2>=5 }}<li class="li"></li>{{/if}}
+              </ul>
+             </div>
+        </div>
+        <div class="commontype">
+          <input type="text" id="cky" readonly style="text-align:left;" value="{{data.rated2Detail}}" />
+        </div>
+        <div class="commontype">
+           <span class="i18n" name="cu_treasurer">财务员</span>
+           <!--星星评分-->
+           <div  id="t_cwyStar">
+              <ul class="wrapper">
+               {{if data.rated3=1 }}<li class="li"></li>{{/if}}
+			   {{if data.rated3>=2 }}<li class="li"></li>{{/if}}
+			   {{if data.rated3>=3 }}<li class="li"></li>{{/if}}
+			   {{if data.rated3>=4 }}<li class="li"></li>{{/if}}
+			   {{if data.rated3>=5 }}<li class="li"></li>{{/if}}
+              </ul>
+              <input type="hidden" id="cwyStar" value="5">
+            </div>
+        </div>
+        <div class="commontype">
+          <input type="text" id="cwy" readonly style="text-align:left;" value="{{data.rated3Detail}}" />
+        </div>
+        <div class="commontype">
+           <span class="i18n" name="cu_serviceworker">服务人员</span>
+           <!--星星评分-->
+           <div  id="t_fwyStar">
+              <ul class="wrapper">
+               {{if data.rated4>=1 }}<li class="li"></li>{{/if}}
+			   {{if data.rated4>=2 }}<li class="li"></li>{{/if}}
+			   {{if data.rated4>=3 }}<li class="li"></li>{{/if}}
+			   {{if data.rated4>=4 }}<li class="li"></li>{{/if}}
+			   {{if data.rated4>=5 }}<li class="li"></li>{{/if}}
+              </ul>
+            </div>
+        </div>
+        <div class="commontype">
+            <input type="text" id="fwy" readonly style="text-align:left;" value="{{data.rated4Detail}}" />
+        </div>
+     </div>
+    </div>
+	{{/if}}
+    {{if data.complaintType==2 }}
+     <div id="cpzlts" >
+         <div class="wx_addsitebox">
+        <div class="commontype" >
+           <span  class="i18n"  name="cu_productdate">生产日期</span>
+           <input type="text" readonly  id="scrq" value="{{#getDate(data.scrq,"yyyy-MM-dd")}}" />
+           
+        </div>
+        <div class="commontype">
+           <span class="i18n"  name="cu_productionnumber">产品批号</span>
+           <input type="text"  readonly  id="cz" value="{{data.cz}}" />
+           
+        </div>
+        <div class="commontype">
+           <span class="i18n"  name="cu_productstandard">产品规格</span>
+           <input type="text" readonly  id="gg"  value="{{data.gg}}"/>
+          
+        </div>
+        <div class="commontype">
+           <span class="i18n"  name="cu_productgrade">产品等级</span>
+           <input type="text"  readonly id="cd"  value="{{data.cd}}"/>
+        </div>
+      </div>
+     </div>
+	{{/if}}
+	 <div class="wx_addsitebox">
+      <div class="commontype">
+         <span class="i18n"  name="cu_complaintdemand">投诉要求</span>
+		 {{if data.complaintCategory==1 }}
+		  <input type="text" value="问题反馈" class="i18n" name="co_demand1" id="complaintRequestInput" readonly />
+		 {{/if}}
+		 {{if data.complaintCategory==2 }}
+		  <input type="text" value="现场调查" class="i18n" name="co_demand2" id="complaintRequestInput" readonly />
+		 </span>
+		 {{/if}}
+		 {{if data.complaintCategory==3 }}
+		  <input type="text" value="技术帮助" class="i18n" name="co_demand3" id="complaintRequestInput" readonly />
+		 </span>
+		 {{/if}}
+		 {{if data.complaintCategory==4 }}
+		  <input type="text" value="其他" class="i18n" name="co_demand4" id="complaintRequestInput" readonly />
+		 </span>
+		 {{/if}}
+      </div>
+    </div>
+    <div class="wx_textcontbox">
+      <textarea name="" cols="" rows="4" readonly class="wx_textcont" id="complaintDetail">{{data.complaintDetail}}</textarea>
+    </div>
+	 <!--图片路径，可能多张,逗号分隔-->
+	 {{if data.complaintImages != null }}
+    <ul class="wx_qdphoto wx_cjht" id="img_ul" style="margin-bottom: 10px;">
+	    {{#getImg(data.complaintImages)}} 
+	</ul>
+	{{/if}}
+    {{if (list.length != 0)}}
+      <div class="wx_addsitebox">
+        {{each list as value i}}
+        <div class="commontype">
+		{{if value.status==1 }}<span class="i18n" name="co_statusp1">受理人</span><input type="text" value="{{value.copt}}" id="complaintRequestInput" readonly />{{/if}}
+		{{if value.status==2 }}<span class="i18n" name="co_statusp2">调查人</span><input type="text" value="{{value.copt}}" id="complaintRequestInput" readonly />{{/if}}
+		{{if value.status==3 }}<span class="i18n" name="co_statusp3">处理人</span><input type="text" value="{{value.copt}}" id="complaintRequestInput" readonly />{{/if}}
+        </div>
+		<div class="wx_textcontbox">
+        <textarea name="" cols="" rows="4" readonly class="wx_textcont" id="complaintDetail">{{value.remarks}}</textarea>
+        </div>
+		<div class="commontype" >
+		{{if value.status==1 }}<span class="i18n" name="co_statusd1">受理时间</span><input type="text" value="{{#getDate(value.cdate,"yyyy-MM-dd HH:mm:ss")}}" id="complaintRequestInput" readonly />{{/if}}
+		{{if value.status==2 }}<span class="i18n" name="co_statusd2">调查时间</span><input type="text" value="{{#getDate(value.cdate,"yyyy-MM-dd HH:mm:ss")}}" id="complaintRequestInput" readonly />{{/if}}
+		{{if value.status==3 }}<span class="i18n" name="co_statusd3">处理时间</span><input type="text" value="{{#getDate(value.cdate,"yyyy-MM-dd HH:mm:ss")}}" id="complaintRequestInput" readonly />{{/if}}</div>
+		{{/each}}
+	</div>
+    {{/if}}
+     </script>
+</body>
+
+</html>

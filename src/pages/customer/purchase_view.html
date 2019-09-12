@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<% include ../../components/_head.art %>
+<% include ../../_foot.html %>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>限时购</title>
+<script>
+</script>
+<style>
+.wx_main{}
+.wx_searchbox .searchbg { opacity:1; border-radius:4px;}
+.wx_searchbox .search_s { color:#50c6d8;}
+.ms_top {
+    background: none;
+    padding: 0px;
+}
+</style>
+</head>
+<body>
+<article class="wx_layout">
+  <section class="wx_main">
+    <div class="ms_top">
+    	<img src="../../images/defult_banner.png" width="100%"/>
+    </div>
+    <div class="ms_djs">
+      <p class="ms_djs_line"></p>
+      <span class="xsg">限时购：<em id="hour">00</em>:<em id="min">00</em>:<em id="sec">00</em></span>
+      <p style="width: 50px; float: right; margin-top: 31px; font-size: x-small;" onclick="toRule()">活动规则</p>
+    </div>
+    <div class="ms_list wx_xsg" id="list">
+      <!--<div class="item">
+        <h2><span>DTY</span></h2>
+        <ul>
+          <li>
+            <dl>
+              <dt><a href="#"><em>DTY</em> A60501 S 轻网(SIS)</a></dt>
+              <dd>50D/72F(55dtex/72f)<span>|</span>AA30<span>|</span>箱包净重：30Kg</dd>
+            </dl>
+            <div class="bot">
+              <div class="sale_price">秒杀价：<span>¥</span><em>8.51</em></div>
+              <div class="ori_price">原价：¥9.58</div>
+              <div class="progress_bar">
+                <span class="bar" style="width:50%;"></span>
+                <span class="txt">仅剩5吨</span>
+              </div>
+              <a class="btn" href="#">马上抢</a>
+            </div>
+          </li>
+          <li>
+            <dl>
+              <dt><a href="#"><em>DTY</em> A60501 S 轻网(SIS)</a></dt>
+              <dd>50D/72F(55dtex/72f)<span>|</span>AA30<span>|</span>箱包净重：30Kg</dd>
+            </dl>
+            <div class="bot">
+              <div class="sale_price">秒杀价：<span>¥</span><em>8.51</em></div>
+              <div class="ori_price">原价：¥9.58</div>
+              <div class="progress_bar">
+                <span class="bar" style="width:0%;"></span>
+                <span class="txt">仅剩0吨</span>
+              </div>
+              <a class="btn disabled" href="#">售 罄</a>
+            </div>
+          </li>
+          <li>
+            <dl>
+              <dt><a href="#"><em>DTY</em> A60501 S 轻网(SIS)</a></dt>
+              <dd>50D/72F(55dtex/72f)<span>|</span>AA30<span>|</span>箱包净重：30Kg</dd>
+            </dl>
+            <div class="bot">
+              <div class="sale_price">秒杀价：<span>¥</span><em>8.51</em></div>
+              <div class="ori_price">原价：¥9.58</div>
+              <div class="progress_bar">
+                <span class="bar" style="width:0%;"></span>
+                <span class="txt">仅剩0吨</span>
+              </div>
+              <a class="btn disabled" href="#">售 罄</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="item">
+        <h2><span>FDY</span></h2>
+        <ul>
+          <li>
+            <dl>
+              <dt><a href="#"><em>FDY</em> A60501 S 轻网(SIS)</a></dt>
+              <dd>50D/72F(55dtex/72f)<span>|</span>AA30<span>|</span>箱包净重：30Kg</dd>
+            </dl>
+            <div class="bot">
+              <div class="sale_price">秒杀价：<span>¥</span><em>8.51</em></div>
+              <div class="ori_price">原价：¥9.58</div>
+              <div class="progress_bar">
+                <span class="bar" style="width:20%;"></span>
+                <span class="txt">仅剩2吨</span>
+              </div>
+              <a class="btn" href="#">马上抢</a>
+            </div>
+          </li>
+          <li>
+            <dl>
+              <dt><a href="#"><em>FDY</em> A60501 S 轻网(SIS)</a></dt>
+              <dd>50D/72F(55dtex/72f)<span>|</span>AA30<span>|</span>箱包净重：30Kg</dd>
+            </dl>
+            <div class="bot">
+              <div class="sale_price">秒杀价：<span>¥</span><em>8.51</em></div>
+              <div class="ori_price">原价：¥9.58</div>
+              <div class="progress_bar">
+                <span class="bar" style="width:50%;"></span>
+                <span class="txt">仅剩5吨</span>
+              </div>
+              <a class="btn" href="#">马上抢</a>
+            </div>
+          </li>
+          <li>
+            <dl>
+              <dt><a href="#"><em>FDY</em> A60501 S 轻网(SIS)</a></dt>
+              <dd>50D/72F(55dtex/72f)<span>|</span>AA30<span>|</span>箱包净重：30Kg</dd>
+            </dl>
+            <div class="bot">
+              <div class="sale_price">秒杀价：<span>¥</span><em>8.51</em></div>
+              <div class="ori_price">原价：¥9.58</div>
+              <div class="progress_bar">
+                <span class="bar" style="width:50%;"></span>
+                <span class="txt">仅剩5吨</span>
+              </div>
+              <a class="btn" href="#">马上抢</a>
+            </div>
+          </li>
+        </ul>
+      </div>-->
+      <script src="../customer/purchase.js"></script>
+      <script id="list_page" type="text/html">
+        <div class="item">
+        <h2><span>{{type}}</span></h2>
+        <ul>
+        	{{each list as value i}}
+	          <li>
+	            <dl>
+	              <dt><a><em>{{type}}</em> {{value.cz}}{{value.str03}}</a></dt>
+	              <dd>{{value.gg}}<span>
+	              	|</span>{{value.cd}}<span>|</span>{{value.wzlb}}
+	              	{{if value.packstr != null && value.packstr != ''}}
+		              	{{if value.cd.indexOf("AA") == -1 || type != "DTY"}}
+		              		箱包净重:{{value.packstr}}kg</dd>
+		              	{{/if}}
+	              	{{/if}}
+
+		            </dl>
+	            <div class="bot">
+	              <div class="sale_price">限时价：<span>¥</span><em>{{value.newPrice}}</em></div>
+	              <div class="ori_price">原价：¥{{value.oldPrice}}</div>
+	              <div class="progress_bar">
+	                <span class="bar" style="width:{{value.percent}}%;"></span>
+	                <span class="txt">仅剩{{value.remainder}}kg</span>
+	              </div>
+	              {{if value.status == 1}}
+	              	<a class="btn" onclick="purchase('{{value.pkid}}', '{{value.wzid}}', '{{value.depid}}', '{{value.salesType}}', '{{value.gpls}}', '{{value.purid}}')">马上抢</a>
+	              {{else}}
+	              	<a class="btn disabled">售 罄</a>
+	              {{/if}}
+	            </div>
+	          </li>
+          {{/each}}
+        </ul>
+      </div>
+      </script>
+    </div>
+  </section>
+</article>
+</body>
+</html>

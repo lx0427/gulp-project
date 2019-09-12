@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="acm_title">活动详情</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+
+    <article class="wx_layout">
+        <section class="wx_memday" id="list">
+
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/activityInfo.js"></script>
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script id="activityList_page" type="text/html">
+            {{if list1[0]!=null}}
+                <div class="topimg" style="width:100%"><img src="{{filePath}}{{ list1[0].imgurl}}" onclick="imgClick('{{list1[0].linkurl}}');"></div>
+            {{/if}}
+            {{each list2 as value i}}
+               <div class="exclusive"  style="width:100%"><img src="{{filePath}}{{ value.imgurl}}" onclick="imgClick('{{value.linkurl}}');"></div>
+            {{/each}}
+            {{if obj.str02!=null}}
+                <div class="sg" style="padding:20px 25px 0px 25px;"><p style="word-wrap:break-word;padding:10px;" class="textbg" id="str02"></p></div>
+            {{/if}}
+            <div class="bg">
+                <ul class="list">
+                {{each list3 as value i}}
+                    <li><p><img src="{{filePath}}{{value.imgurl}}" onclick="imgClick('{{value.linkurl}}');"></p></li>
+                {{/each}}
+                </ul>
+                <div class="adline" style="width:100%">
+                {{each list4 as value i}}
+                      <img src="{{filePath}}{{value.imgurl}}" onclick="imgClick('{{value.linkurl}}');" style="padding-bottom:10px;" >
+                {{/each}}
+                 </div>
+                <div class="bot">
+                <div class="tit"><span class="yhfw bottomtext">用户服务站</span></div>
+                {{if list5[0]!=null}}
+                    <p><img class="codeimg" src="{{filePath}}{{list5[0].imgurl}}" onclick="imgClick('{{list5[0].linkurl}}');"></p>
+                {{/if}}
+                <p class="pad bottomtext">恒逸微商城（扫码关注）</p>
+                <p class="fs18 bottomtext"><b>服务热线</b></p>
+                <p class="fs18 bottomtext">0571-83880832</p>
+                </div>
+            </div>
+        </script>
+</body>
+
+</html>

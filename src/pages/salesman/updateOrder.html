@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title name="sm_xgdd">修改订单</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_main {
+      bottom: 45px;
+    }
+
+    .wx_tasdelist {
+      margin-bottom: 20px;
+    }
+
+    .wx_tasdelist li {
+      padding-left: 10px;
+    }
+
+    .wx_tasdelist li .promes {
+      padding: 10px 100px 10px 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout">
+    <section class="wx_main" id="list"></section>
+  </article>
+  <footer class="wx_btnnext i18n" name="m_bc" onclick="doSave()">保存</footer>
+  <% include ../../_foot.html %>
+  <script src="../salesman/updateOrder.js"></script>
+  <script id="list_page" type="text/html">
+        {{each data as value i}}
+          <div class="wx_ordernum">{{value.fphm}}<span>{{#getDate(value.cdate,"yyyy-MM-dd HH:mm")}}</span></div>
+          <div class="wx_clientname">{{value.hzname}}<span onclick="startTel('{{value.htstr04}}')"></span></div>
+            <ul class="wx_tasdelist">
+
+            {{each value.mxlist as mx i}}
+              <li id="{{mx.mfphm}}_{{i}}">
+                <input type="hidden" id="fphm" value="{{mx.id.fphm}}" />
+                <input type="hidden" id="htxh_{{mx.mfphm}}_{{i}}" value="{{mx.id.htxh}}" />
+                <div class="promes">
+                  <!--<i class="iconfont icon-checkbox"></i>-->
+                  <p class="proname_a">{{mx.pm}}<span class="perty_a">{{mx.cz}}</span>
+                  {{if mx.pm == "DTY"}}
+                    <span class="perty_a">{{mx.str02}}</span>
+                    <span class="perty_a">{{mx.str03}}</span>
+                  {{else}}
+                    <span class="perty_a">{{mx.wzlb}}</span>
+                    <span class="perty_a">{{mx.str04}}</span>
+                  {{/if}}
+                  </p>
+                  <p class="size_a">
+                  {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}}
+                    {{mx.gg}}&nbsp;&nbsp;
+                  {{/if}}
+                  {{mx.cd}}</p>
+                  <div class="price_a">￥<em>{{mx.price}}</em></div>
+                  <!--<div class="delbtn" onclick="delOrder('{{mx.id.fphm}}', '{{mx.id.htxh}}')"></div>-->
+                </div>
+                <dl class="amendbox">
+                  <dt onclick="showGg('{{mx.pm}}','{{mx.mfphm}}_{{i}}')">
+                    <span>规格：</span>
+                    <input id="gg_{{mx.mfphm}}_{{i}}" type="text" class="i18n_ph" name="sm_qxz" placeholder="请选择" readonly value="{{mx.gg}}" />
+                    <i class="iconfont icon-xiala"></i>
+                  </dt>
+                  <dt onclick="showCz('{{mx.pm}}','{{mx.mfphm}}_{{i}}')">
+                     <span>批号：</span>
+                     <input id="cz_{{mx.mfphm}}_{{i}}" type="text" class="i18n_ph" name="sm_qxz" placeholder="请选择" readonly value="{{mx.cz}}" />
+                     <i class="iconfont icon-xiala"></i>
+                  </dt>
+                  <dt onclick="showCdPopup01('{{mx.mfphm}}_{{i}}')">
+                      <span>等级：</span>
+                      <input id="cd_{{mx.mfphm}}_{{i}}" type="text" class="i18n_ph" name="sm_qxz" placeholder="请选择" readonly value="{{mx.cd}}"/>
+                      <i class="iconfont icon-xiala"></i>
+                  </dt>
+                </dl>
+                <dl class="fillbox">
+                  <dt class="zlbox">
+                    <span class="zl i18n" name="sm_zl">重量：</span>
+                    <input id="sl2_{{mx.mfphm}}_{{i}}" type="number" placeholder="0.00" value="{{mx.sl2}}" />
+                    <span class="kg">{{mx.sldw2}}</span>
+                  </dt>
+                  <dt class="xbsbox">
+                    <span class="xbs i18n" name="sm_xbs">箱包数：</span>
+                    <input id="sl1_{{mx.mfphm}}_{{i}}" type="number" placeholder="0" value="{{mx.sl1}}" oninput="getSl2('{{mx.mfphm}}_{{i}}');" />
+                  </dt>
+                </dl>
+                <div class="selectbox"><span class="i18n" name="sm_xbjz">箱包净重：</span>
+                    <input type="hidden" id="packstr_{{mx.mfphm}}_{{i}}" value="{{mx.packstr}}">
+                    <input class="xbjz i18n_ph" name="sm_qxz" type="text" placeholder="请选择" readonly pm="{{mx.pm}}" pkid="{{mx.mfphm}}_{{i}}" value="{{mx.packstr}}"/>
+                    <i class="iconfont icon-xiala"></i>
+                </div>
+                <div class="selectbox notes">
+                   <span>备注:</span>
+                   <input id="remark_{{mx.mfphm}}_{{i}}" type="text" placeholder="" value="{{mx.remark}}" />
+                </div>
+                <input type="hidden" id="price_{{mx.mfphm}}_{{i}}" value="{{mx.price}}" />
+                
+              </li>
+            {{/each}}
+            </ul>
+            <ul class="wx_setlist" style="margin-bottom: 10px;">
+                <li class="jhway"><span class="i18n" name="sm_jhfs">交货方式</span> {{if value.htflag06 == 3}}
+                    <em class="way current i18n" name="sm_ps">配送</em> {{else}}
+                    <em class="way current i18n" name="sm_zt">自提</em> {{/if}}
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="sm_kpdw">开票单位</span> {{value.kpname}}
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="sm_yhrq">要货日期</span> {{#getDate(value.date10,"yyyy-MM-dd")}}
+                </li>
+            </ul>
+        {{/each}}
+    </script>
+  <% include ../include/ggPopup.html %>
+  <% include ../include/ggPopup2.html %>
+  <% include ../include/czPopup.html %>
+  <% include ../include/czPopup2.html %>
+  <% include ../include/cdPopup.html %>
+</body>
+
+</html>

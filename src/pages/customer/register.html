@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="re_title">注册</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+        /**绑定手机号*/
+
+        .wx_bdsj {
+            margin-top: 0px;
+        }
+
+        .wx_bdsj .weui_label {
+            width: 90px;
+        }
+
+        .must_input {
+            color: #f00;
+            margin-right: 5px;
+        }
+
+        .wx_bdsj .weui_cell_ft {
+            padding: 8px 0px;
+        }
+
+        .wx_bdsj .weui_cell_ft span {
+            height: 28px;
+            line-height: 28px;
+            display: inline-block;
+            border-left: 1px solid #d9d9d9;
+            color: #008cee;
+            width: 100px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .weui_cells {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body ontouchstart style="background: #fff;">
+    <input type="hidden" id="appid" value="" />
+    <input type="hidden" id="openid" value="" />
+
+    <div class="weui_cells weui_cells_form wx_bdsj">
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label">
+                    <span class="must_input">*</span>
+                    <span class="i18n" name="re_companyame"> 企业名称</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='mbname' class="weui_input i18n_ph" type="text" name="re_companynametip"
+                    placeholder="请输入您的企业名称">
+            </div>
+        </div>
+        <div class="weui_cell weui_cells_access">
+            <div class="weui_cell_hd">
+                <label class="weui_label">
+                    <span class="i18n" name="re_area"> 地区</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input type="hidden" id="dq1code" value="" />
+                <input type="hidden" id="dq1name" value="" />
+                <input type="hidden" id="dqcode" value="" />
+                <input type="hidden" id="dqname" value="" />
+                <input type="hidden" id="xjcode" value="" />
+                <input type="hidden" id="xjname" value="" />
+                <input id='dq_txt' class="weui_input i18n_ph" type="text" placeholder="请选择地区" name="re_areatip"
+                    click="unFocus();" />
+            </div>
+            <div class="weui_cell_ft"></div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label">
+                    <span class="i18n" name="re_address">详细地址</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='copaddr' class="weui_input i18n_ph" type="text" name="re_addresstip" placeholder="请输入详细地址">
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="re_name">姓名</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logname' class="weui_input i18n_ph" type="text" name="re_nametip" placeholder="请输入您的姓名">
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="re_phone">手机号</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logmobile' class="weui_input i18n_ph" name="re_phonetip" type="tel" placeholder="请输入您的手机号">
+            </div>
+        </div>
+        <div class="weui_cell weui_vcode">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="re_captcha">验证码</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='randCode' class="weui_input i18n_ph" name="re_captchatip" type="number" placeholder="请输入验证码">
+            </div>
+            <div class="weui_cell_ft">
+                <span id="yzmBtn" class="i18n" name="re_verificationcodeobt" onclick="sendSms();">获取验证码</span>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="re_password">密码</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logpwd' class="weui_input i18n_ph" type="password" name="re_passwordtip" placeholder="请输入密码">
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="re_querenpassword">确认密码</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logpwd2' class="weui_input i18n_ph" name="re_querenpasswordtip" type="password"
+                    placeholder="请再次输入密码">
+            </div>
+        </div>
+    </div>
+    <div class="weui_btn_area">
+        <a class="weui_btn weui_btn_primary" href="javascript:" onclick="register()">
+            <span class="i18n" name="re_registered">注册</span>
+        </a>
+    </div>
+    <% include ../../_foot.html %>
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../lib/city-picker.min.js"></script>
+    <script src="../customer/register.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>我的纤币</title>
+  <% include ../../components/_head.art %>
+  <style>
+    html,
+    body {}
+
+    .wx_coinlist {
+      padding: 15px 15px 10px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+
+    .wx_coinchange {
+      padding: 15px 15px 10px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+
+    .wx_getcoinway {
+      padding: 25px 15px;
+      padding: 15px 15px 10px;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+
+    .wx_coinchange ul {
+      width: 100%;
+      overflow: hidden;
+      padding-top: 10px;
+    }
+
+    .wx_coinchange ul li {
+      width: 25%;
+      float: left;
+      text-align: center;
+    }
+
+    .wx_coinchange ul li .xbdh_icon {
+      width: 55px;
+      height: 55px;
+      background: #f3ae09;
+      border-radius: 10px;
+      margin: 0 auto;
+    }
+
+    .wx_coinchange ul li .xbdh_icon1 {
+      background: #e65050;
+    }
+
+    .wx_coinchange ul li .xbdh_icon2 {
+      background: #68a8d4;
+    }
+
+    .wx_coinchange ul li .xbdh_icon3 {
+      background: #e7af5a;
+    }
+
+    .wx_coinchange ul li .xbdh_icon4 {
+      background: #56a550;
+    }
+
+    .wx_coinchange ul li .xbdh_icon5 {
+      background: #4a77ca;
+    }
+
+    .wx_coinchange ul li .xbdh_icon6 {
+      background: #d46bb5;
+    }
+
+    .wx_coinchange ul li .xbdh_icon7 {
+      background: #2ebaae;
+    }
+
+    .wx_coinchange ul li .xbdh_icon8 {
+      background: #ee3838;
+    }
+
+    .wx_coinchange ul li .xbdh_icon11 {
+      background: #3078cc;
+    }
+
+    .wx_coinchange ul li .xbdh_icon i {
+      display: inline-block;
+      font-size: 35px;
+      color: #fff;
+      line-height: 57px;
+    }
+
+    .wx_coinchange ul li .icon_name {
+      font-size: 1.2rem;
+      color: #333;
+      line-height: 24px;
+      text-align: center;
+    }
+
+    .choose_days {
+      height: 0px;
+      transition: all 0.3s ease-out;
+    }
+
+    .choose_days_moved {
+      height: 220px;
+    }
+
+    .noChange {
+      display: none;
+    }
+
+    .doChange {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout wx_main">
+    <input type="hidden" id="score">
+    <div id="main"></div>
+    <div id="list">
+    </div>
+  </article>
+  <% include ../../_foot.html %>
+  <script src="../score/myScore.js"></script>
+  <script type="text/html" id="main_page">
+    <!-- 我的纤币 -->
+  <section class="wx_coinum">
+    <b>{{ if account!=null}}{{account.score}}{{else}}0{{/if}}</b>
+    <div class="coiname">
+      <div class="line"></div><label>纤币</label>
+      <div class="line"></div>
+    </div>
+    <span>{{mbname}}</span>
+  </section>
+  <!-- 我的纤币 end-->
+
+  <div class="jf_pop" style="display:none;z-index: 99;">
+  </div>
+  <!-- 签到 -->
+  <section class="wx_cstep">
+    <div class="descript">
+      已连续签到{{signMap.signDay.sign}}天，{{if signMap.today.sign!=null && signMap.today.sign==1}}明日{{else}}今日{{/if}}签到获{{if signMap.signDay.sign!=null && signMap.signDay.sign >2 }}3{{else}}{{signMap.signDay.sign+1}}{{/if}}纤币
+    </div>
+    <ul>
+      <li {{if signMap.threeDayAgo.sign!=null && signMap.threeDayAgo.sign==1}}class="done" {{else}}class="cone" {{/if}}>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num">{{if signMap.threeDayAgo.score2!=null}}+{{signMap.threeDayAgo.score2}}{{/if}}</div>
+        <div class="date">{{signMap.threeDayAgo.dataString}}</div>
+      </li>
+      <li {{if signMap.beforeYesterday.sign!=null && signMap.beforeYesterday.sign==1}}class="done" {{else}}class="cone"
+        {{/if}}>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num">{{if signMap.beforeYesterday.score2!=null}}+{{signMap.beforeYesterday.score2}}{{/if}}</div>
+        <div class="date">{{signMap.beforeYesterday.dataString}}</div>
+      </li>
+      <li {{if signMap.yesterday.sign!=null && signMap.yesterday.sign==1}}class="done" {{else}}class="cone" {{/if}}>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num">{{if signMap.yesterday.score2!=null}}+{{signMap.yesterday.score2}}{{/if}}</div>
+        <div class="date">{{signMap.yesterday.dataString}}</div>
+      </li>
+      <li {{if signMap.today.sign!=null && signMap.today.sign==1}}class="done" {{else}}class="cone" {{/if}}>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num">{{if signMap.today.score2!=null}}+{{signMap.today.score2}}{{/if}}</div>
+        <div class="date">{{signMap.today.dataString}}</div>
+      </li>
+      <li>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num"></div>
+        <div class="date">{{signMap.tomorrow.dataString}}</div>
+      </li>
+      <li>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num"></div>
+        <div class="date">{{signMap.afterTomorrow.dataString}}</div>
+      </li>
+      <li>
+        <div class="line"></div>
+        <div class="dot"></div>
+        <div class="num"></div>
+        <div class="date">{{signMap.threeDayFromNow.dataString}}</div>
+      </li>
+    </ul>
+    <div class="sign">{{if signMap.today.sign!=null && signMap.today.sign==1}}<label
+        class="done">已签到</label>{{else}}<label class="do" onclick="doSign();">签到</label>{{/if}}</div>
+  </section>
+  <!-- 签到 end-->
+  <!-- 纤币兑换 -->
+  <section class="wx_coinchange">
+    <div class="wx_linetit"><label>纤币兑换</label></div>
+    <div id="couponList">
+
+    </div>
+    <ul>
+      <li>
+        <div class="xbdh_icon" onclick="toCoupon()"><i class="iconfont icon-daijinquan"></i></div>
+        <p class="icon_name">代金券</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon1" onclick="toEntity()"><i class="iconfont icon-lipin"></i></div>
+        <p class="icon_name">实物礼品</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon2" onclick="toExchange(1)"><i class="iconfont icon-vehicle"></i></div>
+        <p class="icon_name">物流费</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon3" onclick="toFcCoupon()"><i class="iconfont icon-mianxiquan"></i></div>
+        <p class="icon_name">免息券</p>
+      </li>
+    </ul>
+    <ul>
+      <li>
+        <div class="xbdh_icon xbdh_icon4" onclick="toExchange(2)"><i class="iconfont icon-tuiguang"></i></div>
+        <p class="icon_name">广告推广</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon5" onclick="toGuessPrice()"><i class="iconfont icon-cangchufei"></i></div>
+        <p class="icon_name">仓储费</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon6" onclick="toGuessPrice()"><i class="iconfont icon-chengduilixi"></i></div>
+        <p class="icon_name">承兑利息</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon7" onclick="toGuessPrice()"><i class="iconfont icon-jp"></i></div>
+        <p class="icon_name">竞拍保证金</p>
+      </li>
+    </ul>
+  </section>
+  <!-- 纤币兑换 -->
+  <!-- 纤币活动 -->
+  <section class="wx_coinchange">
+    <div class="wx_linetit"><label>纤币活动</label></div>
+    <ul>
+      <li>
+        <div class="xbdh_icon xbdh_icon8"
+          onclick="{{if lotteryUrl}} window.location.href='{{lotteryUrl}}' {{else}} toGuessPrice() {{/if}}"><i
+            class="iconfont icon-choujiang"></i></div>
+        <p class="icon_name">抽奖</p>
+      </li>
+      <li>
+        <div class="xbdh_icon" onclick="toAnswer()"><i class="iconfont icon-dayida"></i></div>
+        <p class="icon_name">答一答</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon2" onclick="toForward()"><i class="iconfont icon-zhuanyizhuan"></i></div>
+        <p class="icon_name">转一转</p>
+      </li>
+      <li>
+        <div class="xbdh_icon xbdh_icon11" onclick="toGuessPrice()"><i class="iconfont icon-qhhq"></i></div>
+        <p class="icon_name">猜涨跌</p>
+      </li>
+    </ul>
+  </section>
+  <!-- 纤币活动 -->
+  <!-- 赚取纤币 end-->
+  <section class="wx_getcoinway">
+    <div class="wx_linetit"><label>赚取纤币</label></div>
+    <ul>
+      <li>
+        <img src="../../images/wx_coinpic.jpg" alt="" title="" />
+        <div class="info">
+          <dl>
+            <dt>每日签到</dt>
+            <dd>签到获1纤币，连续签到可递增，最多获3纤币</dd>
+          </dl>
+          {{if signMap.today.sign!=null && signMap.today.sign==1}}<a href="javaScript:;"
+            class="finished">已签到</a>{{else}}<a href="javaScript:;" onclick="doSign();">签到</a>{{/if}}
+        </div>
+      </li>
+      <li>
+        <img src="../../images/wx_coinpic.jpg" alt="" title="" />
+        <div class="info">
+          <dl>
+            <dt>完善信息</dt>
+            <dd>含基本信息和详细信息，完善可获500纤币</dd>
+          </dl>
+          {{if info!=null&& info==1}}<a href="" class="finished">已完善</a>{{else}}<a href="javaScript:;"
+            onclick="toUserInfo();">立即设置</a>{{/if}}
+        </div>
+      </li>
+      <li>
+        <img src="../../images/wx_coinpic.jpg" alt="" title="" />
+        <div class="info">
+          <dl>
+            <dt>下单买货</dt>
+            <dd>不同品类，不同订单金额所获纤币不同</dd>
+          </dl>
+          <a href="javaScript:;" onclick="toOrderResourceList1();">我要下单</a>
+        </div>
+      </li>
+      <li>
+        <img src="../../images/wx_coinpic.jpg" alt="" title="" />
+        <div class="info">
+          <dl>
+            <dt>订单评价</dt>
+            <dd>对完成的订单进行评价，可获10纤币</dd>
+          </dl>
+          <a href="javaScript:;" onclick="toSapOrder();">立即评价</a>
+        </div>
+      </li>
+      <!--<li>
+          <img src="../../images/wx_coinpic.jpg" alt="" title="" />
+          <div class="info">
+            <dl>
+              <dt>新用户注册</dt>
+              <dd>新用户注册可获30000纤币</dd>
+            </dl>
+            <a href="javaScript:;" class="finished">已领取</a>
+          </div>
+        </li>-->
+      <li>
+        <img src="../../images/wx_coinpic.jpg" alt="" title="" />
+        <div class="info">
+          <dl>
+            <dt>推荐注册</dt>
+            <dd>老用户推荐新用户注册，可获10000纤币</dd>
+          </dl>
+          <a href="javaScript:;" onclick="toTjyj();">我要推荐</a>
+        </div>
+      </li>
+    </ul>
+  </section>
+  <!-- 赚取纤币 end-->
+
+  </script>
+  <script type="text/html" id="list_page">
+    <!-- 纤币流水 -->
+  <section class="wx_coinlist">
+    <div class="wx_linetit"><label>纤币流水</label></div>
+    <div class="list">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tbody id="listTbody">
+          {{if data!=null&&data.length>0}}
+          {{each data as value i}}
+          <tr {{if i > 5}}class="hide" {{/if}}>
+            <td>{{value.lyName}}</td>
+            <td>{{#getDate(value.cdate)}}</td>
+            <td {{if value.styp==1}}class="cff7b05" {{else}}class="c098bcf" {{/if}}>
+              {{if value.styp==2}}-{{/if}}{{value.score2}}纤币</td>
+          </tr>
+          {{/each}}
+          {{else}}
+          <tr>
+            <td></td>
+            <td>暂无纤币流水</td>
+            <td class="cff7b05"></td>
+          </tr>
+          {{/if}}
+        </tbody>
+      </table>
+      {{if data!=null&&data.length>6}}
+      <div class="fold" onclick="listToggle()"><i class="iconfont">&#xe62f;</i><label>展开</label></div>
+      {{/if}}
+    </div>
+  </section>
+  <!-- 纤币流水 end-->
+  </script>
+  <script type="text/html" id="listTbody_page">
+   {{if data!=null&&data.length>0}}
+            {{each data as value i}}
+            <tr class="hide">
+              <td>{{value.lyName}}</td>
+              <td>{{#getDate(value.cdate)}}</td>
+              <td class="cff7b05">{{value.score2}}纤币</td>
+            </tr>
+            {{/each}}
+    {{/if}}
+</script>
+  <script type="text/html" id="couponList_page">
+
+   <ul class="coincglist" >
+   	{{each couponList as value i}}
+        <li {{if i%3==0}}class="small"{{else if i%3==1}}class="middle"{{else}}class="large"{{/if}}>
+          <div class="con" onclick="toExchange('{{value.pkid}}', '{{value.score}}')">
+            <div class="lf">
+              <div class="num">
+                <em>￥</em>
+                <b>{{value.couponPrice}}</b>
+                <span>代金券</span>
+              </div>
+              <label>满{{value.limitMinimumPrice}}即可使用</label>
+            </div>
+            <div class="rt">
+              <div class="cline"></div>
+              <span>兑换</span>
+              <label>{{value.score}}纤币</label>
+            </div>
+          </div>
+        </li>
+        {{/each}}
+      </ul>
+      
+</script>
+
+  <script type="text/html" id="auction_page">
+  <!--竞拍保证金兑换-->
+  <div class="jf_pop_border">
+    <div class="jf_pop_box">
+      <p class="jf_pop_title">当前纤币：600000<span onclick="toExchangeDetail()"
+          style="position: absolute; right: 25px;">兑换明细</span></p>
+      <div class="jf_pop_detail">
+        <p>竞拍保证金兑换：500000纤币</p>
+        <i>兑换成功后，即可参与竞拍活动</i>
+      </div>
+      <div class="jf_pop_btn">
+        <span class="jf_btn_left"><a>取消</a></span>
+        <span class="jf_btn_right"><a class="btn_true">我要兑换</a></span>
+        <!--<span class="jf_btn_right"><a>纤币不足</a></span>-->
+      </div>
+    </div>
+  </div>
+  </script>
+  <script type="text/html" id="house_page">
+  <!--仓储费兑换-->
+  <div class="jf_pop_border">
+    <div class="jf_pop_box">
+      <p class="jf_pop_title">当前纤币：{{score}}</p>
+      <div class="jf_pop_detail">
+        <div class="jf_edit">
+          <em>仓储费兑换：</em>
+          <div class="jf_input">
+            <label>-</label>
+            <input type="number" placeholder="0" />
+            <label>+</label>
+          </div>
+          <span>元</span>
+        </div>
+        <i>每200纤币可兑换1元，最高可兑1000元。</i>
+      </div>
+      <div class="jf_pop_btn">
+        <span class="jf_btn_left"><a>取消</a></span>
+        <span class="jf_btn_right"><a class="btn_true">我要兑换</a></span>
+        <!--<span class="jf_btn_right"><a>纤币不足</a></span>-->
+      </div>
+    </div>
+  </div>
+  </script>
+  <script type="text/html" id="logistics_page">
+<!--物流费兑换-->
+  <div class="jf_pop_border">
+    <div class="jf_pop_box">
+      <p class="jf_pop_title">当前纤币：{{ if score!=null}}{{score}}{{else}}0{{/if}}<span onclick="toExchangeDetail(2300)"
+          style="position: absolute; right: 25px;">兑换明细</span></p>
+      <div class="jf_pop_detail">
+        <div class="jf_choose">
+          <label>物流费兑换：</label>
+          <span class="choose_box">
+            <em class="jf_qxz" onclick="showSelect()">请选择</em>
+            <i class="iconfont icon-rarrow"></i>
+          </span>
+        </div>
+        <i>每200纤币可兑换1元，最高可兑1000元。<br />兑换成功后，默认在下次物流订单中抵扣。</i>
+      </div>
+      <div class="jf_pop_btn">
+        <span class="jf_btn_left" onclick="closeExchange()"><a>取消</a></span>
+        <span class="jf_btn_right doChange" onclick="doChange(1)"><a class="btn_true">我要兑换</a></span>
+        <span class="jf_btn_right noChange"><a>纤币不足</a></span>
+      </div>
+    </div>
+  </div>
+  <div class="choose_days">
+    <p class="choose_title">请选择兑换金额<i class="iconfont icon-chadel" onclick="closeThis(this)"></i></p>
+    <ul>
+      <li {{if score<20000}} style="color:#ddd" {{/if}} onclick="chooseThisAd('100')">
+        <span class="days">100元</span>
+        <span class="money">20000纤币</span>
+      </li>
+      <li {{if score<60000}} style="color:#ddd" {{/if}} onclick="chooseThisAd('300')">
+        <span class="days">300元</span>
+        <span class="money">60000纤币</span>
+      </li>
+      <li {{if score<100000}} style="color:#ddd" {{/if}} onclick="chooseThisAd('500')">
+        <span class="days">500元</span>
+        <span class="money">100000纤币</span>
+      </li>
+      <li {{if score<160000}} style="color:#ddd" {{/if}} onclick="chooseThisAd('800')">
+        <span class="days">800元</span>
+        <span class="money">160000纤币</span>
+      </li>
+      <li {{if score<200000}} style="color:#ddd" {{/if}} onclick="chooseThisAd('1000')">
+        <span class="days">1000元</span>
+        <span class="money">200000纤币</span>
+      </li>
+    </ul>
+  </div>
+
+  </script>
+  <script type="text/html" id="advertisement_page">
+<!--广告推广兑换-->
+  <div class="jf_pop_border">
+    <div class="jf_pop_box">
+      <p class="jf_pop_title">当前纤币：{{ if score!=null}}{{score}}{{else}}0{{/if}}<span onclick="toExchangeDetail(2200)"
+          style="position: absolute; right: 25px;">兑换明细</p>
+      <div class="jf_pop_detail">
+        <div class="jf_choose">
+          <label>广告推广兑换：</label>
+          <span class="choose_box">
+            <em class="jf_qxz" onclick="showSelect()">请选择</em>
+            <i class="iconfont icon-rarrow"></i>
+          </span>
+        </div>
+        <i>广告位：微商城首页顶部海报位置；<br />兑换成功后我们会联系您对接相关事项。</i>
+      </div>
+      <div class="jf_pop_btn">
+        <span class="jf_btn_left" onclick="closeExchange()"><a>取消</a></span>
+        <span class="jf_btn_right doChange" onclick="doChange(2)"><a class="btn_true">我要兑换</a></span>
+        <span class="jf_btn_right noChange"><a>纤币不足</a></span>
+      </div>
+    </div>
+  </div>
+  <div class="choose_days">
+    <p class="choose_title">请选择兑换推广天数<i class="iconfont icon-chadel" onclick="closeThis(this)"></i></p>
+    <ul>
+      <li {{if score<180000}} style="color:#ddd" {{/if}} onclick="chooseThisLogistics('3')">
+        <span class="days">3天</span>
+        <span class="money">180000纤币</span>
+      </li>
+      <li {{if score<300000}} style="color:#ddd" {{/if}} onclick="chooseThisLogistics('5')">
+        <span class="days">5天</span>
+        <span class="money">300000纤币</span>
+      </li>
+      <li {{if score<420000}} style="color:#ddd" {{/if}} onclick="chooseThisLogistics('7')">
+        <span class="days">7天</span>
+        <span class="money">420000纤币</span>
+      </li>
+      <li {{if score<600000}} style="color:#ddd" {{/if}} onclick="chooseThisLogistics('10')">
+        <span class="days">10天</span>
+        <span class="money">600000纤币</span>
+      </li>
+    </ul>
+  </div>
+
+  </script>
+</body>
+
+</html>

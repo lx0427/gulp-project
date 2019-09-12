@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>托盘</title>
+    <% include ../../components/_head.art %>
+</head>
+<style>
+.img {
+    width: 100%; 
+    height: 300px;
+    display: table-cell;
+    text-align: center;
+    }
+</style>
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="main">
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+        <script src="../public/tray.js"></script>
+        <!--显示悬浮图标-->
+        <script type="text/javascript">
+            $(function() {
+                initSuspendIcon();
+            });
+        </script>
+        <script id="main_page" type="text/html">
+            <div class="wx_balancebox_a">
+                <p class="bal_til">会员名称</p>
+                <p class="bal_num" style="font-size: 2.5rem">{{userName}}</p>
+            </div>
+
+            <ul class="wx_compdetail" style="margin-top: 10px;">
+                <li>组织机构码/身份证号<span>{{creditCode}}</span></li>
+                <li>可用押金金额<span>{{banlnce}}</span></li>
+                <li>冻结押金金额<span>{{freezeAmount}}</span></li>
+
+                <li>在库POY托盘数量<span>{{palletPoyCount}}</span></li>
+                <li>在库FDY托盘数量<span>{{palletFdyCount}}</span></li>
+                <li>可租赁POY托盘数量<span>{{leasePoyCount}}</span></li>
+                <li>可租赁FDY托盘数量<span>{{leaseFdyCount}}</span></li>          
+            </ul>
+        </script>
+</body>
+
+</html>

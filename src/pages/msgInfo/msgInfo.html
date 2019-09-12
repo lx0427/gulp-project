@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>详情</title>
+    <meta id="i18n_pagename" content="strings">
+    <% include ../../components/_head.art %>
+    <style>
+        .weui_cell .weui_cell_hd .weui_label {
+            color: black;
+        }
+
+        .weui_cell_primary {
+            color: grey;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bd" id="main">
+    </div>
+
+
+    <script id="main_page" type="text/html">
+
+    	<div class="weui_cells">
+    	
+    	{{if (type == 1)}}
+    	
+    				<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddxx">订单信息</span></label><!-- 原：合同信息 -->
+                </div>
+            </div>
+    	
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddhm">订单号码</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data.fphm}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddrq">订单日期</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{#getDate(data.cdate,"yyyy-MM-dd HH:mm")}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_gstt">公司抬头</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data.hyname}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_zje">总金额</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{data.htamt}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddzt">订单状态</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    订单已处理
+                </div>
+            </div>
+            
+            <br/>
+            
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wzxx">物资信息</span></label>
+                </div>
+            </div>
+            {{each data.mxlist as value i}}
+            
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_shzz">销售组织</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data.depname2}}
+                </div>
+            </div>
+            
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_pm">品名</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.pm}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ph">批号</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.cz}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_gg">规格</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.gg}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_cd">等级</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.cd}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_dj">单价（元）</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.price}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_zl">重量（KG）</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.sl2}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_xbs">箱包数</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.sl1}}{{value.sldw1}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_je">金额（元）</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{value.htamt}}
+                </div>
+            	</div>
+
+            	<br/>
+            	
+            {{/each}}
+            
+        {{/if}}
+        
+        
+        
+        
+        {{if (type == 2)}}
+        
+        		<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddxx">订单信息</span></label>
+                </div>
+            </div>
+            
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_xspz">销售凭证</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data[0].vbeln}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_cjsj">创建时间</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{#getDate(data[0].erdat,"yyyy-MM-dd HH:mm")}}
+                </div>
+            </div>
+            <!-- // E0001 无需审批, E0002 特殊价格——待审批, E0003 特殊价格——产品经理批准, E0004 特殊价格——销售总监批准(可发货), E0005 特殊价格——审批拒绝
+              // E0006 程序未运行, E0007 承兑贴现——待总经理审批, E0008 订单逾期, E0009 特殊价格——产品经理批准(可发货), E0010 特殊价格——销售总助批准, E0011 特殊价格——销售总助批准(可发货) -->
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddzt">订单状态</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{if data[0].stat == 'E0001'}}
+                    <span class="i18n" name="mi_spzt01">无需审批</span>
+                    {{else if data[0].stat == 'E0002'}}
+                    	<span class="i18n" name="mi_spzt02">特殊价格——待审批</span>
+                    	{{else if data[0].stat == 'E0003'}}
+                    		<span class="i18n" name="mi_spzt03">特殊价格——产品经理批准</span>
+                    		{{else if data[0].stat == 'E0004'}}
+                    			<span class="i18n" name="mi_spzt04">特殊价格——销售总监批准</span>
+                    			{{else if data[0].stat == 'E0005'}}
+                    				<span class="i18n" name="mi_spzt05">特殊价格——审批拒绝</span>
+                    				{{else if data[0].stat == 'E0006'}}
+                    					<span class="i18n" name="mi_spzt06">程序未运行</span>
+                    					{{else if data[0].stat == 'E0007'}}
+                    						<span class="i18n" name="mi_spzt07">承兑贴现——待总经理审批</span>
+                    						{{else if data[0].stat == 'E0008'}}
+                    							<span class="i18n" name="mi_spzt08">订单逾期</span>
+                    							{{else if data[0].stat == 'E0009'}}
+                    								<span class="i18n" name="mi_spzt09">特殊价格——产品经理批准</span>
+                    								{{else if data[0].stat == 'E00010'}}
+                    									<span class="i18n" name="mi_spzt10">特殊价格——销售总助批准</span>
+                    									{{else if data[0].stat == 'E00010'}}
+                    										<span class="i18n" name="mi_spzt10">特殊价格——销售总助批准</span>
+                    										{{/if}}
+                </div>
+            	</div>
+        
+        <br/>
+        
+       		 <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wzxx">物资信息</span></label>
+                </div>
+            </div>
+            
+        {{each data as value i}}
+        
+        		<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wzxx">销售组织</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.depname}}
+                </div>
+            </div>
+            
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wlh">物料号</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.matnr}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_pm">品名</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.pm}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ph">批号</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.cz}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_gg">规格</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.gg}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_cd">等级</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.cd}}
+                </div>
+            </div>
+            
+            {{if value.pm == 'DTY'}}
+            
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>捻向</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.nx}}
+                </div>
+            	</div>
+            	<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>纱种</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.sz}}
+                </div>
+            	</div>
+            
+						{{/if}} 
+						  
+						<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>重量（KG）</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.kwmeng}}
+                </div>
+            </div>       
+            
+            <br/>
+            
+          {{/each}}
+        
+        {{/if}}
+        
+        {{if (type == 3)}}
+        
+        		<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>订单信息</label><!-- 原：发货信息 -->
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>销售凭证</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data[0].vbeln}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>订单号</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data[0].vgbel}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wlh">物料号</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{data[0].matnr}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_cjsj">创建时间</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{#getDate(data[0].erdat,"yyyy-MM-dd HH:mm")}}
+                </div>
+            </div>
+             <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ddzt">订单状态</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                    {{if data[0].wbsta == 'A'}}
+                    <span class="i18n" name="mi_ddztA">未交货</span>
+                    {{else if data[0].wbsta == 'B'}}
+                    	<span class="i18n" name="mi_ddztB">部分交货</span>
+                    	{{else if data[0].wbsta == 'C'}}
+                    		 <span class="i18n" name="mi_ddztC">完全交货</span>
+                    										{{/if}}
+                </div>
+            	</div>
+        	
+        		<br/>
+        
+       			 <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wzxx">物资信息</span></label>
+                </div>
+            </div>
+        {{each data as value i}}
+        
+        		<div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_wzxx">销售组织</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.depname}}
+                </div>
+            </div>
+            
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_pm">品名</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.pm}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_ph">批号</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.cz}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_gg">规格</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.gg}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_cd">等级</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.cd}}
+                </div>
+            </div>
+            
+            {{if value.pm == 'DTY'}}
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>纱种</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.sz}}
+                </div>
+            </div>
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span>捻向</label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.nx}}
+                </div>
+            </div>
+            {{/if}}
+            
+           
+            <div class="weui_cell">
+                <div class="weui_cell_hd">
+                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_sl">数量（KG）</span></label>
+                </div>
+                <div class="weui_cell_bd weui_cell_primary">
+                   {{value.shuliang}}
+                </div>
+            </div>
+           
+                      
+            <br/>
+            
+           {{/each}}     
+        {{/if}}
+        
+        {{if (type == 4)}}<!-- 银行通知交易数据信息 -->
+		        	<div class="weui_cell">
+		                <div class="weui_cell_hd">
+		                    <label class="weui_label"><span class="i18n" name="mi_dztz">到账通知</span></label>
+		                </div>
+		         </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_jylsh">交易流水号</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                    {{data.transno}}
+	                </div>
+	            </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_jysj">交易时间</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                    {{data.transtime}}
+	                </div>
+	            </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_jyje">交易金额</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary" style="color:red;" >
+	                    {{data.transamount}}
+	                </div>
+	            </div>
+	            {{if data.oppositebankname != '-'}}
+		            <div class="weui_cell">
+		                <div class="weui_cell_hd">
+		                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_fkyh">付款银行</span></label>
+		                </div>
+		                <div class="weui_cell_bd weui_cell_primary">
+		                     {{data.oppositebankname}}
+		                </div>
+		            </div>
+		            {{/if}}
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_fkzh">付款账号</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                     {{data.payeracctno}}
+	                </div>
+	            </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_fkhm">付款户名</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                     {{data.payeracctname}}
+	                </div>
+	            </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_skyh">收款银行</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                     中国工商银行
+	                </div>
+	            </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_skzh">收款账号</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                     {{data.payeeacctno}}
+	                </div>
+	            </div>
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_skhm">收款户名</span></label>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                     {{data.payeeacctname}}
+	                </div>
+	            </div>
+	            {{if data.postscript != '-'}}
+		            <div class="weui_cell">
+		                <div class="weui_cell_hd">
+		                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_fy">附言</span></label>
+		                </div>
+		                <div class="weui_cell_bd weui_cell_primary">
+		                	 {{data.postscript}}
+		                
+		                </div>
+		            </div>
+	            {{/if}}
+	            <div class="weui_cell">
+	                <div class="weui_cell_hd">
+	                    <label class="weui_label"><span class="must_input"></span><span class="i18n" name="mi_bz">币种</span></label>
+	                </div>
+	                <!-- 1-人民币；12-英镑；13-港元；14-美元；15-瑞士法郎；16-德国马克；18-新加坡元；27-日元；38-欧元 -->
+	                <div class="weui_cell_bd weui_cell_primary">
+	                     {{if data.currtype == '1'}}
+		                    <span class="i18n" name="mi_bz1">人民币</span>
+		                    {{else if data.currtype == '12'}}
+		                    	<span class="i18n" name="mi_bz12">英镑</span>
+		                    	{{else if data.currtype == '13'}}
+		                    		<span class="i18n" name="mi_bz13"> 港元</span>
+		                    		 {{else if data.currtype == '14'}}
+		                    		 <span class="i18n" name="mi_bz14">美元</span>
+		                    		 {{else if data.currtype == '15'}}
+		                    		 <span class="i18n" name="mi_bz15">瑞士法郎</span>
+		                    		 {{else if data.currtype == '16'}}
+		                    		 <span class="i18n" name="mi_bz16">德国马克</span>
+		                    		 {{else if data.currtype == '18'}}
+		                    		 <span class="i18n" name="mi_bz18">新加坡元</span>
+		                    		 {{else if data.currtype == '27'}}
+		                    		 <span class="i18n" name="mi_bz27">日元</span>
+		                    		 {{else if data.currtype == '38'}}
+		                    		 <span class="i18n" name="mi_bz38">欧元</span>
+		                    										{{/if}}
+	                </div>
+	            </div>
+        {{/if}}
+            
+    		</div>
+    </script>
+    <% include ../../_foot.html %>
+    <script src="../msgInfo/msgInfo.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khgl">客户管理</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_functionbox">
+                <p class="gntext i18n" name="sm_khglgnlb">客户管理功能列表</p>
+                <ul class="gnlist ">
+                    <li onclick="menberList();">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">客户档案</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="reportServer();">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">客户贴息查询</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="menberLevelList()">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khdj">客户等级</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="menberMaintenance()">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khwh">客户维护</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="menberMKT()" id="mkt">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khwh">MKX客户信息</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="menberZizhuzhuce()" id="zizhu" style="display:none;">
+                        <span style="background-color: #84c7ee"><i class="iconfont icon-zizhuzhuce"></i></span>
+                        <p class="til i18n" name="sm_khwh">自主注册客户</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <em class="infor" id="registerEm">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="mboptApply()" id="mbopt">
+                        <span style="background-color: #f889ec"><i class="iconfont icon-zizhuzhuce"></i></span>
+                        <p class="til i18n" name="sm_khwh">操作员申请</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <em class="infor" id="mboptApplyEm">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/menberManager.js"></script>
+</body>
+
+</html>

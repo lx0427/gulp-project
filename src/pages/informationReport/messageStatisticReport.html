@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>统计报表</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_main {
+      top: 45px;
+    }
+
+    .wx_hyfilter3 {
+      height: 35px;
+      margin: 5px;
+      top: 0px;
+      padding: 0px;
+      width: 97%;
+      background: #fff;
+      border-bottom: solid 1px #ddd;
+      overflow: hidden;
+      position: fixed;
+    }
+
+    .wx_hyfilter3 .current {
+      color: #fff;
+      background: linear-gradient(to bottom, #38a3ee, #008dc6);
+      line-height: 35px;
+    }
+
+    .wx_hyfilter3 li {
+      height: 35px;
+      color: #333;
+      line-height: 35px;
+      width: 25%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      float: left;
+      box-sizing: border-box;
+      font-size: 1.5rem;
+      text-align: center;
+      border-right: solid 1px #ddd;
+      overflow: hidden;
+    }
+
+    .sb_box .sb_info .sb_title {
+      font-weight: bolder;
+      font-size: 2.3rem;
+    }
+
+    .sb_box .sb_info .sb_descript {
+      line-height: 100px;
+      padding: 5% 0 0 40%;
+    }
+
+    .sb_box .sb_info .sb_descript em {
+      color: #f73131;
+      margin-right: 6px;
+      font-size: 4.3rem;
+      line-height: 20px;
+      font-weight: bolder;
+    }
+
+    .sb_box .sb_info .sb_descript span {
+      font-size: 2.0rem;
+      color: #333;
+      line-height: 20px;
+      margin-right: 6px;
+      font-weight: bold;
+    }
+
+    .sb_box .sb_info .sb_bottom {
+      line-height: 75px;
+      padding-left: 40%;
+      margin-top: -15%;
+    }
+
+    .sb_box .sb_info .sb_bottom em {
+      color: #f73131;
+      line-height: 75px;
+      margin-top: -15%;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout">
+    <ul class=" wx_hyfilter3" style="z-index: 30;">
+      <li id="0">今天</li>
+      <li id="1">本周</li>
+      <li class="current" id="2">本月</li>
+      <li id="3">自定义</li>
+    </ul>
+    <input type="hidden" name="rqStart" id="rqStart">
+    <input type="hidden" name="rqEnd" id="rqEnd">
+    <input type="hidden" name="userid" id="userid">
+    <section class="wx_main ">
+      <div id="list">
+        <div class="sb_main">
+          <div class="sb_box">
+            <div class="sb_info">
+              <p class="sb_title">客户拜访
+              </p>
+              <p class="sb_descript">
+                <em id="customer" onclick="openMassageSettingList(2,'')">...</em><span>条</span>
+              </p>
+              <p class="sb_bottom">
+                <span>已点评<em id="customerMark" onclick="openMassageSettingList(2,4)">...</em>条</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="sb_main">
+          <div class="sb_box">
+            <div class="sb_info">
+              <p class="sb_title">随手记
+              </p>
+              <p class="sb_descript">
+                <em id="note" onclick="openMassageSettingList(1,'')">...</em><span>条</span>
+              </p>
+              <p class="sb_bottom">
+                <span>已点评<em id="noteMark" onclick="openMassageSettingList(1,4)">...</em>条</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="sb_main">
+          <div class="sb_box">
+            <div class="sb_info">
+              <p class="sb_title">周报
+              </p>
+              <p class="sb_descript">
+                <em id="weekReport" onclick="openMassageSettingList(3,'')">...</em><span>条</span>
+              </p>
+              <p class="sb_bottom">
+                <span>已点评<em id="weekReportMark" onclick="openMassageSettingList(3,4)">...</em>条</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="weui-infinite-scroll" style="display: none">
+        <div class="infinite-preloader"></div>
+        <span class="i18n" name="sd_loading">正在加载</span>
+      </div>
+    </section>
+  </article>
+  <!-- 查询时间选择页面 -->
+  <div id="datePage" style="width: 100%; height: 100%;z-index: 90;display: none;position: fixed;">
+    <div
+      style=" filter: Alpha(opacity=30); -moz-opacity: 0.3; opacity: 0.3; width: 100%; height: 100%; z-index: 55;position: fixed; left: 0; top: 0;  overflow: hidden; background-color: #000; display: block;">
+    </div>
+    <div class="wx_hypopbox" style="bottom: 40%;height: 138px;">
+      <div class="tit">自定义查询</div>
+      <div class="inner" style="height: 107px;">
+        <ul>
+          <li>
+            <label>选择时间:</label>
+            <div class="fle timefle" style="display: block;">
+              <input class="inp" type="" name="startTime" id="rqStart1" placeholder="开始日期">
+              <span>-</span>
+              <input class="inp" type="" name="endTime" id="rqEnd1" placeholder="结束日期">
+            </div>
+          </li>
+          <li></li>
+        </ul>
+        <div class="btn">
+          <a class="wx_hygreybtn" href="javaScript:;" onclick="doCancleDatePage()">取消</a>
+          <a class="wx_hybluebtn" id="dateQueryTrue" style="pointer-events:auto;" href="javaScript:;"
+            onclick="doDateQuery()">确定</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% include ../../_foot.html %>
+  <script src="../informationReport/messageStatisticReport.js"></script>
+</body>
+
+</html>

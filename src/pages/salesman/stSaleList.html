@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>双兔销售组织控量信息列表</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 44px;
+            /*  同步员工数据按钮高度清空 bottom: 45px;*/
+
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .customlist_detail span {
+            margin-left: 10px;
+        }
+
+        .customlist_detail span:nth-child(1) {
+            margin-left: 0px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    正在加载
+                </div>
+            </div>
+
+        </section>
+    </article>
+
+    <% include ../../_foot.html %>
+    <script src="../salesman/stSaleList.js"></script>
+    <script id="list_page" type="text/html">
+                {{each data as value i}}
+                <li onclick="toPage('{{value.userid}}','{{value.pm}}');">
+                    <p class="customlist_name">
+                        {{value.userName}}({{value.userid}})                        
+                    </p>
+                    <p class="customlist_detail">
+                            <span>品名: {{value.pm}}</span>
+                        
+                            <span>百分比: {{value.percent}} %</span>
+
+                            <span>可销售额: {{value.amount}} kg</span>
+
+                            <span>已销售: {{value.usedAmount}} kg</span>
+
+                            <span>剩余销售额: {{value.availableAmount}} kg</span>
+                    </p>
+                    <i class="iconfont icon-rarrow"></i>
+                </li>
+                {{/each}}               
+            </script>
+</body>
+
+</html>

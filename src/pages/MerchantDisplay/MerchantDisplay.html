@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>商家展示</title>
+	<meta id="i18n_pagename" content="strings">
+	<% include ../../components/_head.art %>
+	<style>
+		.wx_main {
+			top: 89px;
+		}
+
+		.wx_searchbox .searchbg {
+			opacity: 1;
+			border-radius: 4px;
+		}
+
+		.wx_searchbox .search_s {
+			color: #3e7baf;
+		}
+
+		.wx_searchbox,
+		.wx_searchboxbg {
+			padding: 0px;
+		}
+
+		.rq {
+			opacity: 0;
+			top: 0;
+			position: absolute;
+			left: 0px;
+			width: 100%;
+		}
+
+		.wx_hyfilter li {
+			width: 50%;
+		}
+
+		.sjzs_item {
+			padding: 0 10px;
+			background: #fff;
+		}
+
+		.sjzs_list {
+			padding: 15px 0;
+			border-bottom: 1px solid #ddd;
+			position: relative;
+			min-height: 70px;
+		}
+
+		.sjzs_img {
+			position: absolute;
+			left: 0;
+			top: 50%;
+			margin-top: -35px;
+			width: 70px;
+			height: 70px;
+		}
+
+		.sjzs_img img {
+			width: 100%;
+			height: 52.78px;
+		}
+
+		.sjzs_team {
+			padding-left: 80px;
+			padding-right: 40px;
+		}
+
+		.sjzs_team .sjzs_title,
+		.sjzs_team .sjzs_detail {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.sjzs_team .sjzs_title {
+			line-height: 24px;
+			font-size: 1.5rem;
+			color: #333;
+		}
+
+		.sjzs_team .sjzs_detail {
+			font-size: 1.3rem;
+			line-height: 23px;
+			color: #666;
+		}
+
+		.iconfont {
+			font-style: normal;
+			-webkit-font-smoothing: antialiased;
+			font-family: "iconfont" !important;
+		}
+
+		.wx_hyordermesbox .wx_hycontactlist li .icon-tel {
+			font-size: 25px;
+			line-height: 25px;
+			color: #3e7baf;
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			margin-top: -11px;
+		}
+
+		.wx_hyordermesbox .wx_hynewlylist li .icon-name,
+		.wx_hyordermesbox .wx_hynewlylist li .icon-power,
+		.wx_hyordermesbox .wx_hynewlylist li .icon-telephone,
+		.wx_hyordermesbox .wx_hynewlylist li .icon-quanxian {
+			font-size: 18px;
+			line-height: 18px;
+			color: #999;
+			position: absolute;
+			left: 10px;
+			top: 50%;
+			margin-top: -8px;
+		}
+
+		.sjzs_list .icon-tel {
+			font-size: 25px;
+			position: absolute;
+			right: 0;
+			top: 50%;
+			margin-top: -13px;
+			color: #3e7baf;
+		}
+	</style>
+	<link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+	<header class="wx_searchbox">
+		<div class="weui_search_bar">
+			<form id="form" class="weui_search_outer">
+				<div class="weui_search_inner">
+					<i class="weui_icon_search"></i>
+					<input type="search" class="weui_search_input i18n_ph" name="sd_queryp" id="querykey" placeholder="输入搜索条件"
+						value="" />
+					<a href="javascript:" class="weui_icon_clear"></a>
+				</div>
+				<label for="querykey" class="weui_search_text">
+					<i class="weui_icon_search"></i>
+					<span class="i18n" name="md_ssfhdd">搜索发货订单</span>
+				</label>
+			</form>
+			<a href="javascript:" class="weui_search_cancel i18n" name="sd_cancel">取消</a>
+		</div>
+	</header>
+	<article class="wx_layout">
+		<ul class="wx_hyfilter">
+			<input type="hidden" id="hydm" value="" />
+			<input type="hidden" id="sapCustomerId" value="" />
+			<input type="hidden" id="vkorg" value="" />
+			<input type="hidden" id="scopes" value="" />
+
+
+
+			<li id='dq_txt'>
+				<span class="i18n" name="md_qy">区域</span><span class="xl"></span>
+				<input type="hidden" id="proName" value="" />
+				<input type="hidden" id="cityName" value="" />
+				<input type="hidden" id="xjName" value="" />
+				<div class="weui_cell_ft"></div>
+			</li>
+
+			<li id="wbsta">
+				<span class="i18n" name="md_zy">主营</span><span class="xl"></span>
+			</li>
+		</ul>
+		<section class="wx_main" id="infinitePage">
+
+
+			<div id="list"></div>
+
+			<div class="weui-infinite-scroll">
+				<div class="infinite-preloader"></div><span class="i18n" name="sd_loading">正在加载</span>
+			</div>
+		</section>
+	</article>
+	<% include ../../_foot.html %>
+	<script src="../../lib/city-picker.min.js"></script>
+	<% include ../include/menberPopup.html %>
+	<script src="../MerchantDisplay/MerchantDisplay.js"></script>
+	<script id="list_page" type="text/html">
+       				<div class="wx_hyordermesbox">
+       				<ul class="sjzs_item">
+       				{{each data as value i}}
+            	<li onclick="toInfo('{{value.pkid}}');" class="sjzs_list">
+		             <p class="sjzs_img">
+		                <img src="{{filePath}}{{value.logoimg}}" />
+		             </p>
+		             <div class="sjzs_team">
+		                <p class="sjzs_title">{{value.enterpriseName}}</p>
+		                <p class="sjzs_detail"><span class="i18n" name="md_zy">主营：</span>{{value.scopes}}</p>
+		                <p class="sjzs_detail">{{value.proName}}{{value.cityName}}{{value.xjName}}{{value.addr}}</p>
+		             </div>
+		             {{if (value.phone != null )}}
+		             	<a href="tel:{{value.phone}}"><i class="iconfont icon-tel"></i></a>
+		             {{/if}}
+		          </li>
+		          {{/each}}
+		          </ul>
+    				</div>        	
+        </script>
+</body>
+
+</html>

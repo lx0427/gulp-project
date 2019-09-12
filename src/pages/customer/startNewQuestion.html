@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>客户满意度调查</title>
+</head>
+<style type="text/css">
+  .wx_layout {
+    background: #3e7caf;
+  }
+
+  .toolbar-inner {
+    font-size: 1.6rem;
+  }
+
+  .toolbar-inner .title {
+    font-size: 1.6rem;
+  }
+
+  .weui_cell.weui_check_label {
+    font-size: 1.4rem;
+  }
+
+  .spec__wrap .weui_cell_primary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .spec__wrap .weui_cells_checkbox .weui_cell_hd {
+    padding-right: 0;
+    padding-left: .35em;
+  }
+
+  .spec__wrap .weui-popup-modal {
+    max-height: 40%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .spec__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    line-height: 40px;
+    /* 防止被压缩 */
+    flex-shrink: 0;
+  }
+
+  .spec__header h3 {
+    flex: 1;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .spec__header span {
+    font-size: 1.8rem;
+    padding: 0 10px;
+    color: #04BE02;
+  }
+
+  .spec__content {
+    flex: 1;
+    overflow: auto;
+  }
+
+  .is-disabled {
+    color: #c0c4cc;
+    pointer-events: none;
+  }
+</style>
+<% include ../../components/_head.art %>
+
+<body>
+  <article class="wx_layout">
+    <section class="wx_main">
+      <div class="wx_lookinto_top">
+        <p class="logo"></p>
+        <h2>欢迎参与问卷调查！</h2>
+      </div>
+      <input type="hidden" id="needLogin">
+      <div class="wx_lookinto_cont">
+        <ul>
+          <li>
+            <span>企业名称</span>
+            <input type="text" id="companyName" placeholder="请输入您的企业名称" disabled>
+          </li>
+          <li>
+            <span>填写人</span>
+            <input type="text" id="userName" placeholder="请输入您的姓名">
+          </li>
+          <li>
+            <span>联系电话</span>
+            <input type="text" id="mobile" placeholder="请输入您的联系电话">
+          </li>
+          <li id="specificationSelect">
+            <span>规格</span>
+            <div class="selpro">
+              <input type="text" id="selectPm" readonly="readonly" placeholder="请选择规格">
+              <i class="arrow"></i>
+            </div>
+          </li>
+        </ul>
+        <div class="wx_lookinto_btn" onclick="start()"><a>开始</a></div>
+      </div>
+    </section>
+  </article>
+  <% include ../../_foot.html %>
+  <script id="specTemplate" type="text/html">
+  <div id="specificationPopup" class="spec__wrap weui-popup-container popup-bottom">
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal">
+      <div class="spec__header">
+        <span id="specClearAll">清空</span>
+        <h3>请选择规格</h3>
+        <span onclick="$.closePopup()">确定</span>
+      </div>
+      <div class="spec__content">
+        {{each list as item i}}
+        <div class="weui_cells weui_cells_checkbox">
+          <label class="weui_cell weui_check_label" for="s{{i}}">
+            <div class="weui_cell_bd weui_cell_primary">
+              <p>{{item.label}}<br/>{{item.groupId}}</p>
+              <div class="weui_cell_hd">
+                <input value="{{item.value}}" label="{{item.label}}" group-id="{{item.groupId}}" type="checkbox" class="weui_check" name="checkbox1" id="s{{i}}">
+                <i class="weui_icon_checked"></i>
+              </div>
+            </div>
+          </label>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  </script>
+  <script src="../customer/startNewQuestion.js"></script>
+</body>
+
+</html>

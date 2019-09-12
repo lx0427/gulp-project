@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="orl_title">收藏夹</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+        .wx_main {
+            bottom: 0px;
+            top: 99px;
+        }
+
+        .formtil_a li:nth-child(1),
+        .tab_a tr td:nth-child(1) {
+            width: 20%;
+        }
+
+        .formtil_a li:nth-child(2),
+        .tab_a tr td:nth-child(2) {
+            width: 20%;
+        }
+
+        .formtil_a li:nth-child(3),
+        .tab_a tr td:nth-child(3) {
+            width: 15%;
+        }
+
+        .formtil_a li:nth-child(4),
+        .tab_a tr td:nth-child(4) {
+            width: 15%;
+        }
+
+        .formtil_a li:nth-child(5),
+        .tab_a tr td:nth-child(5) {
+            width: 15%;
+        }
+
+        .formtil_a li:nth-child(6),
+        .tab_a tr td:nth-child(6) {
+            width: 15%;
+        }
+
+        .formtil_b li:nth-child(1),
+        .tab_b tr td:nth-child(1),
+        .formtil_b li:nth-child(2),
+        .tab_b tr td:nth-child(2),
+
+        .formtil_b li:nth-child(5),
+        .tab_b tr td:nth-child(5) {
+            width: 14%;
+        }
+
+        .formtil_b li:nth-child(3),
+        .tab_b tr td:nth-child(3) {
+            width: 10%;
+        }
+
+        .formtil_b li:nth-child(4),
+        .tab_b tr td:nth-child(4) {
+            width: 24%;
+        }
+
+        .formtil_b li:nth-child(6),
+        .tab_b tr td:nth-child(6) {
+            width: 15%;
+        }
+
+        .formtil_c li:nth-child(1),
+        .tab_c tr td:nth-child(1) {
+            width: 20%;
+        }
+
+        .formtil_c li:nth-child(2),
+        .tab_c tr td:nth-child(2) {
+            width: 20%;
+        }
+
+        .formtil_c li:nth-child(3),
+        .tab_c tr td:nth-child(3) {
+            width: 20%;
+        }
+
+        .formtil_c li:nth-child(4),
+        .tab_c tr td:nth-child(4) {
+            width: 20%;
+        }
+
+        .formtil_c li:nth-child(5),
+        .tab_c tr td:nth-child(5) {
+            width: 20%;
+        }
+
+        .xdlx {
+            padding-right: 10px !important;
+        }
+
+        .xdlx em {
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #333;
+            display: block;
+            float: right;
+            font-size: 1.4rem;
+            height: 26px;
+            line-height: 24px;
+            margin-left: 10px;
+            text-align: center;
+            width: 70px;
+        }
+
+        .xdlx em.current {
+            background: #fe9311;
+            border: medium none;
+            color: #fff;
+            line-height: 26px;
+        }
+
+        .wx_btntwo {
+            padding-left: 0;
+            border-top: solid #3e7baf 1px;
+        }
+
+        .wx_btntwo .btntwo li.gwc {
+            background-color: #ebebeb;
+            color: #3e7baf;
+        }
+
+
+        .wx_formmes tr td.xbuy span {
+            border: #fe9311 1px solid;
+        }
+
+        .wx_formmes tr td.current span {
+            background: #fe9311;
+        }
+
+        .wx_formmes tr td.current span i {
+            color: #fff;
+        }
+
+        .hy_xxsb {
+            background: #3e7baf;
+            background-size: 100% 100%;
+        }
+
+        .hy_xxsb .xxsb_list span {
+            height: 30px;
+            border: 1px solid #bcbcbc;
+            border-radius: 3px;
+            color: #f8f8f8;
+            text-align: center;
+            line-height: 28px;
+            font-size: 1.4rem;
+        }
+
+        .resourcelist li .buybtn {
+            width: 63px;
+            height: 21px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            position: absolute;
+            right: 10px;
+            top: 70%;
+            margin-top: -12px;
+            line-height: 1.5rem;
+        }
+
+        .resourcelist .current i:before {
+            content: "\e62b";
+            color: #3e7baf;
+        }
+
+        .wx_ziyfilter {
+            top: 60px;
+            height: 18px;
+        }
+
+        .pulldown .middlenav,
+        .wx_opacity2,
+        .wx_pulldownbox2 {
+            top: 99px;
+        }
+
+        .wx_ziyfilter li .xl {
+            width: 16px;
+            height: 8px;
+            background-size: 137% 150%;
+            margin-left: 6px;
+            margin-top: 8px;
+        }
+
+        .xxl {
+            font-size: 14px;
+            padding-left: 2px;
+        }
+
+        .ordermes li .status {
+            font-size: 1.6rem;
+            font-weight: bold;
+            line-height: 25px;
+            color: #fe9311;
+            position: absolute;
+            right: 0;
+            top: 10px;
+        }
+
+        .orderbtn li {
+            float: right;
+            height: 28px;
+            font-size: 1.6rem;
+            line-height: 28px;
+            color: #fff;
+            background: #3e7baf;
+            padding: 0 16px;
+            border-radius: 6px;
+            font-weight: 550;
+            margin-left: 10px;
+            border: 0px;
+        }
+
+        .ordermes li .status span {
+            font-size: 2.2rem;
+            font-weight: bold;
+            line-height: 25px;
+            color: #fe9311;
+            right: 0;
+            top: 10px;
+        }
+
+        .wx_hyordermesbox .ordermesbox {
+            padding: 0 10px;
+            padding-top: 20px;
+        }
+
+        .time .total {
+            font-size: 1.4rem;
+            line-height: 44px;
+            color: #333;
+            position: relative;
+            top: 0;
+            right: 0;
+        }
+
+        .orderDisplay {
+            display: block;
+        }
+
+        .orderDisplayNone {
+            display: none;
+        }
+
+        .ordermes li .size {
+            font-size: 1.3rem;
+            line-height: 22px;
+            color: #999;
+        }
+
+        .hy_xxsb .xxsb_listl {
+            width: 50%;
+            float: left;
+            padding: 0 25px 0 75px;
+            box-sizing: border-box;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .hy_xxsb .xxsb_listr {
+            width: 50%;
+            float: left;
+            padding: 0 75px 0 25px;
+            box-sizing: border-box;
+            display: block;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="wx_ssjgsite wx_ssjgsite1" style="z-index:89">
+        <ul class="hy_xxsb">
+            <li class="xxsb_list xxsb_listl " onclick="openFavorites()"><span class="typeSpan" style="">我的收藏</span></li>
+            <li class="xxsb_list xxsb_listr xxsb_list_checked"><span class="typeSpan"
+                    style="background:#fff;color:#3e7baf">历史购买</span></li>
+        </ul>
+        <input type="hidden" id="openid" value="">
+        <input type="hidden" id="hydm" value="">
+        <input type="hidden" id="customerPlaceInfo" value="">
+    </header>
+    <article class="wx_layout">
+        <ul class="wx_ziyfilter">
+            <li id="pmtitle" onclick="showPmSelect()">品名<span class="xxl">▼</span></li>
+            <li id="datetitle" onclick="showDateSelect()" style="">时间<span class="xxl">▼</span></li>
+            <input type="hidden" id="pm" value="">
+            <input type="hidden" id="rqStart" value="">
+            <input type="hidden" id="rqEnd" value="">
+        </ul>
+        <section class="wx_main infinitePage" id="">
+            <div id="list"></div>
+        </section>
+    </article>
+
+    <div class="wx_pulldownbox2" style="display:none;">
+        <div class="pulldown">
+            <ul class="middlenav" id="xlsx3">
+            </ul>
+        </div>
+        <ul class="pullbtn">
+        </ul>
+    </div>
+    <!-- 查询时间选择页面 -->
+    <div id="datePage" style="width: 100%; height: 100%;z-index: 90;display: none;position: fixed;">
+        <div
+            style=" filter: Alpha(opacity=30); -moz-opacity: 0.3; opacity: 0.3; width: 100%; height: 100%; z-index: 55;position: fixed; left: 0; top: 0;  overflow: hidden; background-color: #000; display: block;">
+        </div>
+        <div class="wx_hypopbox" style="bottom: 40%;height: 138px;">
+            <div class="tit">按日期查询</div>
+            <div class="inner" style="height: 107px;">
+                <ul>
+                    <li>
+                        <label>选择时间:</label>
+                        <div class="fle timefle" style="display: block;">
+                            <input class="inp" type="" name="startTime" id="rqStart1" placeholder="开始日期">
+                            <span>-</span>
+                            <input class="inp" type="" name="endTime" id="rqEnd1" placeholder="结束日期">
+                        </div>
+                    </li>
+                    <li></li>
+                </ul>
+                <div class="btn">
+                    <a class="wx_hygreybtn" href="javaScript:;" onclick="doCancleDatePage()">取消</a>
+                    <a class="wx_hybluebtn" id="dateQueryTrue" style="pointer-events:auto;" href="javaScript:;"
+                        onclick="doDateQuery()">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_foot.html %>
+
+    <script src="../customer/historyBuying.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_hyordermesbox  {{if i>2}}orderDisplayNone{{/if}}">
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        <li>
+                            <p class="proname_a">
+                                {{value.pm}}
+                                <span class="perty_a">{{value.cz}}</span> {{if value.pm == "DTY"}}
+                                <span class="perty_a">{{value.nx}}</span>
+                                <span class="perty_a">{{value.sz}}</span> {{else if (value.pm == "切片" || value.pm == "锦纶切片")}}
+                                <span class="perty_a">{{value.gg}}</span>
+                                <span class="perty_a">{{value.cd}}</span> {{else}}
+                                <span class="perty_a">{{value.wzlb}}</span>
+                                <span class="perty_a">{{value.lbsm}}</span> {{/if}}
+                            </p>
+                            {{if (value.pm != "切片" && value.pm != "锦纶切片")}}
+                            <p class="size_a">{{value.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{value.cd}}</p>
+                            {{/if}}
+                            <p class="size">
+                            <span name="com_zl" class="i18n">箱包净重:</span>
+                    {{if value.packstr != null && value.packstr != ''}}
+                     {{if value.cd.indexOf("AA") == -1 || type != "DTY"}}
+                         {{value.packstr}}kg</dd>
+                        {{/if}}
+                    {{/if}}
+                        </p>
+                            <div class="status">
+                               ¥<span>{{value.price}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="time">
+                    <div class="total" style="
+    font-size: 1.6rem;">
+                            重量:{{value.kwmeng}}{{value.meins}}
+                        </div>
+                        <div class="total" style="position: absolute;padding-right: 30%;
+    font-size: 1.6rem;">
+                          箱包数:{{value.volum}}{{value.voleh}}
+                        </div>
+                    </div>
+                    <div class="time" style="padding-right: 0px">
+                    <div class="total" style="border-top:solid 1px #ddd;line-height: 30px;">
+                            备注:{{value.remark}}
+                        </div>
+                    </div>
+                    <ul class="orderbtn">
+                        <li onclick="buyAgain('{{value.hydm}}','{{value.mbname}}','{{value.matnr}}','{{value.vkorg}}','{{value.vtweg}}','{{isSalesman}}');" name="com_zlyd" class="i18n">再来一单</li>  
+                    </ul>
+                </div>
+            </div>
+            {{/each}}
+            {{if data!=null && data.length>3}}
+            <div class="wx_vaguebox" id="wx_vaguebox" style="position: relative;display: black;top: 0px;">
+            <p class="pt" style="padding-top: 2px;
+            padding-bottom: 8px;" onclick="showAll()">查看全部<span style="font-size: 1.8rem">▼</span></p>
+            </div>
+            {{/if}}
+        </script>
+    <script id="list_page2" type="text/html">
+            {{each data as value i}}
+            <div class="wx_hyordermesbox  ">
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        <li>
+                            <p class="proname_a">
+                                {{value.pm}}
+                                <span class="perty_a">{{value.cz}}</span> {{if value.pm == "DTY"}}
+                                <span class="perty_a">{{value.nx}}</span>
+                                <span class="perty_a">{{value.sz}}</span> {{else if (value.pm == "切片" || value.pm == "锦纶切片")}}
+                                <span class="perty_a">{{value.gg}}</span>
+                                <span class="perty_a">{{value.cd}}</span> {{else}}
+                                <span class="perty_a">{{value.wzlb}}</span>
+                                <span class="perty_a">{{value.lbsm}}</span> {{/if}}
+                            </p>
+                            {{if (value.pm != "切片" && value.pm != "锦纶切片")}}
+                            <p class="size_a">{{value.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{value.cd}}</p>
+                            {{/if}}
+                            <p class="size">
+                            <span name="com_zl" class="i18n">箱包净重:</span>
+                    {{if value.packstr != null && value.packstr != ''}}
+                     {{if value.cd.indexOf("AA") == -1 || type != "DTY"}}
+                         {{value.packstr}}kg</dd>
+                        {{/if}}
+                    {{/if}}
+                        </p>
+                            <div class="status">
+                               ¥<span>{{value.price}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="time">
+                    <div class="total" style="
+    font-size: 1.6rem;">
+                            重量:{{value.kwmeng}}{{value.meins}}
+                        </div>
+                        <div class="total" style="position: absolute;padding-right: 30%;
+    font-size: 1.6rem;">
+                          箱包数:{{value.volum}}{{value.voleh}}
+                        </div>
+                    </div>
+                    <div class="time" style="padding-right: 0px">
+                    <div class="total" style="border-top:solid 1px #ddd;line-height: 30px;">
+                            备注:{{value.remark}}
+                        </div>
+                    </div>
+                    <ul class="orderbtn">
+                        <li onclick="buyAgain('{{value.hydm}}','{{value.mbname}}','{{value.matnr}}','{{value.vkorg}}','{{value.vtweg}}','{{isSalesman}}');" name="com_zlyd" class="i18n">再来一单</li>  
+                    </ul>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+    <script id="pmlist_page" type="text/html">
+                <li onclick="pmSelect('品名','0');" id="pm0" name="pm0">不限</li>
+                <li onclick="pmSelect('DTY','1');" id="pm1" name="pm1">DTY</li>
+                <li onclick="pmSelect('POY','2');" id="pm2" name="pm2">POY</li>
+                <li onclick="pmSelect('FDY','3');" id="pm3" name="pm3">FDY</li>
+                <li onclick="pmSelect('切片','4');" id="pm4" name="pm4"><span class="i18n" name="rl_tlqp">切片</span></li>
+                <li onclick="pmSelect('锦纶切片','5');" id="pm5" name="pm5"><span class="i18n" name="rl_jlqp">锦纶切片</span></li>
+                <li onclick="pmSelect('短纤','6');" id="pm6" name="pm6"><span class="i18n" name="rl_duanq">短纤</span></li>
+                <li onclick="pmSelect('差异化','7');" id="pm7" name="pm7"><span class="i18n" name="rl_duanq">差异化</span></li>
+            </script>
+
+    <script id="datelist_page" type="text/html">
+                <li onclick="dateSelect('时间','0');" id="date0" name="date0">不限</li>
+                <li onclick="dateSelect('近一周','1');" id="date1" name="date1">近一周</li>
+                <li onclick="dateSelect('近一个月','2');" id="date2" name="date2">近一个月</li>
+                <li onclick="dateSelect('近三个月','3');" id="date3" name="date3">近三个月</li>
+                <li onclick="dateSelect('更多','4');" id="date4" name="date4">更多</li>
+            </script>
+</body>
+
+</html>

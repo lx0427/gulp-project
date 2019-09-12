@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_wldygxbj">物料对应关系编辑</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" style="bottom: 50px;">
+            <input type="hidden" id="wxOpenid" value="" />
+            <div class="wx_addsitebox">
+
+                <div class="commontype1">
+                    <span class="i18n" name="sd_pm">品名</span>
+                    <input type="text" placeholder="请选择产品" id="pm1" name="sm_qxzcp" class="hynewlytext i18n_ph" />
+                    <input type="hidden" id="pm" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+
+                <div class="commontype">
+                    <span class="i18n" name="sd_gg">规格</span>
+                    <input type="text" placeholder="请输入规格" id="sapGg" name="sm_qsrgg" class="i18n_ph" />
+                    <input type="hidden" id="pkid" />
+                </div>
+                <div class="commontype">
+                    <span class="i18n" name="sd_ph">批号</span>
+                    <input class="i18n" name="sm_qsrph" type="text" placeholder="请输入批号" id="cz" />
+                </div>
+
+                <div class="commontype" id="denier1">
+                    <span class="i18n" name="sm_ds">旦数</span>
+                    <input class="i18n" name="sm_qsrds" type="text" placeholder="请输入旦数" id="denier" />
+                </div>
+
+                <div class="commontype" id="typ1">
+                    <span class="i18n" name="sm_lxx">类型</span>
+                    <input class="i18n" name="sm_qsrlxx" type="text" placeholder="请输入类型" id="typ" />
+                </div>
+
+                <div class="commontype" id="szcode1">
+                    <span class="i18n" name="sm_sz">纱种</span>
+                    <input type="text" placeholder="请输入纱种" id="szcode" class="i18n_ph" name="sm_qsrsz" />
+                </div>
+
+                <div class="commontype" id="sz1">
+                    <span class="i18n" name="sm_dysz">对应纱种</span>
+                    <input class="i18n" name="sm_qsrdysz" type="text" placeholder="请输入对应纱种" id="sz" />
+                </div>
+
+                <div class="commontype" id="singleWeight1">
+                    <span class="i18n" name="sm_dsjz">单丝净重</span>
+                    <input class="i18n" name="sm_qsrdsjz" type="number" placeholder="请输入单丝净重" id="singleWeight" />
+                </div>
+
+                <div class="commontype" id="bagWeight1">
+                    <span class="i18n" name="sm_xbjz">箱包净重</span>
+                    <input class="i18n" name="sm_qsrxbjz" type="text" placeholder="请输入箱包净重" id="bagWeight" />
+                </div>
+
+                <div class="commontype">
+                    <span class="i18n" name="sm_sm">说明</span>
+                    <input class="i18n" name="sm_qsrsm" type="text" placeholder="请输入说明" id="remark" />
+                </div>
+
+
+            </div>
+        </section>
+    </article>
+    <footer class="wx_btnnew">
+        <div onclick="doEdit();" class="i18n" name="ui_save">保存</div>
+    </footer>
+    <% include ../../_foot.html %>
+    <script src="../salesman/materialEdit.js"></script>
+    <script src="../../js/md5.min.js"></script>
+</body>
+
+</html>

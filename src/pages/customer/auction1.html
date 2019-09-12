@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title name="act_title">限时竞拍</title>
+  <% include ../../components/_head.art %>
+  <style>
+    .wx_main {
+      top: 0px;
+    }
+
+    .wx_myfocus {
+      margin-top: 0px;
+    }
+
+    .wx_auctionbd li .btn {
+      width: 70px;
+    }
+
+    .ms_list li .sale_price {
+      float: left;
+      font-size: 1.2rem;
+      line-height: 32px;
+    }
+
+    .ms_list li .txt {
+      float: left;
+      line-height: 35px;
+      font-size: 62.5%;
+    }
+
+    .ms_list li .bot {
+      padding: 6px 71px 6px 0;
+    }
+
+    .wx_auctionbd .botbtn a {
+      position: absolute;
+      right: 0;
+      margin-top: -14px;
+      margin-right: 6%;
+      width: 70px;
+      height: 28px;
+      line-height: 28px;
+      background: #ff3c00;
+      color: #fff;
+      font-size: 1.6rem;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .wx_auctionbd li dt .money .shanchu span {
+      font-size: 1.4rem;
+      color: #333;
+    }
+
+    .shanchu {
+      text-decoration: line-through;
+      color: #ff3c00;
+    }
+
+    .wx_auctionbd li dt .money .shanchu em {
+      font-size: 1.4rem;
+      color: #333;
+    }
+
+    .ms_djs .ms_djs_line {
+      width: 100%;
+      height: 1px;
+      background: #ddd;
+      border: none;
+      position: absolute;
+      left: 0;
+      top: 22px;
+      z-index: 99;
+    }
+
+    .ms_djs .span1 {
+      display: inline-block;
+      font-size: 1.3rem;
+      color: #666;
+      padding: 0 10px;
+      position: absolute;
+      left: 154px;
+      top: 1px;
+      line-height: 44px;
+      background: #efeff1;
+      z-index: 999;
+      margin-left: -75px;
+    }
+
+    .ms_djs .span2 {
+      display: inline-block;
+      font-size: 1.3rem;
+      color: #666;
+      padding: 0 10px;
+      position: absolute;
+      left: 230px;
+      top: 1px;
+      line-height: 44px;
+      background: #efeff1;
+      z-index: 999;
+      margin-left: -75px;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout">
+    <div class="rule" style="display: none;">
+      <div class="rule_bg">
+        <p class="rule_title" id="rulename"><span name="act_yhgz" class="i18n">优惠规则</span></p>
+        <p class="rule_detail" id="exDiscountRulesList"></p>
+        <p class="rule_close"><span name="act_shutdown" class="i18n">关闭</span></p>
+      </div>
+    </div>
+    <div class="wx_prompt rule11" style="display: none;">
+      <h2>您还不具备竞拍资格，是否申请？</h2>
+      <div class="bd">
+        <div class="btnarea"><a class="operbtn" onclick="showRule22()">立刻申请</a><a class="operbtn"
+            onclick="doCancel()">再想想</a></div>
+      </div>
+    </div>
+    <div class="wx_prompt rule15" style="display: none;">
+      <h2>很抱歉，您的申请未通过</h2>
+      <p>原因：没有缴纳保证金，请尽快缴纳保证金（具体缴纳方式参考申请页面文字说明）。</p>
+      <div class="bd">
+        <div class="btnarea"><a class="operbtn" onclick="doOk()">我已缴纳</a><a class="operbtn" onclick="doCancel()">再想想</a>
+        </div>
+      </div>
+    </div>
+    <div class="wx_prompt rule22" style="display: none;">
+      <h2>申请竞拍资格</h2>
+      <div class="bd">
+        <div class="cont">
+          <h3 class="c3e7caf"><i class="iconfont">&#xeab1;</i>申请竞拍资格需缴纳5000元保证金</h3>
+          <p>1、押金缴纳方式：提交申请后，请及时将5000元汇入恒逸石化销售公司账户，我们会将其冻结；</p>
+          <p>2、押金使用说明：缴纳押金后，即可参与微商城竞拍，直至押金解冻；</p>
+          <p>3、押金不可抵用货款；且如果拍中后悔单，没收5000元保证金，且1个月内无法参与竞拍；</p>
+          <p>4、押金解冻说明：联系业务员，让其安排解冻，解冻后，便无法参与竞拍，如想再次竞拍，重新缴纳押金即可。</p>
+        </div>
+        <div class="btnarea"><a class="operbtn" onclick="doOk()">提交申请</a></div>
+      </div>
+    </div>
+
+
+    <section class="wx_main" id="infinitePage">
+      <div id="list"></div>
+    </section>
+  </article>
+  <% include ../../_foot.html %>
+  <script src="../../js/oauth2.min.js"></script>
+  <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script>
+    $(function () {
+      wxconfig();
+    });
+  </script>
+
+  <script src="../customer/auction1.js"></script>
+  <script id="auction_page" type="text/html">
+            {{each data as value i}}
+                <div class="ms_top wx_auction" style="height: 75px;">
+                  <dl class="top" >
+                    <dt>限时竞拍</dt>
+                    <dd>{{value.auctionName}}</dd>
+                    <dd style="padding-top: 5px;"><span style="background: #fff;color: #333;border-radius: 5px;padding: 0 5px;">供货商：{{value.str04}}</span></dd>
+                  </dl>
+                  <i class="ask iconfont" onclick="showrule2('{{value.biddingRules}}')">&#xe72a;</i>
+                </div>
+                <div class="ms_djs">
+                     <p class="ms_djs_line"></p>
+                 {{if value.status == 1}} {{if value.startTimeStr }}
+                            <span id="title_{{value.pkid}}" name="act_starttime" class="span1 i18n">开始倒计时</span>
+                            <input type="hidden" class="time" pid="{{value.pkid}}" id="{{value.pkid}}" value="{{value.startTimeStr}}">
+                            <input type="hidden" id="endMs_{{value.pkid}}" value="{{value.endTimeStr}}" /> {{else}}
+                            <span id="title_{{value.pkid}}" name="act_endtime" class="span1 i18n">结束倒计时</span>
+                            <input type="hidden" class="time" id="{{value.pkid}}" value="{{value.endTimeStr}}"> {{/if}}
+                            <span class="span2 size_time" id="time_{{value.pkid}}">
+           00天00时00分00秒</span> {{else}}
+                             {{/if}}
+                         </div>
+                {{each value.mxList as mx j}} 
+				{{if mx.flag01==1 && j==0 }} 
+
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>{{mx.pm}}</span></h2>
+                    <ul>
+                  {{each value.mxList as mxf f}} 
+                {{if mxf.flag01==1 }} 
+               <li>
+                <dl>
+                  <dt><a href="#"><em>{{mxf.pm}}</em> {{mxf.cz}}  {{if mxf.pm == "DTY"}}
+                            {{mxf.str02}}
+                            {{mxf.str03}} {{else}}
+                            {{mxf.wzlb}}{{if mxf.str04 != null}}
+                            {{mxf.str04}}{{/if}} {{if mxf.str02 != null}}
+                            {{mxf.str02}}{{/if}} {{/if}}</a>
+                                    {{if mxf.price01}}
+                            <div class="money"><span class="shanchu"><span>原价：¥</span><em>{{mxf.price01}}</em></span></div>
+                            {{/if}}
+                  </dt>
+                  <dd> {{if (mxf.pm != "切片" && mxf.pm != "锦纶切片")}} {{mxf.gg}}{{/if}}<span>|</span>{{mxf.cd}} <span>|</span>{{if mxf.differentiation != null&&mxf.differentiation==1}}
+                        <span>|</span>差异化{{/if}} 
+                  {{if mxf.totalDiscount }}箱包总数{{mxf.totalDiscount}}包
+                        {{/if}} {{if mxf.totalWeight }}
+                       箱包净重{{mxf.totalWeight}}kg
+                        {{/if}}
+                  </dd>
+                </dl>
+                <div class="bot">
+                  <div class="sale_price">当前拍卖单价：<span>¥</span><em>{{if mxf.price03 }}{{mxf.price03}} {{else}}{{mxf.startingPrice}} {{/if}}</em></div>
+                  <div class="txt">加价幅度{{mxf.increasePrice}}元/次</div>
+                </div>
+              </li>
+                   {{/if}}
+                {{/each}}
+                    </ul>
+                </div>
+                <div class="botbtn" style="height: 10px;">
+				       {{if value.status ==1}}
+                            {{if mx.startMs }}
+                            <a href="#"  id="btn_{{mx.pkid}}" style="background: #a2a0a0;" >静等开拍</a>
+                            {{else}}
+                           <a href="#"  id="btn_{{mx.pkid}}" onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>  {{/if}}
+                        {{else}}
+                            <a href="#"  name="act_yjs" style="background: #a2a0a0;" >已结束</a>
+                        {{/if}} 
+                    </div>
+                    </div>
+                    {{/if}}
+                {{/each}}
+                {{if value.poy == 1 }}
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>POY</span></h2>
+                    <ul>
+                        {{each value.mxList as mx f}}
+                        {{if mx.pm == "POY" && mx.flag01!=1}}
+                       <li>
+                        <dl>
+                          <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}}  {{if mx.pm == "DTY"}}
+                                    {{mx.str02}}
+                                    {{mx.str03}} {{else}}
+                                    {{mx.wzlb}}{{if mx.str04 != null}}
+                                    {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                                    {{mx.str02}}{{/if}} {{/if}}</a>
+                                    {{if mx.price01}}
+                                    <div class="money"><spam class="shanchu"><span>原价：¥</span><em>{{mx.price01}}</em></spam></div>
+                                    {{/if}}
+                          </dt>
+                          <dd> {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}<span>|</span>{{/if}}{{mx.cd}} <span>|</span>{{if mx.differentiation != null&&mx.differentiation==1}}
+                                差异化<span>|</span>{{/if}} 
+                          {{if mx.totalDiscount }}箱包总数{{mx.totalDiscount}}包
+                                {{/if}} {{if mx.totalWeight }}
+                               箱包净重{{mx.totalWeight}}kg
+                                {{/if}}
+                          </dd>
+                        </dl>
+                        <div class="bot">
+                          <div class="sale_price">当前拍卖单价：<span>￥</span><em>{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em></div>
+                          <div class="txt">加价幅度{{mx.increasePrice}}元/次</div>
+                          {{if value.status ==1}}
+                                {{if mx.startMs }}
+                                    <a href="#" class="btn" id="btn_{{mx.pkid}}" style="background: #a2a0a0;">静等开拍</a>
+                                {{else}}
+                                   <a href="#" class="btn"  id="btn_{{mx.pkid}}"  onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>
+                                {{/if}}
+                            {{else}}
+                                    <a href="#" class="btn" name="act_yjs" style="background: #a2a0a0;">已结束</a>
+                            {{/if}} 
+                        </div>
+                       </li>
+                       {{/if}}
+                       {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                {{/if}}
+                {{if value.dty == 1 }}
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>DTY</span></h2>
+                    <ul>
+                        {{each value.mxList as mx f}}
+                        {{if mx.pm == "DTY" && mx.flag01!=1}}
+                       <li>
+                        <dl>
+                          <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}}  {{if mx.pm == "DTY"}}
+                                    {{mx.str02}}
+                                    {{mx.str03}} {{else}}
+                                    {{mx.wzlb}}{{if mx.str04 != null}}
+                                    {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                                    {{mx.str02}}{{/if}} {{/if}}</a>
+                                    {{if mx.price01}}
+                                    <div class="money"><spam class="shanchu"><span>原价：¥</span><em>{{mx.price01}}</em></spam></div>
+                                    {{/if}}
+                          </dt>
+                          <dd> {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}<span>|</span>{{/if}}{{mx.cd}} <span>|</span>{{if mx.differentiation != null&&mx.differentiation==1}}
+                                差异化<span>|</span>{{/if}} 
+                          {{if mx.totalDiscount }}箱包总数{{mx.totalDiscount}}包
+                                {{/if}} {{if mx.totalWeight }}
+                               箱包净重{{mx.totalWeight}}kg
+                                {{/if}}
+                          </dd>
+                        </dl>
+                        <div class="bot">
+                          <div class="sale_price">当前拍卖单价：<span>￥</span><em>{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em></div>
+                          <div class="txt">加价幅度{{mx.increasePrice}}元/次</div>
+                          {{if value.status ==1}}
+                                {{if mx.startMs }}
+                                    <a href="#" class="btn" id="btn_{{mx.pkid}}" style="background: #a2a0a0;">静等开拍</a>
+                                {{else}}
+                                   <a href="#" class="btn"  id="btn_{{mx.pkid}}"  onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>
+                                {{/if}}
+                            {{else}}
+                                    <a href="#" class="btn" name="act_yjs" style="background: #a2a0a0;">已结束</a>
+                            {{/if}} 
+                        </div>
+                       </li>
+                       {{/if}}
+                       {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                {{/if}}
+                {{if value.fdy == 1 }}
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>FDY</span></h2>
+                    <ul>
+                        {{each value.mxList as mx f}}
+                        {{if mx.pm == "FDY" && mx.flag01!=1}}
+                       <li>
+                        <dl>
+                          <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}}  {{if mx.pm == "DTY"}}
+                                    {{mx.str02}}
+                                    {{mx.str03}} {{else}}
+                                    {{mx.wzlb}}{{if mx.str04 != null}}
+                                    {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                                    {{mx.str02}}{{/if}} {{/if}}</a>
+
+                                    {{if mx.price01}}
+                                    <div class="money"><spam class="shanchu"><span>原价：¥</span><em>{{mx.price01}}</em></spam></div>
+                                    {{/if}}
+                          </dt>
+                          <dd> {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}<span>|</span>{{/if}}{{mx.cd}} <span>|</span>{{if mx.differentiation != null&&mx.differentiation==1}}
+                                差异化<span>|</span>{{/if}} 
+                          {{if mx.totalDiscount }}箱包总数{{mx.totalDiscount}}包
+                                {{/if}} {{if mx.totalWeight }}
+                               箱包净重{{mx.totalWeight}}kg
+                                {{/if}}
+                          </dd>
+                        </dl>
+                        <div class="bot">
+                          <div class="sale_price">当前拍卖单价：<span>￥</span><em>{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em></div>
+                          <div class="txt">加价幅度{{mx.increasePrice}}元/次</div>
+                          {{if value.status ==1}}
+                                {{if mx.startMs }}
+                                    <a href="#" class="btn" id="btn_{{mx.pkid}}" style="background: #a2a0a0;">静等开拍</a>
+                                {{else}}
+                                   <a href="#" class="btn"  id="btn_{{mx.pkid}}"  onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>
+                                {{/if}}
+                            {{else}}
+                                    <a href="#" class="btn" name="act_yjs" style="background: #a2a0a0;">已结束</a>
+                            {{/if}} 
+                        </div>
+                       </li>
+                       {{/if}}
+                       {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                {{/if}}
+                {{if value.qiepian == 1 }}
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>切片</span></h2>
+                    <ul>
+                        {{each value.mxList as mx f}}
+                        {{if mx.pm == "切片" && mx.flag01!=1}}
+                       <li>
+                        <dl>
+                          <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}}  {{if mx.pm == "DTY"}}
+                                    {{mx.str02}}
+                                    {{mx.str03}} {{else}}
+                                    {{mx.wzlb}}{{if mx.str04 != null}}
+                                    {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                                    {{mx.str02}}{{/if}} {{/if}}</a>
+                                    {{if mx.price01}}
+                                    <div class="money"><spam class="shanchu"><span>原价：¥</span><em>{{mx.price01}}</em></spam></div>
+                                    {{/if}}
+                          </dt>
+                          <dd> {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}<span>|</span>{{/if}}{{mx.cd}} <span>|</span>{{if mx.differentiation != null&&mx.differentiation==1}}
+                               差异化 <span>|</span>{{/if}} 
+                          {{if mx.totalDiscount }}箱包总数{{mx.totalDiscount}}包
+                                {{/if}} {{if mx.totalWeight }}
+                               箱包净重{{mx.totalWeight}}kg
+                                {{/if}}
+                          </dd>
+                        </dl>
+                        <div class="bot">
+                          <div class="sale_price">当前拍卖单价：<span>￥</span><em>{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em></div>
+                          <div class="txt">加价幅度{{mx.increasePrice}}元/次</div>
+                          {{if value.status ==1}}
+                                {{if mx.startMs }}
+                                    <a href="#" class="btn" id="btn_{{mx.pkid}}" style="background: #a2a0a0;">静等开拍</a>
+                                {{else}}
+                                   <a href="#" class="btn"  id="btn_{{mx.pkid}}"  onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>
+                                {{/if}}
+                            {{else}}
+                                    <a href="#" class="btn" name="act_yjs" style="background: #a2a0a0;">已结束</a>
+                            {{/if}} 
+                        </div>
+                       </li>
+                       {{/if}}
+                       {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                {{/if}}
+                {{if value.jinlun == 1 }}
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>锦纶切片</span></h2>
+                    <ul>
+                        {{each value.mxList as mx f}}
+                        {{if mx.pm == "锦纶切片" && mx.flag01!=1}}
+                       <li>
+                        <dl>
+                          <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}}  {{if mx.pm == "DTY"}}
+                                    {{mx.str02}}
+                                    {{mx.str03}} {{else}}
+                                    {{mx.wzlb}}{{if mx.str04 != null}}
+                                    {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                                    {{mx.str02}}{{/if}} {{/if}}</a>
+                                    {{if mx.price01}}
+                                    <div class="money"><spam class="shanchu"><span>原价：¥</span><em>{{mx.price01}}</em></spam></div>
+                                    {{/if}}
+                          </dt>
+                          <dd> {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}<span>|</span>{{/if}}{{mx.cd}} <span>|</span>{{if mx.differentiation != null&&mx.differentiation==1}}
+                                差异化<span>|</span>{{/if}} 
+                          {{if mx.totalDiscount }}箱包总数{{mx.totalDiscount}}包
+                                {{/if}} {{if mx.totalWeight }}
+                               箱包净重{{mx.totalWeight}}kg
+                                {{/if}}
+                          </dd>
+                        </dl>
+                        <div class="bot">
+                          <div class="sale_price">当前拍卖单价：<span>￥</span><em>{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em></div>
+                          <div class="txt">加价幅度{{mx.increasePrice}}元/次</div>
+                          {{if value.status ==1}}
+                                {{if mx.startMs }}
+                                    <a href="#" class="btn" id="btn_{{mx.pkid}}" style="background: #a2a0a0;">静等开拍</a>
+                                {{else}}
+                                   <a href="#" class="btn"  id="btn_{{mx.pkid}}"  onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>
+                                {{/if}}
+                            {{else}}
+                                    <a href="#" class="btn" name="act_yjs" style="background: #a2a0a0;">已结束</a>
+                            {{/if}} 
+                        </div>
+                       </li>
+                       {{/if}}
+                       {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                {{/if}}
+                {{if value.duanxian == 1 }}
+                <div class="ms_list wx_xsg wx_auctionbd">
+                  <div class="item">
+                    <h2><span>短纤</span></h2>
+                    <ul>
+                        {{each value.mxList as mx f}}
+                        {{if mx.pm == "短纤" && mx.flag01!=1}}
+                       <li>
+                        <dl>
+                          <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}}  {{if mx.pm == "DTY"}}
+                                    {{mx.str02}}
+                                    {{mx.str03}} {{else}}
+                                    {{mx.wzlb}}{{if mx.str04 != null}}
+                                    {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                                    {{mx.str02}}{{/if}} {{/if}}</a>
+                                    {{if mx.price01}}
+                                    <div class="money"><spam class="shanchu"><span>原价：¥</span><em>{{mx.price01}}</em></spam></div>
+                                    {{/if}}
+                          </dt>
+                          <dd> {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}<span>|</span>{{/if}}{{mx.cd}} <span>|</span>{{if mx.differentiation != null&&mx.differentiation==1}}
+                                差异化<span>|</span>{{/if}} 
+                          {{if mx.totalDiscount }}箱包总数{{mx.totalDiscount}}包
+                                {{/if}} {{if mx.totalWeight }}
+                               箱包净重{{mx.totalWeight}}kg
+                                {{/if}}
+                          </dd>
+                        </dl>
+                        <div class="bot">
+                          <div class="sale_price">当前拍卖单价：<span>￥</span><em>{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em></div>
+                          <div class="txt">加价幅度{{mx.increasePrice}}元/次</div>
+                          {{if value.status ==1}}
+                                {{if mx.startMs }}
+                                    <a href="#" class="btn" id="btn_{{mx.pkid}}" style="background: #a2a0a0;">静等开拍</a>
+                                {{else}}
+                                   <a href="#" class="btn"  id="btn_{{mx.pkid}}"  onclick="doAuction('{{value.pkid}}', '{{mx.pkid}}','{{mx.flag01}}','{{value.flag03}}')">出价</a>
+                                {{/if}}
+                            {{else}}
+                                    <a href="#" class="btn" name="act_yjs" style="background: #a2a0a0;">已结束</a>
+                            {{/if}} 
+                        </div>
+                       </li>
+                       {{/if}}
+                       {{/each}}
+                    </ul>
+                  </div>
+                </div>
+                {{/if}}
+              {{/each}}  
+        </script>
+</body>
+
+</html>

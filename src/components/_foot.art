@@ -1,3 +1,62 @@
-<script src="@/assets/lib/jquery.js"></script>
-<script src="@/assets/lib/art-template.js"></script>
-<script src="@/assets/js/common.js"></script>
+<script id="noData" type="text/html">
+    <div id="hyNoData" class="hy__noData"><img src="../../images/zwt.png"></div>
+</script>
+<script src="../../lib/jquery-2.1.4.min.js"></script>
+<script src="../../lib/fastclick.min.js"></script>
+<script>
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="../../lib/jquery-weui.min.js"></script>
+<script src="../../js/gui.min.js"></script>
+<script src="../../js/common.min.js"></script>
+<script src="../../lib/template.min.js"></script>
+<script src="../../js/app.min.js"></script>
+<script src="../../js/custom.min.js"></script>
+<script src="../../lib/jquery.i18n.properties.js"></script>
+<script src="../../js/language.min.js"></script>
+<script type="text/javascript">
+    // 处理分页
+    $(function () {
+        if ($("#infinitePage").length !== 0) {
+            if ($(".weui-infinite-scroll").length === 0) {
+                var appendHtml = "<div class='weui-infinite-scroll'>";
+                appendHtml += "<div class='infinite-preloader'></div>";
+                appendHtml += "正在加载";
+                appendHtml += "</div>";
+                $("#infinitePage").append(appendHtml);
+            }
+            $('body').append(template('noData'))
+        }
+    });
+
+    $(function () {
+        // 统一处理页面请求参数，把请求参数放到页面的隐藏域里
+        handleRequestParams();
+    });
+
+    // 滚动加载,需要分页的地方id必须是infinitePage  //2019/1/31解决bug的时候发现上级元素中必须有个class是wx_main才能触发分页
+    $("#infinitePage").infinite().on("infinite", function () {
+        if (scrollLoading) {
+            return;
+        }
+        var pageIndex = $("#pageIndex").val(); // 当前页
+        var pageCount = $("#pageCount").val(); // 总页数
+        if (isNull(pageIndex) && isNull(pageCount)) {
+            // 不需要分页
+            $(".weui-infinite-scroll").hide();
+            return;
+        }
+        if (parseInt(pageIndex) >= parseInt(pageCount)) {
+            // 已经是最后一页了
+            $(".weui-infinite-scroll").hide();
+            return;
+        }
+
+        scrollLoading = true;
+        setTimeout(function () {
+            queryData();
+        }, 10);
+    });
+</script>

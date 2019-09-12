@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="col_title">站内信</title>
+    <% include ../../components/_head.art %>
+</head>
+<style>
+    .wx_main {
+        top: 46px;
+    }
+
+    .wx_searchbox .searchbg {
+        opacity: 1;
+        border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+        color: #3e7baf;
+    }
+
+    .xxzx_list_detail {
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        /** 将对象作为伸缩盒子模型显示 **/
+        -webkit-box-orient: vertical;
+        /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+        overflow: hidden;
+        /** 隐藏超出的内容 **/
+    }
+
+    .xxzx_tab {
+        z-index: 999;
+    }
+
+    .redpoint {
+        position: absolute;
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #d40202;
+        left: 2px;
+        top: 12px;
+        border-radius: 3px;
+    }
+</style>
+
+<body>
+    <article class="wx_layout">
+        <div class="xxzx_tab">
+            <span class="xxzx_tab1 xxzx_tab_checked" id="tab1" onclick="changeTab(1)">
+                <p id="redpoint1" class="redpoint"></p>&nbsp;&nbsp;通知消息
+            </span>
+            <span class="xxzx_tab2" id="tab2" onclick="changeTab(2)">
+                <p id="redpoint2" class="redpoint"></p>&nbsp;&nbsp;我的资产
+            </span>
+        </div>
+        <input type="hidden" id="pageIndex" value="" />
+        <section class="wx_main" id="infinitePag">
+            <ul class="xxzx_item" id="list">
+                <!-- <li class="xxzx_list">
+                <div class="xxzx_list_time"><span>2018.06.04 9:00</span></div>
+                <div class="xxzx_list_info">
+                <i class="iconfont icon-cha"></i>
+                <p class="xxzx_list_title">【活动推荐】寻找微商城最佳买主，大佬们都在参加<span></span></p>
+                <p class="xxzx_list_detail">微商城又一新活动出炉城又一新活动出炉城又一新活动出炉城又一新活动出炉城又一新活动出炉城又一新活动出炉城又一新活动出炉城又一新活动出炉城又一新活动出炉啦~寻找微商城最佳买主谁将是我们微商城首批最佳买主呢？谁将获得我们的1000元代金券呢？</p>
+                </div>
+            </li>
+            <li class="xxzx_list">
+                <div class="xxzx_list_time"><span>2018.06.04 9:00</span></div>
+                <div class="xxzx_list_info">
+                <i class="iconfont icon-cha"></i>
+                <p class="xxzx_list_title xxzx_list_title1">【下单提醒】您的订单已经下单成功</p>
+                <p class="xxzx_list_detail">恭喜你，您的订单已经下单成功，订单号为：5684555574232，货物将在2日内发出，请及时关注我们的物流信息。</p>
+                </div>
+            </li> -->
+            </ul>
+            <div id="lastLine" style="height:1px;"></div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/letterList.js"></script>
+</body>
+
+</html>

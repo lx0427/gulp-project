@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="hk_title">发货申请</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="main">
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/hksq.js"></script>
+    <script id="main_page" type="text/html">
+            <div class="wx_hyordermesbox">
+                <p class="ddnumber">
+                    {{contract.fphm}}
+                    <span>（{{contract.depname2}}）</span>
+                </p>
+               <ul class="wx_tasdelist">
+                {{each contract.mxlist as value i}}
+                {{if value.rzsl2 > 0}}
+                <li id="{{value.id.htxh}}">
+                    <input type="hidden" id="cfxx_{{value.id.htxh}}" value="{{value.circleId}}_{{value.hzdm}}_{{value.pm}}_{{value.depid}}_{{value.orderType}}_{{value.flag11}}" />
+                    <input type="hidden" id="gpls_{{value.id.htxh}}" value="{{value.gpls}}" />
+                    <input type="hidden" id="pm_{{value.id.htxh}}" value="{{value.pm}}" />
+                    <input type="hidden" id="cd_{{value.id.htxh}}" value="{{value.cd}}" />
+                    <input type="hidden" id="rzsl1_{{value.id.htxh}}" value="{{value.rzsl1}}" />
+                    <input type="hidden" id="rzsl2_{{value.id.htxh}}" value="{{value.rzsl2}}" />
+                    <input type="hidden" id="rzprice_{{value.id.htxh}}" value="{{value.price}}" />
+                    <div class="promes">
+                        <i class="iconfont icon-checkbox" onclick="doCheck('{{value.id.htxh}}');"></i>
+                        <p class="proname_a" onclick="doCheck('{{value.id.htxh}}');">
+                            {{value.pm}}
+                            <span class="perty_a">{{value.cz}}</span>
+                            {{if value.pm == "DTY"}}
+                                <span class="perty_a">{{value.str02}}</span>
+                                <span class="perty_a">{{value.str03}}</span>
+                            {{else}}
+                                <span class="perty_a">{{value.wzlb}}</span>
+                                {{if value.str04 != null}}
+                                    <span class="perty_a">{{value.str04}}</span>
+                                {{/if}}
+                                {{if value.str02 != null}}
+                                    <span class="perty_a">{{value.str02}}</span>
+                                {{/if}}
+                            {{/if}}
+                        </p>
+                        <p class="size_a" onclick="doCheck('{{value.id.htxh}}');"> 
+                            {{if (value.pm != "切片" && value.pm != "锦纶切片")}}
+                                {{value.gg}}&nbsp;&nbsp;&nbsp;
+                            {{/if}}
+                            {{value.cd}}
+                        </p>
+                        <div class="price_a">￥<em id="price_{{value.id.htxh}}">{{value.price}}</em></div>
+                          <p class="size_a">
+                               融资重量：{{value.rzsl2}}{{value.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;融资箱包数：{{value.rzsl1}}
+                                &nbsp;&nbsp;&nbsp;&nbsp;融资箱包净重：
+                               {{if value.packstr != null}}
+                                <span id="packstr_{{value.id.htxh}}">{{value.packstr}}</span>
+                               {{else}}
+                                  <span id="packstr_{{value.id.htxh}}"></span>不定重
+                               {{/if}}
+                            </p>
+                    </div>
+                    <dl class="fillbox">
+                        <dt class="zlbox"><span class="zl"><span class="i18n" name="hk_weight">重量</span>：</span>
+                        
+                            {{if (credit.flag1 == "1")}} <input id="sl02_{{value.id.htxh}}" type="number" placeholder="0.00" value="{{value.rzsl2}}" oninput="changeSl2('{{value.id.htxh}}');" /> {{/if}}
+                            {{if (credit.flag1 != "1")}}<input id="sl02_{{value.id.htxh}}" type="text" readonly placeholder="0.00" value="{{value.rzsl2}}"  />{{/if}}
+                            
+                            <span class="kg">kg</span></dt>
+                        <dt class="xbsbox"><span class="xbs"><span class="i18n" name="hk_xbs">箱包数：</span></span>
+                             {{if (credit.flag1 == "1")}} <input id="sl01_{{value.id.htxh}}" type="number" placeholder="0" value="{{value.rzsl1}}" oninput="changeSl1('{{value.id.htxh}}');" pm="{{value.pm}}" />{{/if}}
+                             {{if (credit.flag1 != "1")}}  <input id="sl01_{{value.id.htxh}}" type="text" readonly placeholder="0" value="{{value.rzs1}}" pm="{{value.pm}}" />{{/if}}
+                        </dt>
+                    </dl>                    
+                              
+                   
+                    <div class="selectbox notes">
+                    </div>
+                </li>
+                 {{/if}}
+                {{/each}}
+            </ul>
+            </div>
+            </div>
+             <ul class="sqrz_item">
+                <li class="jhway">
+                    <input type="hidden" id="jkhm" value=" {{jkqd.fphm}} " />
+                    <input type="hidden" id="hkamt1" value=" {{amt1}} " />
+                    <span class="i18n" name="sh_rzjgname">合同类型</span>               
+                    <em class="way current i18n" val="1" name="sh_khname">逸控代</em>
+                </li>
+                
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_rzjg" >融资机构</span>
+                    {{jkqd.shopname}} 
+                 </li>
+                 <li class="sqrz_list">
+                    <span class="i18n" name="hk_zje">订单总金额</span>
+                    <input type="hidden" id="jkamt3" value="{{jkqd.amt3}}"/>
+                    {{jkqd.amt3}} 元
+                </li>
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_rzje">融资金额</span>
+                    <input type="hidden" id="jkamt" value="{{jkqd.amt}}"/>
+                    {{jkqd.amt}} 元
+                </li>
+                <li class="sqrz_list">
+                    <span class="i18n" name="ythamt">已提货金额</span>
+                    <input type="hidden" id="ythamt" value="{{jkqd.amt5}}"/>
+                    {{jkqd.amt5}} 元
+                </li>
+                {{if jkqd.amt1 != null}}
+                    <li class="sqrz_list">
+                        <input type="hidden" id="yhamt" value="{{jkqd.amt1}}"/>
+                        <span class="i18n" name="hk_yhje">已还金额(不含保证金)</span>
+                        {{jkqd.amt1}} 元
+                    </li>
+                {{/if}}
+                {{if jkqd.amt4 != null}}
+                    <li class="sqrz_list">
+                        <input type="hidden" id="amt4" value="{{jkqd.amt4}}"/>
+                        <span class="i18n" name="hk_yhje">已还金额(含保证金)</span>
+                        {{jkqd.amt4}} 元
+                    </li>
+                {{/if}}
+                <li class="sqrz_list">
+                    <input type="hidden" id="brateAmt" value="{{jkqd.brateAmt}}"/>
+                    <input type="hidden" id="useamt" value="{{jkqd.amt2}}"/> 
+                    <span class="i18n" name="hk_bzjbl">保证金比例</span>
+                    {{jkqd.brate}}%
+                </li>
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_rzksrq">融资开始日期</span> 
+                    {{#getDate(jkqd.startDate,"yyyy-MM-dd")}}
+                </li>
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_zhhkrq">最后发货日期</span> 
+                    {{#getDate(jkqd.endDate,"yyyy-MM-dd")}}
+                </li>
+            </ul>
+         
+            <div class="sqrz_message" style="background: #fff;">
+                <p class="sqrz_label"><span>*</span> <span class="i18n" name="hk_tcxx">服务费费率</span> </p>
+                <table id="tcmxList" class="yhgz_table" border="0" cellpadding="0" cellspacing="1">
+                    <tr>
+                        <td><span class="i18n" name="hk_jkzq">借款周期(天)</span></td>
+                        <td><span class="i18n" name="hk_ll">利率(万分之)</span></td>
+                    </tr>
+                    {{each credit.creditTc.mxList as tcmx}}
+                    <tr>
+                        <td>{{tcmx.fromDays}} - {{tcmx.toDays}}</td>
+                        <td>{{tcmx.rate}}</td>
+                    </tr>
+                    {{/each}}                   
+                </table>
+            </div>
+            <ul class="sqrz_item">
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_bchkbj">本次提的货物总金额</span>
+                    <div class="price_a">
+                    <em id="goodsAmt" style="color: #fe9311;">
+                        
+                    </em>
+                    </div>
+                </li>
+
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_bchkbj">本次最低需付金额</span>
+                    <div class="price_a">
+                    <em id="totalAmt" style="color: #fe9311;">
+                        
+                    </em>
+                    </div>
+                </li>
+
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_bchkbj">本次实际付款金额</span>
+                   <!--  <div class="price_a">
+                   <input type="number" placeholder="请输入实际付款金额" id="realAmt" style="color: #fe9311;" name="realAmt">    
+                   </div> -->
+                    <div class="price_a">
+                    <em id="realAmt" style="color: #fe9311;" name="realAmt">
+                        
+                    </em>
+                    </div>
+                </li>
+
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_bchkbzj">本次提货使用保证金</span>
+                    <div class="price_a">
+                        <input type="hidden" id="bzjAmt" value=""/>
+                        <em id="bzj" style="color: #fe9311;">￥0</em>
+                </div>
+                </li>
+                <li class="sqrz_list">
+                    <span class="i18n" name="hk_lx">利息</span>
+                    <div class="price_a">
+                    <em style="color: #fe9311;">￥{{amt1}}</em></div>
+                </li>
+             
+            </ul>
+            <div class="weui_btn_area" style="margin-bottom: 30px;">
+                <a class="weui_btn" id="doSave" style="background:#3e7baf;" href="javascript:" onclick="doSave()"> <span class="i18n" name="hk_hksq">发货申请</span></a>
+            </div>
+        </script>
+    <script id="tcmxList_page" type="text/html">
+          <tr>
+              <td><span class="i18n" name="hk_jkzq">借款周期(天)</span></td>
+              <td><span class="i18n" name="hk_ll">利率(万分之)</span></td>
+          </tr>
+           {{each creditTc.mxList as tcmx}}
+            <tr>
+                <td>{{tcmx.fromDays}} - {{tcmx.toDays}}</td>
+                <td>{{tcmx.rate}}</td>
+            </tr>
+          {{/each}}
+        </script>
+</body>
+
+</html>

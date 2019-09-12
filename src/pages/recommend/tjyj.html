@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>推荐有奖</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_mainmesbox {
+      margin-top: 30%;
+    }
+  </style>
+  <style type="text/css">
+    .wx_layout {
+      background: #3e7caf;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout">
+    <input type="hidden" id="openid" value="" />
+    <section class="wx_main">
+      <div class="wx_rec">
+        <div class="box">
+          <div class="hd">
+            <span>恒逸微商城</span>
+            <h2>推荐<em>有奖</em>！注册<em>有礼</em>！</h2>
+          </div>
+          <p class="img"><img id="ewm"></p>
+          <p>转发此页面并成功邀约到用户注册，获<em>100元代金券</em></p>
+          <p>长按图片扫码注册微商城，获<em>1次抽奖机会，100%中奖，最高达1000元代金券</em></p>
+          <p class="fs16b">详情请点击：<a class="org" href="#" onclick="toRule()">活动规则 <i class="iconfont">&#xe626;</i></a>
+          </p>
+        </div>
+        <div class="box bot">
+          <p class="fs16b org" id="wdjl">我的奖励：0元</p>
+          <p class="fs16b"><a href="#" onclick="toInfo()">查看详情 <i class="iconfont">&#xe626;</i></a></p>
+        </div>
+      </div>
+    </section>
+  </article>
+  <% include ../../_foot.html %>
+  <script src="../../js/oauth2.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script>
+    $(function () {
+      wxconfig();
+    });
+  </script>
+  <script src="../recommend/tjyj.js"></script>
+</body>
+
+</html>

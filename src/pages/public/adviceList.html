@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>我的建议</title>
+<% include ../../components/_head.art %>
+<style>
+.wx_main {top:44px; bottom:49px;}
+.wx_searchbox .searchbg {opacity:1; border-radius:4px;}
+.wx_searchbox .search_s {color:#999;}
+.wx_suggest .item .canSee  {position:relative;}
+/* .wx_suggest .item .canSee span {position:absolute; left:50%; margin-left:-25px; } */
+
+.wx_suggest .item .canSee span{ 
+    left: 50%;
+    top: 10px;
+    color: #999;}
+
+    .wx_suggest .item .inner .text{padding-right: 10px;display: -webkit-box;word-break: break-all;-webkit-box-orient: vertical;-webkit-line-clamp:2;text-overflow: ellipsis;overflow: hidden;}
+    .wx_suggest .item .list li dd {
+    font-size: 1.4rem;
+    color: #747474;
+    text-align: justify;
+    overflow: hidden;
+    word-wrap: break-word;
+    width: 254px;
+}
+</style>
+</head>
+
+<body>
+<div class="wx_searchboxbg"></div>
+<header class="wx_searchbox">
+  <div class="weui_search_bar">
+    <form id="form" class="weui_search_outer">
+      <div class="weui_search_inner">
+          <i class="weui_icon_search"></i>
+          <input type="search" class="weui_search_input i18n_ph" id="querykey" name="rl_searchzy" placeholder="搜索吐槽内容" value="" />
+          <a href="javascript:" class="weui_icon_clear"></a>
+      </div>
+      <label for="querykey" class="weui_search_text">
+          <i class="weui_icon_search"></i> 
+          <span class="i18n" name="rl_searchzy">搜索吐槽内容</span>
+      </label>
+  </form>
+  <a href="javascript:" class="weui_search_cancel">
+<span class="i18n" name="rl_qx">取消</span>
+</a>
+</div>
+</header>
+<article class="wx_layout">
+  <section class="wx_main " id="infinitePage">
+    <div class="wx_suggest" id="list">
+     
+    </div>
+  </section>
+</article>
+<footer class="wx_footerbtn">
+  <ul>
+    <li class="whitebtn" onclick="goIndex()"><i class="iconfont icon-shouye" ></i>返回首页</li>
+    <li class="bluebtn" onclick="jxPen()"><i class="iconfont icon-gly" ></i>还想吐槽</li>
+  </ul>
+</footer>
+<% include ../../_foot.html %>
+<script src="../public/adviceList.js"></script>
+<input type="hidden" id="adviceid" >
+<input type="hidden" id="lastId" >
+<input type="hidden" id="lastFormId" >
+<script id="list_page" type="text/html">
+  {{each data as value index}}
+  <div class="item" >
+    <div class="time"><em>{{#getDate(value.cdate,"yyyy-MM-dd")}}</em><span class="tips">
+      {{if value.hfzt==1}}
+      （已回复）
+      {{else}}
+      （未回复）
+      {{/if}}
+      
+    </span></div>
+    <div class="inner">
+      <div class="text" id="content_{{value.adviceid}}">{{value.content}}<i class="more" onclick="showContent('{{value.adviceid}}');"></i></div>
+      <div class="text" style="display: none;" id="contenth_{{value.adviceid}}">{{value.content}}<i class="more" onclick="hideContent('{{value.adviceid}}');"></i></div>
+      <div class="cont">
+        <h3 class="" onclick="sqhf('{{value.adviceid}}')" id="sqhf_{{value.adviceid}}" >收起回复 <i class="arrow"></i></h3>
+        
+        <ul class="list" id="hflist_{{value.adviceid}}" >
+            {{each value.exAdviceReplyList as item index}}
+            {{if index > 2}}
+          <li style="display:none" class="noneLi_{{value.adviceid}}">
+            {{else}}
+            <li>
+              {{/if}}
+            {{if item.imgurl!=null}}
+            <p class="img"><img src="{{filePath}}{{item.imgurl}}"></p>
+            {{else}}
+            <p class="img"><img src="../../images/wx_yjximg01.png"></p>
+            {{/if}}
+            <dl>
+                {{if item.mbname == null}}
+                <dt>恒逸微商城</dt>
+                {{else}}
+                <dt>{{item.mbname}}</dt>
+                {{/if}}
+              
+              <dd>{{item.content}}</dd>
+              {{if item.str03 !=null}}
+              <img src="{{filePath}}{{item.str03}}" width="254px" onclick="openImg('{{filePath}}{{item.str03}}');">
+              {{/if}}
+            </dl>
+          </li>
+          {{/each}}
+          {{if value.exAdviceReplyList.length>3}}
+          <div class="canSee" onclick="showLi('{{value.adviceid}}')" id="seeMore_{{value.adviceid}}"><span id="seeMoreS_{{value.adviceid}}">查看更多</span></div>
+          {{/if}}
+          
+        </ul>
+        {{if value.hfzt==1}}
+        <div class="reply" id="btnlist_{{value.adviceid}}" >
+          <p class="txtr"><a onclick="toHf('{{value.adviceid}}')">回复</a></p>
+          <div class="box" style="display:none" id="hftext_{{value.adviceid}}">
+            <textarea placeholder="请输入您的内容（不超过300字）" id="content"></textarea>
+          </div>
+          <p class="btn" style="display:none" id="btn_{{value.adviceid}}">
+            <a class="replybtn"  last="{{value.lastId}}" advice="{{value.adviceid}}" lastForm="{{value.lastFormId}}" id="hf1">回复</a>
+            <a class="cancelbtn"onclick="qxHf('{{value.adviceid}}')">取消</a>
+          </p>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</script>
+</body>
+</html>

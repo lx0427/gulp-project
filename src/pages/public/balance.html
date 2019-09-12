@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>余额</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="main">
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+        <script src="../public/balance.js"></script>
+        <!--显示悬浮图标-->
+        <script type="text/javascript">
+            $(function() {
+                initSuspendIcon();
+            });
+        </script>
+        <script id="main_page" type="text/html">
+            <div class="wx_balancebox_a">
+                <p class="bal_til">账户余额(元)</p>
+                <p class="bal_num">{{debtCount}}</p>
+            </div>
+            <!--
+            <ul class="wx_shortfall">
+                <li>
+                    <p class="fall_til">未发订单金额(元)</p>
+                    <p class="fall_num">240718.37</p>
+                </li>
+                <li>
+                    <p class="fall_til">账户差额(元)</p>
+                    <p class="fall_num">348394.32</p>
+                </li>
+                <li class="line"></li>
+            </ul>
+            -->
+            <ul class="wx_compdetail" style="margin-top: 10px;">
+              {{each data as value i}}
+                <li>{{value.companyName}}<span>￥{{value.companyDebt}}</span></li>
+              {{/each}}              
+            </ul>
+        </script>
+</body>
+
+</html>

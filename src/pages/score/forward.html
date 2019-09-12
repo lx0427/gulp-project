@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>转一转</title>
+  <% include ../../components/_head.art %>
+  <script>
+  </script>
+  <style>
+    .wx_searchbox .searchbg {
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+      color: #50c6d8;
+    }
+
+    #mcover {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      z-index: 20000;
+    }
+
+    #mcover img {
+      position: fixed;
+      right: 18px;
+      top: 5px;
+      width: 260px;
+      height: 180px;
+      z-index: 999;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout">
+    <input type="hidden" id="articleId" name="">
+    <input type="hidden" id="timemd5" name="">
+    <section class="wx_main b00">
+      <div class="zyz_top">转发一篇可获2000纤币<span>（每篇可获1次转发奖励，每天最多获3次转发奖励）</span></div>
+      <div class="jf_xbdh zyz_xbdh" id="list">
+
+
+      </div>
+      <!-- <p class="zyz_more">下拉显示更多</p> -->
+    </section>
+    <div id="mcover" onclick="document.getElementById('mcover').style.display='';" style="display: none;">
+      <img src="../../images/share.png">
+    </div>
+  </article>
+</body>
+<% include ../../_foot.html %>
+<script src="../../js/oauth2.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="../score/forward.js"></script>
+<script type="text/html" id="list_page">
+  {{each data as value}}
+    <div class="zqxb_list">
+               <div class="zqxb_item">
+                   <p class="zqxb_detail" onclick="openLink('{{value.articleUrl}}')">{{value.title}}</p>
+                   {{if value.forwardFlag==1}}
+                   <span class="xbdh_qdbtn" id="{{value.pkid}}">已转发</span>
+                   {{else}}
+                   <span class="xbdh_qdbtn xbdh_btn" id="{{value.pkid}}" onclick="showForward('{{value.pkid}}','{{value.articleUrl}}','{{value.title}}','{{value.content}}','{{value.imgurl}}')">立即转发</span>
+                   {{/if}}
+               </div>   
+    </div>
+    {{/each}}
+</script>
+
+</html>

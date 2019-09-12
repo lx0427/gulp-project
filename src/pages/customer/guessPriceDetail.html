@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>价格预测详情</title>
+	<% include ../../components/_head.art %>
+	<style>
+		body {
+			background: #1b89d1;
+		}
+
+		.wx_main {
+			bottom: 49px;
+		}
+	</style>
+</head>
+
+<body>
+	<article class="wx_layout">
+		<section class="wx_main wx_prindex">
+			<div class="wx_priceexp">
+				<div class="tit">
+					<h2>预测详情<label>第<span id="flag2">一</span>期</label></h2>
+					<p class="fs13 c5d5d5d" id="effectProud">2018年11月12日 09:00:00-23:59:59</p>
+					<div class="wx_infofk">
+						<a href="guessPricePassed.html" class="bluebtn">往期结果</a>
+					</div>
+				</div>
+				<ul class="tabnav">
+					<li class="on" id="poy" onclick="toPmArea('POY')">POY</li>
+					<li id="fdy" onclick="toPmArea('FDY')">FDY</li>
+					<li id="dty" onclick="toPmArea('DTY')">DTY</li>
+					<li id="qp" onclick="toPmArea('切片')">切片</li>
+				</ul>
+				<div class="tabcont wx_ycdetail" id="list">
+
+
+				</div>
+			</div>
+			</div>
+		</section>
+	</article>
+	<% include ../../_foot.html %>
+	<footer class="wx_footerbtn">
+		<ul>
+			<li class="whitebtn" onclick="toActivityIndex();">活动首页</li>
+			<li class="whitebtn" onclick="toDiscuss();"><i class="iconfont icon-qysl"></i>讨论区</li>
+		</ul>
+	</footer>
+
+	<script src="../customer/guessPriceDetail.js"></script>
+	<script src="../../lib/swiper.min.js"></script>
+
+	<script id="list_page" type="text/html">
+    {{each groupList as value i}} 
+		<div 
+			{{if value.pm=='POY'}}id="ul_poy"{{/if}}
+			{{if value.pm=='DTY'}}id="ul_dty" style="display:none;"{{/if}}
+			{{if value.pm=='FDY'}}id="ul_fdy" style="display:none;"{{/if}}
+			{{if value.pm=='切片'}}id="ul_qp" style="display:none;"{{/if}}
+			>
+			{{each value.mxList as item}}	
+			<div class="wx_exppro">
+		    	<ul>
+		        <li>
+		          <dl>
+		            <dt>{{value.pm}} {{item.cz}}</dt>
+		            <dd>{{item.gg}} {{item.cd}}</dd>
+		          </dl>
+		          <div class="price txtr">
+		            <p>本期均价：<span class="cdb0a0f">¥ {{item.avgPrice}}</span></p>
+		          </div>
+		        </li>
+		    	</ul>
+		    	<div class="firmlist">
+		    		<ul>
+		    			{{each item.listRecord as record j}}
+		    			{{if record!=null}}
+		    			<li class="ffwb">
+		    				<div class="firm">{{j+1}},{{record.str01}}<label>预测价格：<em>¥ {{record.guessPrice}}</em></label></div>
+		    				{{if record.diffPrice==0}}<span>0</span>{{/if}}
+		    				{{if record.diffPrice>0}}<span class="cd90312">↑ {{record.diffPrice}}</span>{{/if}}
+		    				{{if record.diffPrice<0}}<span class="c086bbf">↓ {{#getDirectVal(record.diffPrice)}}</span>{{/if}}
+		    				
+		    				{{if record.status!=null && record.status==1}}
+		    				<span><i class="iconfont icon-xuanzhong"></i>{{/if}}</span>
+		    			</li>
+		    			{{/if}}
+		    			{{/each}}
+		    		</ul>
+		    		<div class="txtc">...</div>
+		    	</div>
+		    </div>
+			{{/each}}
+		</div>	
+		{{/each}}
+     </script>
+</body>
+
+</html>

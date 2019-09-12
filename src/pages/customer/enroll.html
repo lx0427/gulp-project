@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title name="re_title">报名</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/customer/enroll.min.css">
+</head>
+
+<body>
+  <% include ../../_foot.html %>
+  <% include ../include/_popup.html %>
+  <script src="../customer/enroll.js"></script>
+  <script id="form" type="text/html">
+    {{if temp.eid=='1'||temp.eid=='20'}}
+    <ul class="enroll__nav">
+        <li onclick="toLink('1')"><a href="javascript:void(0);">逸控代</a></li>
+        <li onclick="toLink('20')"><a href="javascript:void(0);">逸信代</a></li>
+      </ul>
+      <div class="enroll__banner">
+        {{if temp.eid=='1'}}
+        <img src="../../images/yikongdai.png" alt="">
+        {{/if}}
+        {{if temp.eid=='20'}}
+        <img src="../../images/yixindai.png" alt="">
+        {{/if}}
+      </div>
+      <div class="enroll__explain"><span onclick="showRemark()">【{{temp.enrollName}}】说明</span></div>
+    {{/if}}
+    <form class="{{temp.eid=='1'||temp.eid=='20'?'enroll__newForm':'enroll__form'}}">
+        {{if temp.eid!='1'&&temp.eid!='20'}}
+        <div class="enroll__title">{{temp.enrollName}}</div>
+        <div class="enroll__tip">报名表</div>
+        {{/if}}
+        <input type="hidden" name="enrollName" value="{{temp.enrollName}}" />  
+        <input type="hidden" name="hydm" value="{{temp.hydm}}">
+        <div class="formItem">
+            <label>企业名称</label>
+            <input type="text" name="mbname" placeholder="请与营业执照保持一致" value="{{temp.mbname}}">
+          </div>
+          <div class="formItem">
+            <label>姓名</label>
+            <input type="text" name="coplxr" placeholder="请输入您的姓名" value="{{temp.coplxr}}">
+          </div>
+          <div class="formItem">
+            <label>手机号码</label>
+            <input type="text" name="copmobile" placeholder="请输入您的手机号码" value="{{temp.copmobile}}">
+          </div>
+          <div class="formItem">
+            <label>产品线</label>
+            <input type="select" name="cpx" id="cpx" placeholder="请选择(可多选)">
+            <span class="dropdown">▼</span>
+          </div>
+          {{each keys as value}}
+          {{if temp[value]}}
+          <div class="formItem">
+            <label>{{temp[value]}}</label>
+            <input type="text" name="{{value}}" placeholder="请输入您的{{temp[value]}}" value="">
+          </div>
+          {{/if}}
+          {{/each}}
+          {{if temp.eid=='1'||temp.eid=='20'}}
+          <div onclick="enroll()" class="enroll__apply">确定报名</div>
+          <div class="enroll__newFooter">
+            <p>如有疑问，请咨询恒逸微商城，咨询电话：</p>
+            <p>0571-83880832</p>
+          </div>
+          {{/if}}
+          {{if temp.eid!='1'&&temp.eid!='20'}}
+          <div onclick="enroll()" class="enroll__submit">提&nbsp;&nbsp;交</div>
+          <div class="enroll__footer">{{temp.remark}}</div>
+          {{/if}}
+      </form>
+  </script>
+</body>
+
+</html>

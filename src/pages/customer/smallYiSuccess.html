@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>提交成功</title>
+<% include ../../components/_head.art %>
+<style>
+body {background:#78a9c0;}
+.wx_main {bottom:49px;}
+</style>
+</head>
+
+<body>
+<article class="wx_layout">
+  <section class="wx_main">
+    <div class="wx_suggest_suc">
+      <h2>提交成功！</h2>
+      <p><a class="btn" onclick="toMyAdvice()" id="btnSend">查看我的问题(3)</a></p>
+      <div class="wx_adtxt">
+        <p class="tit">恒逸微商城</p>
+        <p><span class="line">在线查询 | 快捷下单 | 行情资讯 | 物流配送 | 金融服务</span></p>
+        <p class="slo">易上手的B2B化纤交易平台</p>
+        <p><span class="code"><img src="../../images/sy_ewm.jpg"></span></p>
+        <p>客户服务站 扫码咨询</p>
+      </div>
+    </div>
+  </section>
+</article>
+<footer class="wx_footerbtn">
+  <ul>
+    <li class="whitebtn" onclick="goback()"><i class="iconfont icon-shouye"></i>返回首页</li>
+    <li class="bluebtn" onclick="myAdvice()"><i class="iconfont icon-gly"></i>我的问题</li>
+  </ul>
+</footer>
+<% include ../../_foot.html %>
+<script src="../customer/smallYiSuccess.js"></script>
+</body>
+</html>

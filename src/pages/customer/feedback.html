@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="feb_title">意见反馈</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .weui_cell {
+            padding-right: 35px;
+            padding-top: 15px;
+        }
+
+        .weui_textarea {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wx_layout">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <textarea id="content" class="weui_textarea i18n_ph" name="feb_yijiantip" placeholder="请输入您的意见或建议！"
+                    rows="6"></textarea>
+            </div>
+        </div>
+        <div class="wx_btnnext" onclick="doSave();">
+
+            <span class="i18n" name="feb_tjfk">提交反馈</span>
+            <!--a class="weui_btn weui_btn_primary" href="javascript:" onclick="doSave();">提交反馈</a>-->
+        </div>
+    </div>
+    <% include ../../_foot.html %>
+    <script src="../customer/feedback.js"></script>
+</body>
+
+</html>

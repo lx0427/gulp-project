@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>信息反馈</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_main {
+      top: 65px;
+      bottom: 45px
+    }
+
+    .wx_searchbox .searchbg {
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+      color: #3e7baf;
+    }
+
+    .xbs i {
+      color: #f00;
+      font-style: normal;
+      padding-right: 3px;
+    }
+
+    .zl i {
+      color: #f00;
+      font-style: normal;
+      padding-right: 3px;
+    }
+
+    .xxfk_cpx {
+      padding-left: 10px;
+    }
+
+    .cpx_label {
+      display: block;
+      padding-left: 50px;
+    }
+
+    .xxfk_cpx .cpx_label span {
+      padding: 1px 8px;
+    }
+
+    .zlbox {
+      padding-top: 2px;
+      padding-right: 3px;
+      padding-bottom: 2px;
+      padding-left: 68px;
+    }
+
+    .xbsbox {
+      padding-top: 2px;
+      padding-right: 0px;
+      padding-bottom: 2px;
+      padding-left: 79px;
+    }
+
+    #img_ul img {
+      width: 75px;
+      height: 75px;
+    }
+
+    .fillbox .zlbox {
+      padding-right: 0px;
+    }
+
+    .fillbox .zlbox input {
+      box-sizing: border-box;
+    }
+
+    .fillbox .xbsbox input {
+      box-sizing: border-box;
+    }
+
+    .wx_tasdelist li .fillbox {
+      padding: 5px 0
+    }
+
+    .fillbox .zlbox .kg {
+      right: 5px;
+    }
+
+    .i_spinner span {
+      font-size: 14px;
+      color: #6B6B6B
+    }
+
+    .i_spinner>div {
+      width: 6px;
+      height: 6px;
+      background-color: #6B6B6B;
+
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+      animation: bouncedelay 1.4s infinite ease-in-out;
+      /* Prevent first frame from flickering when animation starts */
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+    }
+
+    .i_spinner .i_bounce1 {
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+
+    .i_spinner .i_bounce2 {
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+
+    .ndxq_add {
+      text-align: center;
+    }
+
+    .ndxq_add span {
+      display: inline-block;
+      font-size: 1.6rem;
+      color: #008cee;
+      line-height: 44px;
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .ndxq_add span .icon-increase {
+      font-size: 18px;
+      color: #008cee;
+      line-height: 44px;
+      position: absolute;
+      top: 2px;
+      left: 0;
+    }
+
+    .ndxq_add span .icon-cut {
+      font-size: 18px;
+      color: #008cee;
+      line-height: 44px;
+      position: absolute;
+      top: 2px;
+      left: 0;
+    }
+
+    @-webkit-keyframes bouncedelay {
+
+      0%,
+      80%,
+      100% {
+        -webkit-transform: scale(0.0)
+      }
+
+      40% {
+        -webkit-transform: scale(1.0)
+      }
+    }
+
+    @keyframes bouncedelay {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+      }
+
+      40% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+      }
+    }
+
+    .cpx_label {
+      position: relative;
+    }
+
+    .wx_tasdelist li .fillbox {
+      border-bottom: none;
+    }
+
+    .fillbox dt input.input {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      padding: 0px 5px;
+    }
+
+    .fillbox .xbsbox input {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      padding: 0px 5px;
+    }
+
+    .fillbox .zlbox input {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      padding: 0px 5px;
+    }
+
+    .fillbox .zlbox {
+      padding-left: 70px;
+      border-right: none;
+    }
+
+    .fillbox .xbsbox {
+      padding-left: 80px;
+      padding-right: 0px;
+    }
+
+    .wx_tasdelist li {
+      border: none;
+    }
+
+    .need_product {
+      margin-bottom: 5px;
+      margin-top: 6px;
+    }
+
+    .xxfk_cpx {
+      border: none;
+    }
+
+    .wx_qdphoto li {
+      padding: 10px 8px 10px 10px
+    }
+
+    .fillbox dt input {
+      text-align: center;
+    }
+
+    .xxfk_zb .zb_title {
+      padding-left: 0px;
+      text-align: center;
+      font-weight: 700;
+      color: #3e7baf;
+    }
+
+    .xljt {
+      position: absolute;
+      line-height: 24px;
+      color: #666;
+      top: 0;
+      right: 5px;
+      font-size: 1.4rem;
+    }
+
+    .addOrDecrease {
+      position: absolute;
+      line-height: 24px;
+      color: #666;
+      top: 0;
+      right: -10px;
+      font-size: 1.4rem;
+    }
+
+    input::-webkit-input-placeholder {
+      /* WebKit browsers */
+      font-size: 1.2rem;
+      color: #e1e1e1;
+    }
+
+    input:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      font-size: 1.2rem;
+      color: #e1e1e1;
+    }
+
+    input::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      font-size: 1.2rem;
+      color: #e1e1e1;
+    }
+
+    input:-ms-input-placeholder {
+      /* Internet Explorer 10+ */
+      font-size: 1.2rem;
+      color: #e1e1e1;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="wx_ssjgsite wx_ssjgsite1">
+    <input type="hidden" id="openid" value="" />
+    <input type="hidden" id="hydm" value="" />
+    <input type="hidden" id="sapCustomerId" value="" />
+    <input type='hidden' name='pkid' value='' id='pkid' />
+    <ul class="hy_xxsb">
+      <li class="xxsb_list xxsb_list_checked" con onclick="c(this);" val="1"><span class="typeSpan"
+          style="background:#ffffff;color:#3e7baf;">随手记</span></li>
+      <li class="xxsb_list" onclick="c(this);" val="2"><span class="typeSpan" style="">日报</span></li>
+      <li class="xxsb_list" onclick="c(this);" val="3"><span class="typeSpan" style="">周报</span></li>
+    </ul>
+  </header>
+
+  <article class="wx_layout">
+    <section class="wx_main">
+      <qnm1 style="display:block;">
+
+        <div class="xxfk_bz">
+          <input type="hidden" id="complaintImages" value="" />
+          <span style="float: left;font-size: 1.2rem;color: #3e7baf;" class="i18n" name="xxfk_wxts">
+            1，随手记可以帮助你记录工作中遇到的客户问题及其他相关问题，并为你及时传达和帮助解决；<br>
+            2，请记录要点,便于领导理解和点评
+          </span>
+          <textarea rows="15" placeholder=" 请在此输入您的内容（不超过500字）&#10; &#10; 例如：&#10; 客户名称：&#10; 遇到问题：&#10; 希望得到的支持："
+            style="border: solid 1px #3e7baf;" class="xxfk_remark" name="problem1" id="problem1"></textarea>
+
+          <ul class="wx_qdphoto wx_cjht" id="img_ul">
+            <li id="addImg">
+              <p><img src="../../images/add.jpg"></p>
+            </li>
+          </ul>
+        </div>
+      </qnm1>
+
+      <qnm2 style="display:none;">
+
+        <!-- 业务员一天可能拜访多个客户 -->
+        <div id="list" style="margin-top: 5px;"></div>
+        <ul class="wx_tasdelist need_product" id="addAddress_div">
+          <li style="padding-left: 0px;">
+            <p class="ndxq_add" onclick="addVistAddress();"><span><i
+                  class="iconfont icon-increase"></i>新增实地拜访客户记录</span></p>
+          </li>
+        </ul>
+
+        <div class="xxfk_zb">
+          <p class="zb_title">当日小结</p>
+          <div class="xxfk_box">
+            <ul class="wx_tasdelist">
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 83px;">
+                    <span class="zl">实地拜访数</span>
+                    <input type="number" id="customerVistNum" placeholder="手动输入" name="customerVistNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 90px;">
+                    <span class="xbs">电话拜访数</span>
+                    <input type="number" id="customerTelNum" placeholder="手动输入" name="customerTelNum">
+                  </dt>
+                </dl>
+              </li>
+              <li style="padding-left: 5px; border-bottom: solid 1px #ccc; border-bottom-style: dashed;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 83px;">
+                    <span class="zl">新增客户数</span>
+                    <input type="number" id="addCustomerNum" placeholder="手动输入" name="addCustomerNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 77px;">
+                    <span class="xbs">重点客户</span>
+                    <input type="text" id="inportantCustomer" placeholder="手动输入" name="inportantCustomer">
+                  </dt>
+                </dl>
+              </li>
+              <p></p>
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 56px;">
+                    <span class="zl">订单数</span>
+                    <input type="number" id="orderNum" placeholder="手动输入" name="orderNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 64px;">
+                    <span class="xbs">出库数</span>
+                    <input type="number" id="deliveryNum" placeholder="手动输入" name="deliveryNum">
+                  </dt>
+                </dl>
+              </li>
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 40px;">
+                    <span class="zl">规格</span>
+                    <input type="text" id="reportGg" placeholder="手动输入" name="reportGg" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 49px;">
+                    <span class="xbs">重量</span>
+                    <input type="text" id="weight" placeholder="手动输入" name="weight">
+                  </dt>
+                </dl>
+              </li>
+
+            </ul>
+          </div>
+          <div class="xxfk_bz" id="problemDiv2">
+            <p class="xxfk_bz_title" style="font-weight: 700; color: #3e7baf; padding-left: 0px; text-align: center;">备注
+            </p>
+            <textarea rows="4" placeholder="请在此输入您的内容（不超过500字）" id="problem2" class="xxfk_remark"></textarea>
+          </div>
+        </div>
+      </qnm2>
+
+      <qnm3 style="display:none;">
+        <div class="xxfk_zb">
+          <p class="zb_title">本周工作内容</p>
+          <div class="xxfk_box">
+            <ul class="wx_tasdelist">
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 83px;">
+                    <span class="zl"><i>*</i>实地拜访数</span>
+                    <input type="number" id="customerVistNum3" placeholder="手动输入" name="customerVistNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 90px;">
+                    <span class="xbs"><i>*</i>电话拜访数</span>
+                    <input type="number" id="customerTelNum3" placeholder="手动输入" name="customerTelNum">
+                  </dt>
+                </dl>
+              </li>
+              <li style="padding-left: 5px; border-bottom: solid 1px #ccc; border-bottom-style: dashed;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 83px;">
+                    <span class="zl"><i>*</i>新增客户数</span>
+                    <input type="number" id="addCustomerNum3" placeholder="手动输入" name="addCustomerNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 77px;">
+                    <span class="xbs"><i>*</i>重点客户</span>
+                    <input type="text" id="inportantCustomer3" placeholder="手动输入" name="inportantCustomer">
+                  </dt>
+                </dl>
+              </li>
+              <p></p>
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 56px;">
+                    <span class="zl"><i>*</i>订单数</span>
+                    <input type="number" id="orderNum3" placeholder="手动输入" name="orderNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 64px;">
+                    <span class="xbs"><i>*</i>出库数</span>
+                    <input type="number" id="deliveryNum3" placeholder="手动输入" name="deliveryNum">
+                  </dt>
+                </dl>
+              </li>
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 40px;">
+                    <span class="zl"><i>*</i>规格</span>
+                    <input type="text" id="reportGg3" placeholder="手动输入" name="reportGg" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 49px;">
+                    <span class="xbs"><i>*</i>重量</span>
+                    <input type="text" id="weight3" placeholder="手动输入" name="weight">
+                  </dt>
+                </dl>
+              </li>
+
+            </ul>
+          </div>
+          <div class="xxfk_bz" id="problemDiv3">
+            <p class="xxfk_bz_title"><i class="iconfont icon-gzzxkd"></i>遇到的问题</p>
+            <textarea rows="4" placeholder="请在此输入您的内容（不超过500字）" id="problem3" class="xxfk_remark"></textarea>
+          </div>
+        </div>
+
+        <div class="xxfk_zb">
+          <p class="zb_title">下周工作计划
+            <input type="text"
+              style="border: 1px solid #ccc; border-radius: 5px; padding:0px 5px;width: 80px; text-align: center;"
+              id="bdate" placeholder="请选择开始时间" onclick="removeInputBlur()" name="bdate" readonly />-<input type="text"
+              style="border: 1px solid #ccc; border-radius: 5px; padding:0px 5px; width: 80px; text-align: center;"
+              id="edate" placeholder="请选择结束时间" onclick="removeInputBlur()" name="edate" readonly />
+          </p>
+          <div class="xxfk_box">
+            <ul class="wx_tasdelist">
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 83px;">
+                    <span class="zl"><i>*</i>电话拜访数</span>
+                    <input type="number" id="weekCustomerTelNum" placeholder="手动输入" name="weekCustomerTelNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 90px;">
+                    <span class="xbs"><i>*</i>实地拜访数</span>
+                    <input type="number" id="weekCustomerVistNum" placeholder="手动输入" name="weekCustomerVistNum">
+                  </dt>
+                </dl>
+              </li>
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="padding-left: 83px;">
+                    <span class="zl"><i>*</i>新增客户数</span>
+                    <input type="number" id="weekAddCustomerNum" placeholder="手动输入" name="weekAddCustomerNum" />
+                  </dt>
+                  <dt class="xbsbox" style="padding-left: 77px;">
+                    <span class="xbs"><i>*</i>重点客户</span>
+                    <input type="text" id="weekInportantCustomer" placeholder="手动输入" name="weekInportantCustomer">
+                  </dt>
+                </dl>
+              </li>
+            </ul>
+          </div>
+          <div class="xxfk_box">
+            <ul class="wx_tasdelist">
+              <li style="padding-left: 5px;">
+                <dl class="fillbox">
+                  <dt class="zlbox" style="width: 100%;padding-left: 142px;">
+                    <span class="zl"><i>*</i>预估出售总量</span>
+                    <input type="text" id="weekEvaluateSales" placeholder="手动输入" name="weekEvaluateSales" />
+                  </dt>
+                </dl>
+              </li>
+            </ul>
+          </div>
+          <div class="xxfk_bz">
+            <p class="xxfk_bz_title"><i class="iconfont icon-gzzxkd"></i>计划说明</p>
+            <textarea rows="4" placeholder="请在此输入您的内容（不超过800字）" id="weekPlanIntroduce" class="xxfk_remark"></textarea>
+          </div>
+        </div>
+      </qnm3>
+
+    </section>
+  </article>
+  <footer class="wx_btnnext" onclick="saveReportInformation();">提交</footer>
+  <% include ../../_foot.html %>
+  <script src="../../lib/swiper.min.js"></script>
+  <script src="../../lib/city-picker.min.js"></script>
+  <script src="../../js/oauth2.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script>
+    $(function () {
+      wxconfig();
+    });
+  </script>
+  <script src="../salesman/messageReport.js"></script>
+  <script id="list_page" type="text/html">
+     <p class="wx_functionbox" >
+       <ul class="gnlist" style="padding-left: 15px; background: #fff;">
+        {{each data as value i}}
+           <li onclick="toInfo({{value.pkid}})">
+             <p class="til noi18n" name="sm_dkxd">{{value.customerName}}</p>
+             <p class="cont noi18n" name="sm_jkhzjkd">
+             {{value.reportUserName}} &nbsp;
+             {{if value.customerType==1}}老客户{{/if}}
+             {{if value.customerType==0}}新客户{{/if}} &nbsp;
+             {{if value.customerType==1}}
+             <em>|</em>
+             产品线 : 
+             {{value.informationSources}}
+             {{/if}}
+             </p>
+             <i class="iconfont icon-rarrow"></i>
+           </li>
+        {{/each}}
+       </ul>
+     </p>
+     </script>
+</body>
+
+</html>

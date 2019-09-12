@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>仓储费订单查询</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 44px;
+        }
+
+        .rq {
+            opacity: 0;
+            top: 0;
+            position: absolute;
+            left: 0px;
+            width: 100%;
+        }
+
+        .wx_hyfilter {
+            display: flex;
+            top: 0;
+        }
+
+        .wx_hyfilter li {
+            flex: 1;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <link rel="stylesheet" href="../../css/salesman/storageChargeList.min.css">
+</head>
+
+<body>
+
+    <article class="wx_layout">
+        <input type="hidden" id="vkorg" value="" />
+        <input type="hidden" id="wbstate" value="" />
+
+        <input type="hidden" id="e_circleId" value="" />
+        <input type="hidden" id="e_isSalesman" value="" />
+        <input type="hidden" id="e_userId" value="" />
+        <input type="hidden" id="e_sapCustomerId" value="" />
+        <ul class="wx_hyfilter">
+            <li onclick="showMenberPopup();" id="khname">
+                <span class="i18n" name="com_kh">客户</span><span class="xl"></span>
+            </li>
+        </ul>
+        <section class="wx_main" id="infinitePage">
+            <div id="list"></div>
+            <div class="weui-infinite-scroll">
+                <div class="infinite-preloader"></div>正在加载
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <% include ../include/menberPopup.html %>
+    <% include ../include/_calendar.html %>
+    <script src="../salesman/storageChargeList.js"></script>
+    <!--显示悬浮图标-->
+    <script type="text/javascript">
+        $(function () {
+            initSuspendIcon();
+        });
+    </script>
+    <script src="../../lib/swiper.min.js"></script>
+    <script id="otherBanner_page" type="text/html">
+        <div class="swiper-wrapper" >
+            {{each otherBanner as value i}}
+                <div class="swiper-slide">
+                <img src="{{filePath}}{{value.imgUrl}}" id="obanner" onclick="toLinkUrl('{{value.title}}', '{{value.linkUrl}}')"/>
+                </div>
+            {{/each}}
+        </div>
+    </script>
+    <script id="list_page_1" type="text/html">
+        {{each detail as value i}}
+        <div class="storagecharge__list">
+            <p class="storagecharge__time">{{value.audat.substr(0,10)}}</p>
+            <div class="storagecharge__header">
+                <div class="storagecharge__title">{{value.name1}}</div>
+                <div class="storagecharge__order">SAP订单号：{{value.vbeln}}</div>
+            </div>
+            <ul class="storagecharge__content">
+                <li>
+                    {{each value.des as item idx}}
+                    <span class="{{idx===0?'main':''}}">{{item}}</span>
+                    {{/each}}
+                </li>
+                <li><span>订单类型：{{value.salesType}}</span><span>订单行号：{{value.posnr}}</span></li>
+                <li><span>工厂：{{value.werks}}</span><span>免仓天数：{{value.freeDays}}天</span></li>
+                <li><span>到期日：{{value.expire.substr(0,10)}}</span><span>是否超接：{{value.ifExceed==='X'?'是':'否'}}</span></li>
+                <li><span>仓储费：{{value.charge}}/天/吨</span><span>业务员罚款：{{value.forfeit}}/天/吨</span></li>
+            </ul>
+        </div>
+        {{/each}}
+    </script>
+    <script id="list_page_2" type="text/html">
+        {{each detail as value i}}
+        <div class="storagecharge__list">
+            <p class="storagecharge__time">{{value.erdat&&value.erdat.substr(0,10)}}</p>
+            <div class="storagecharge__header">
+                <div class="storagecharge__title">{{value.name1}}</div>
+                <div class="storagecharge__order">订单日期：{{value.audat&&value.audat.substr(0,10)}}</div>
+                <div class="storagecharge__order">SAP订单号：{{value.vbeln_va}}</div>
+                <div class="storagecharge__order">交货单号：{{value.vbeln}}</div>
+            </div>
+            <ul class="storagecharge__content">
+                <li>
+                    {{each value.des as item idx}}
+                    <span class="{{idx===0?'main':''}}">{{item}}</span>
+                    {{/each}}
+                </li>
+                <li><span>订单类型：{{value.sales_type}}</span><span>工厂：{{value.werks}}</span></li>
+                <li><span>交货单行号：{{value.posnr}}</span><span>订单行号：{{value.posnr_va}}</span></li>
+                <li><span>实际已交货量：{{value.lfimg}}</span><span>仓储费：{{value.price}}/天/吨</span></li>
+                <li><span>免仓天数：{{value.freeDays}}天</span><span>计费天数：{{value.calc_days}}</span></li>
+                <li><span>应收仓储费：{{value.amount_plan}}</span><span>实收仓储费：{{value.amount_real}}</span></li>
+                <li><span>是否超接：{{value.if_exceed==='X'?'是':'否'}}</span></li>
+            </ul>
+        </div>
+        {{/each}}
+    </script>
+</body>
+
+</html>

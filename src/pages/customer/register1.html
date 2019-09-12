@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title name="re_title">注册</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_main {}
+
+    .wx_searchbox .searchbg {
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+      color: #3e7baf;
+    }
+
+    .toolbar,
+    .toolbar .title {
+      font-size: 17px;
+      color: #3d4145;
+      width: 100%
+    }
+
+    .enroll_item .enroll_list .sanspan {
+      position: absolute;
+      display: inline-block;
+      font-size: 1.5rem;
+      color: #333;
+      line-height: 40px;
+      float: right;
+      top: 0;
+      width: 10px;
+      left: auto;
+      right: 20px;
+    }
+  </style>
+</head>
+
+
+<body>
+  <article class="wx_layout">
+    <section class="wx_main">
+      <div class="enroll_box">
+        <div class="enroll_top" onclick="guanbiselect()">
+          <p class="enroll_logo">恒逸微商城</p>
+          <p class="enroll_label">在线查询 | 快捷下单 | 行情资讯 | 物流配送</p>
+          <p class="enroll_title">易上手的B2B化纤交易平台</p>
+          <div class="enroll_ewm">
+            <div class="enroll_img"><img src="../../images/hy_ewm.jpg" /></div>
+            <p>客户服务站 扫码咨询</p>
+          </div>
+        </div>
+        <ul class="enroll_item">
+          <li class="enroll_list">
+            <span>企业名称<i>*</i></span>
+            <input type="text" id='mbname' placeholder="请与营业执照保持一致" />
+          </li>
+          <li class="enroll_list" id="cpxx">
+            <span>产品线<i>*</i></span>
+            <input type="select" style="padding-right:30px" id='pm' placeholder="请选择(可多选)" />
+            <span class="sanspan">▼</span>
+          </li>
+          <li class="enroll_list">
+            <span>拿货渠道<i>*</i></span>
+            <input type="text" id='str00' style="padding-right:30px" placeholder="请选择您的拿货渠道" />
+            <span class="sanspan">▼</span>
+          </li>
+          <li class="enroll_list">
+            <span>地区<i>*</i></span>
+            <input type="hidden" id="dq1code" value="" />
+            <input type="hidden" id="dq1name" value="" />
+            <input type="hidden" id="dqcode" value="" />
+            <input type="hidden" id="dqname" value="" />
+            <input type="hidden" id="xjcode" value="" />
+            <input type="hidden" id="xjname" value="" />
+            <input type="text" id='dq_txt' placeholder="请输入您的地区" />
+          </li>
+          <li class="enroll_list">
+            <span>详细地址<i>*</i></span>
+            <input type="text" id='copaddr' placeholder="请输入您的详细地址" />
+          </li>
+          <li class="enroll_list">
+            <span>姓名<i>*</i></span>
+            <input id='logname' type="text" placeholder="请输入您的姓名" />
+          </li>
+          <li class="enroll_list">
+            <span>手机号码<i>*</i></span>
+            <input type="text" id='logmobile' placeholder="请输入您的手机号码" />
+          </li>
+          <li class="enroll_list">
+            <span>验证码<i>*</i></span>
+            <input type="text" id='randCode' placeholder="请输入验证码" class="enroll_yzm" />
+            <em onclick="sendSms();" id="yzmBtn">获取验证码</em>
+          </li>
+          <li class="enroll_list">
+            <span>密码<i>*</i></span>
+            <input type="password" id='logpwd' placeholder="请输入密码" />
+          </li>
+          <li class="enroll_list">
+            <span>确认密码<i>*</i></span>
+            <input type="password" id='logpwd2' placeholder="请再次输入密码" />
+          </li>
+        </ul>
+        <div class="enroll_btn" onclick="register()">注册</div>
+      </div>
+    </section>
+  </article>
+
+  <% include ../../_foot.html %>
+  <script src="../../js/oauth2.min.js"></script>
+  <script src="../../js/md5.min.js"></script>
+  <script src="../../lib/city-picker.min.js"></script>
+  <script src="../customer/register1.js"></script>
+</body>
+
+</html>

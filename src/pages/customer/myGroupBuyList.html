@@ -1,0 +1,100 @@
+<head>
+    <title name="mb_title">我的拼团</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 55px;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <div class="my_shop">
+            <p class="my_shop_btn my_shop_btn1 active" gbType="1">
+                <input type="button" class="i18n_va" name="mb_success" value="拼团成功" />
+            </p>
+            <p class="my_shop_btn my_shop_btn2" gbType="0">
+                <input type="button" class="i18n_va" name="mb_error" value="拼团失败" />
+            </p>
+        </div>
+        <div class="rule" id="rule" style="display:none;">
+            <div class="rule_bg">
+                <p class="rule_title">
+                    <span class="i18n" name="mb_rules">团购规则</span>
+                </p>
+                <p class="rule_detail"></p>
+                <p class="rule_close" onclick="closeRules();">
+                    <span class="i18n" name="mb_shutdown">关闭</span>
+                </p>
+            </div>
+        </div>
+        <section class="wx_main" id="infinitePage">
+            <div id="list"></div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/myGroupBuyList.js"></script>
+    <!--显示悬浮图标-->
+    <script type="text/javascript">
+        $(function () {
+            initSuspendIcon();
+        });
+    </script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_myfocus">
+                <div class="commontil hytil">
+                    <span class="line1"></span>
+                    <span class="tiltext">{{value.title}}</span>
+                    <input type="hidden" id="rules_{{value.pkid}}" value="{{value.rules}}"/>
+                    <p class="activity" onclick="showRules('{{value.pkid}}');">
+						<span class="i18n" name="mb_explain">拼团规则说明</span>
+					</p>
+                    <i class="iconfont icon-mark" onclick="showRules('{{value.pkid}}');"></i>
+                </div>
+                <ul class="focuslist">
+                    {{each value.mxList as mx i}}
+                    <li>
+                        <p class="proname">
+                            {{mx.pm}}
+                            <span class="perty">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                            <span class="perty">{{mx.str02}}</span>
+                            <span class="perty">{{mx.str03}}</span> {{else}}
+                            <span class="perty">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                            <span class="perty">{{mx.str04}}</span>{{/if}} {{if mx.str02 != null}}
+                            <span class="perty">{{mx.str02}}</span> {{/if}} {{/if}}
+                        </p>
+                        <p class="size">
+                            {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}&nbsp;&nbsp; {{/if}} {{mx.cd}}
+                        </p>
+                        <p class="size"><span class="i18n" name="mb_myteamwork">我的拼团</span>
+                        {{if value.typ == 1}}
+                          <em style="color: #fe9311;margin:0px 5px;">{{mx.myJoin.sl1}}</em><span class="i18n" name="mb_pack">包</span>
+                         {{/if}}
+                         {{if value.typ == 2}}
+                            <em style="color: #fe9311;margin:0px 5px;">{{mx.myJoin.sl2}}</em>kg
+                         {{/if}}
+                         </p>
+                        
+                        {{if mx.status == 3}}
+                        <p class="size"><span class="i18n" name="mb_successorders">已成功生成订单</span></p>
+                        <p class="size"><span class="i18n" name="mb_dealtime">成交时间</span><span class="size_time">{{#getDate(mx.dealDate,'MM-dd HH:mm:ss')}}</span></p>
+                        {{else}}
+                        <p class="size"><span class="i18n" name="mb_regret">很遗憾，敬请期待下次活动</span></p>
+                        <p class="size"><span class="i18n" name="mb_teamworktime">拼团时间</span><span class="size_time">{{#getDate(mx.myJoin.cdate, 'MM-dd HH:mm:ss')}}</span></p>
+                        {{/if}}
+                        <div class="spell_price"><span class="i18n" name="mb_ptprice">拼团价</span><span>￥</span><em>{{mx.gbprice}}</em></div>
+                        <div class="present_price"><span class="i18n" name="mb_currentprice">现价</span><span>￥</span><em>{{mx.price00}}</em></div>
+                        <p class="fight_failure">
+                            {{if mx.status == 3}} <span class="i18n" name="mb_success">拼团成功</span> {{else}} <span class="i18n" name="mb_error">拼团失败</span> {{/if}}
+                        </p>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            {{/each}}
+        </script>
+</body>
+
+</html>

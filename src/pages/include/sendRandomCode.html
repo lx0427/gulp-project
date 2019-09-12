@@ -1,0 +1,64 @@
+<style>
+.weui-popup-container,
+.weui-popup-overlay {
+    z-index: 1000;
+}
+
+.weui-popup-modal {
+    z-index: 1000;
+}
+#sendRandomCode{
+    z-index: 1000;
+}
+
+.weui_cells_radio .weui_check:checked + .weui_icon_checked:before {
+    margin-top: -20px;
+}
+.weui_cells {font-size: 1.5rem;}
+</style>
+<div  id="sendRandomCode" class='weui-popup-container' >
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal">
+        <header style="position: fixed; width: 100%; z-index: 100;">
+                <span class="delete close-popup" id="closepop"></span>
+        </header>
+     <article class="wx_layout">
+        <section class="wx_hyyzcode" style="height:100%;">
+            <dl>
+            <dt>请输入您的验证码</dt>
+            <dd>验证码已经发送到您的手机</dd>
+            <dd>+86-<span id="mobile"></span></dd>
+            </dl>
+            <div class="tips">
+            <div class="fl">4位数字验证码</div>
+            <em class="fr" id="yztime" onclick="cxfs();"></em>
+            </div>
+            <div class="box">
+            <ul>
+                <li><div class="bk"><input type="tel" id="number1" maxlength ="1" onkeyup="value=value.replace(/[^\d]/g,'')" oninput="number1input();" onfocus="numberfocus(1);" num="0"></div></li>
+                <li><div class="bk"><input type="tel" id="number2" maxlength ="1" onkeyup="value=value.replace(/[^\d]/g,'')"  oninput="number2input();"  onfocus="numberfocus(2);" num="0"></div></li>
+                <li><div class="bk"><input type="tel" id="number3" maxlength ="1" onkeyup="value=value.replace(/[^\d]/g,'')" oninput="number3input();"  onfocus="numberfocus(3);" num="0"></div></li>
+                <li><div class="bk"><input type="tel" id="number4" maxlength ="1" onkeyup="value=value.replace(/[^\d]/g,'')"  oninput="issave();" onfocus="numberfocus(4);" num="0"></div></li>
+            </ul>
+            </div>
+            <!-- <div  id="logoutBtn" class="weui_btn_area" style="margin-bottom: 30px;">
+                    <a class="weui_btn" style="background:#3e7baf;" href="javascript:" onclick="save()"><span class="i18n" name="my_exit">确定</span></a>
+                </div> -->
+        </section>
+    </article>
+    </div>
+</div>
+<script src="../include/sendRandomCode.js"></script>
+<script id="ygList_page" type="text/html">
+    {{each data as value i}}
+    <label class="weui_cell weui_check_label close-popup" onclick="chooseYg('{{value.userid}}','{{value.username}}')">
+        <div class="weui_cell_bd weui_cell_primary">
+            <p>{{value.username}}</p>
+        </div>
+        <div class="weui_cell_ft">
+            <input type="radio" class="weui_check" name="ygRadio">
+            <span class="weui_icon_checked"></span>
+        </div>
+    </label>
+    {{/each}}
+</script>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="fp_title">忘记密码</title>
+    <% include ../../components/_head.art %>
+    <style>
+        /**绑定手机号*/
+
+        .wx_bdsj {
+            margin-top: 0px;
+        }
+
+        .wx_bdsj .weui_label {
+            width: 90px;
+        }
+
+        .must_input {
+            color: #f00;
+            margin-right: 5px;
+        }
+
+        .wx_bdsj .weui_cell_ft {
+            padding: 8px 0px;
+        }
+
+        .wx_bdsj .weui_cell_ft span {
+            height: 28px;
+            line-height: 28px;
+            display: inline-block;
+            border-left: 1px solid #d9d9d9;
+            color: #008cee;
+            width: 100px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .weui_cells {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body ontouchstart style="background: #fff;">
+    <input type="hidden" id="code" value="" />
+    <input type="hidden" id="appid" value="" />
+    <input type="hidden" id="openid" value="" />
+    <input type="hidden" id="mobile" value="" />
+    <input type="hidden" id="backurl" value="" />
+    <input type="hidden" id="marketId" value="" />
+    <input type="hidden" id="bindingType" value="" />
+    <div class="weui_cells weui_cells_form wx_bdsj">
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+
+                    <span class="i18n" name="fp_phone">手机号</span></label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logmobile' class="weui_input i18n_ph" name="fp_phonetip" type="tel" placeholder="请输入您的手机号">
+            </div>
+        </div>
+        <div class="weui_cell weui_vcode">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="fp_captcha">验证码</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='randCode' class="weui_input i18n_ph" type="number" name="fp_captchatip" placeholder="请输入验证码">
+            </div>
+            <div class="weui_cell_ft">
+                <span id="yzmBtn" class="i18n" name="fp_captchaobt" onclick="sendSms();">获取验证码</span>
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="fp_newpwd">新密码</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logpwd' class="weui_input i18n_ph" name="fp_newpwdtip" type="password" placeholder="请输入新密码">
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label"><span class="must_input">*</span>
+                    <span class="i18n" name="fp_querenpwd">确认密码</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='logpwd2' class="weui_input i18n_ph" name="fp_querenpwdtip" type="password"
+                    placeholder="请再次输入新密码">
+            </div>
+        </div>
+    </div>
+    <div class="weui_btn_area">
+        <a class="weui_btn weui_btn_primary" href="javascript:" onclick="findPwd()">
+            <span class="i18n" name="fp_submit">确认提交</span>
+        </a>
+    </div>
+    <% include ../../_foot.html %>
+    <script src="../../js/md5.min.js"></script>
+    <script src="../../lib/city-picker.min.js"></script>
+    <script src="../customer/findPwd.js"></script>
+</body>
+
+</html>

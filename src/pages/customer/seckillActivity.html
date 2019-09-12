@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <title>高达微鑫</title>
+  <% include ../../components/_head.art %>
+  <script>
+  </script>
+  <style>
+    .wx_main {
+      bottom: 49px;
+    }
+
+    .ms_tab {
+      padding: 0 0;
+      margin-top: 0px;
+    }
+
+    .wx_searchbox .searchbg {
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+      color: #50c6d8;
+    }
+
+    .ms_list li .btn {
+      font-size: 2.0rem;
+      top: 40%;
+    }
+
+    .ms_list li .bot {
+      height: 20px;
+    }
+
+    .ms_tab li.ms_tab_checked .ms_tab_box:before {
+      height: 0px;
+    }
+
+    .aboutRules {
+      float: right;
+      margin-top: 15px;
+      margin-right: 15px;
+      font-size: x-small;
+    }
+
+    .ms_djs span {
+      z-index: 99;
+    }
+
+    .img {
+      height: 300px;
+      display: table-cell;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <article class="wx_layout">
+    <input type="hidden" id="openid" value="" />
+    <section class="wx_main">
+      <div class="swiper-container wx_banner" id="wx_banner">
+      </div>
+
+      <div id="meau_list" align="center">
+
+      </div>
+      <a href="../customer/seckillRule.html" id="ruleProduct" class="aboutRules">规则说明</a>
+      <div id="list" style="padding-top: 30px;">
+      </div>
+    </section>
+  </article>
+
+  <% include ../../_foot.html %>
+  <script src="../customer/seckillActivity.js"></script>
+  <script src="../../lib/swiper.min.js"></script>
+  <script src="../../js/oauth2.min.js"></script>
+  <script id="meau_list_page" type="text/html">
+        <ul class="ms_tab ms_yellow_tab">
+          {{each data as value i}}
+          <li id="meauid_{{i}}" onclick="onStatus({{i}})" {{if value.todayFlag!=null && value.todayFlag==isToday}}class="ms_tab_checked"{{/if}}>
+            <div class="ms_tab_box">
+              <p class="ms_tab_time">{{value.startTimeStr}}</p>
+              <p class="ms_tab_state">
+                {{if value.todayFlag!=null && value.todayFlag==0}}
+                已结束
+                {{/if}}
+                {{if value.todayFlag!=null && value.todayFlag==1}}
+                今日秒杀
+                {{/if}}
+                {{if value.todayFlag!=null && value.todayFlag==2}}
+                即将开始
+                {{/if}}
+              </p>
+            </div>
+          </li>
+          {{/each}}
+        </ul>
+      </script>
+
+  <script id="list_page" type="text/html">
+       {{each data as value i}}
+        <div id="mx_{{i}}" class="seckill_div" {{if value.todayFlag!=null && value.todayFlag != isToday}}style="display: none;"{{/if}}>
+          {{each value.seckillGroupByPmStartDate as item j}}
+          <div id="groupBypm_{{i}}{{j}}">
+          <div class="ms_djs" id="line_{{item.pkids}}" style="display: none;">
+          <p class="ms_djs_line" style="z-index: 99px;"></p>
+          {{if item.startMs}}
+          <span id="title_{{item.pkids}}" style="left: 39%;" name="act_starttime" class="i18n">开始倒计时:</span>
+          <input type="hidden" class="time" id="{{item.pkids}}" value="{{item.startMs}}">
+          <span class="size_time" style="left: 64%;" id="time_{{item.pkids}}">
+           00天00时00分00秒</span>
+          {{/if}}
+          </div>
+           
+          <div class="ms_list">
+            <div class="item" id="list">
+              <h2><span>{{item.pm}}</span></h2>
+              <ul>
+                 {{each item.seckillList as seckill h}}
+                <li style="padding-bottom: 10px;">
+                  {{each seckill.mxList as mx m}}
+                  <div {{if m != seckill.mxList.length-1 }}style="padding-bottom: 6px;border-bottom: solid 1px;border-color: #3e7baf;" {{/if}}>
+                   <div>
+                      <dl onclick="toResourceInfo({{mx.wzid}},{{mx.depid}},'10');">
+                        <dt><a href="#"><em>{{mx.pm}}</em> {{mx.cz}} {{if mx.pm == "DTY"}}
+                            {{mx.str02}}
+                            {{mx.str03}} {{else}}
+                            {{mx.wzlb}}{{if mx.str04 != null}}
+                            {{mx.str04}}{{/if}} {{if mx.str02 != null}}
+                            {{mx.str02}}{{/if}} {{/if}}</a></dt>
+                        <dd>{{mx.gg}}<span>|</span>{{mx.cd}}<span>|</span>重量：{{mx.sl}} kg</dd>
+                       </dl>
+                    </div>
+                    <div class="bot">
+                           <div class="sale_price">秒杀价：<span>¥</span><em>{{mx.msprice}}</em></div>
+                           <div class="ori_price">原价：¥{{mx.price00}}</div>
+                    </div>
+                  </div>
+                  {{/each}}
+                  {{if seckill.mxList && seckill.mxList.length == 1}}
+                  <div class="bot">
+                    {{if seckill.status==1 && seckill.startMs<=0}}
+                    <a id="btn_{{seckill.pkid}}" class="btn" onclick="doSeckill('{{seckill.pkid}}')" name="{{seckill.status}}" href="javaScript:void(0);">秒杀</a>
+                    {{/if}}
+                    {{if seckill.status==1 && seckill.startMs>0}}
+                    <a id="btn_{{seckill.pkid}}" name="{{seckill.status}}" class="btn disabled">即将开始</a>
+                    {{/if}}
+                    {{if seckill.status==2 || seckill.startMs==null}}
+                    <a id="btn_{{seckill.pkid}}" name="{{seckill.status}}" class="btn disabled">结束</a>
+                    {{/if}}
+                  </div>
+                  {{else}}
+                  </li>
+                  <li style="background-color: #efeff1; border-top: none;border-left: none;border-right: none;{{if item.seckillList.length-1 == h}}border-bottom: none;{{/if}}">
+                    <div class="bot">
+                    {{if seckill.status==1 && seckill.startMs<=0}}
+                    <a id="btn_{{seckill.pkid}}" class="btn" onclick="doSeckill('{{seckill.pkid}}')" name="{{seckill.status}}" href="javaScript:void(0);">秒杀</a>
+                    {{/if}}
+                    {{if seckill.status==1 && seckill.startMs>0}}
+                    <a id="btn_{{seckill.pkid}}" name="{{seckill.status}}" class="btn disabled">即将开始</a>
+                    {{/if}}
+                    {{if seckill.status==2 || seckill.startMs==null}}
+                    <a id="btn_{{seckill.pkid}}" name="{{seckill.status}}" class="btn disabled">结束</a>
+                    {{/if}}
+                  </div>
+                  {{/if}}
+                </li>
+                {{/each}}               
+              </ul>
+            </div> 
+          </div>
+        </div>
+          {{/each}}
+         </div>
+         {{/each}}
+        </script>
+
+  <script id="sapBanner_page" type="text/html">
+            <div class="swiper-wrapper">
+                {{each sapBanner as value i}}
+                    <div class="swiper-slide">
+                    <img src="{{filePath}}{{value.imgUrl}}" onclick="toLinkUrl('{{value.title}}', '{{value.linkUrl}}')"/>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="swiper-pagination" style="bottom:0px;"></div>
+        </script>
+</body>
+
+</html>

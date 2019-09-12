@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="jki_title">借款详情</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="main">
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/jkqdInfo.js"></script>
+    <script id="main_page" type="text/html">
+            <div class="wx_hyordermesbox">
+                <p class="ddnumber">
+                    {{data.contract.fphm}}                    
+                </p>
+                <div class="ordermesbox">
+                    <ul class="ordermes">
+                        {{each data.contract.mxlist as mx i}}
+                        <li>
+                            <p class="proname_a">
+                                {{mx.pm}}
+                                <span class="perty_a">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                                <span class="perty_a">{{mx.str02}}</span>
+                                <span class="perty_a">{{mx.str03}}</span> {{else if (mx.pm == "切片" || mx.pm == "锦纶切片")}}
+                                <span class="perty_a">{{mx.gg}}</span>
+                                <span class="perty_a">{{mx.cd}}</span> {{else}}
+                                <span class="perty_a">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                                <span class="perty_a">{{mx.str04}}</span> {{/if}} {{if mx.str02 != null}}
+                                <span class="perty_a">{{mx.str02}}</span> {{/if}} {{/if}}
+                            </p>
+                            {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}}
+                            <p class="size">{{mx.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{mx.cd}}</p>
+                            {{/if}}
+                            <p class="size_a">
+                                <span class="price">￥<em>{{mx.price}}</em></span> 重量：{{mx.sl2}}{{mx.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;箱包数：{{mx.sl1}}
+                            </p>                            
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <div class="time">
+                        {{#getDate(data.contract.cdate,"yyyy-MM-dd HH:mm")}}
+                        <div class="total">
+                             合计
+                            <span class="jg">￥<em>{{data.contract.htamt}}</em></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <ul class="sqrz_item">
+                <li class="sqrz_list">
+                    <span class="i18n" name="jki_rzdh">融资单号</span>
+                    {{data.fphm}}                    
+                </li>
+                <li class="jhway">
+                     <span class="i18n" name="sh_rzjgname">合同类型</span>               
+                    <em class="way current i18n" val="1" name="sh_khname">逸控代</em>
+                </li>
+                <li class="sqrz_list">
+                    <span class="i18n" name="jki_rzjg">融资机构</span>
+                    {{data.shopname}}                    
+                </li>
+                <li class="sqrz_list">
+                     <span class="i18n" name="jki_rzksrq">融资开始日期</span>
+                    {{#getDate(data.startDate, "yyyy-MM-dd")}}                    
+                </li>
+                <li class="sqrz_list">
+                     <span class="i18n" name="jki_zhhkrq">最后发货日期</span>
+                    {{#getDate(data.endDate, "yyyy-MM-dd")}}                    
+                </li>
+                <li class="sqrz_list">
+                   <span class="i18n" name="jki_bzjbl">保证金比例</span>
+                    {{data.brate}}%                    
+                </li>
+                <li class="sqrz_list">
+                     <span class="i18n" name="jki_jkje">借款金额</span>
+                    {{data.amt}}                    
+                </li>
+                {{if data.amt1 != null}}
+                <li class="sqrz_list">
+                    <span class="i18n" name="jki_yhje">已还金额</span>
+                    {{data.amt1}}                    
+                </li>
+                {{/if}}
+            </ul>  
+            {{if tc != null}}          
+            <div class="sqrz_message" style="background: #fff;">
+                <p class="sqrz_label"><span>*</span> <span class="i18n" name="jki_tcxx">服务费费率</span></p>
+                <table id="tcmxList" class="yhgz_table" border="0" cellpadding="0" cellspacing="1">
+                    <tr>
+                        <td> <span class="i18n" name="jki_jkzq">借款周期(天)</span></td>
+                        <td> <span class="i18n" name="jki_ll">利率(万分之)</span></td>
+                    </tr>
+                    {{each tc.mxList as tcmx}}
+                    <tr>
+                        <td>{{tcmx.fromDays}} - {{tcmx.toDays}}</td>
+                        <td>{{tcmx.rate}}</td>
+                    </tr>
+                    {{/each}}                    
+                </table>
+            </div>
+            {{/if}}
+            
+        </script>
+
+</body>
+
+</html>

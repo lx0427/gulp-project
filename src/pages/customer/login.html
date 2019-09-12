@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="lg_title">登录</title>
+
+    <% include ../../components/_head.art %>
+    <style>
+        /**绑定手机号*/
+        .wx_bdsj {
+            margin-top: 0px;
+        }
+
+        .wx_bdsj .weui_label {
+            width: 100px;
+        }
+
+        .must_input {
+            color: #f00;
+            margin-right: 1px;
+        }
+
+        .wx_bdsj_img {
+            display: block;
+            padding: 50px 0px;
+            margin: 0px auto;
+            text-align: center;
+            width: 100px;
+        }
+
+        .weui_cells {
+            font-size: 1.5rem;
+        }
+
+        .weui_btn_primary {
+            background-color: #3e7baf;
+        }
+    </style>
+</head>
+
+<body ontouchstart style="background: #fff;">
+    <img class="wx_bdsj_img" src="../../images/logo.png">
+    <div class="weui_cells weui_cells_form wx_bdsj">
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label ">
+                    <span class="must_input">*</span> <span class="i18n" name="lg_mobilename">手机号</span>
+                </label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='mobile' class="weui_input i18n_ph" type="text" name="lg_mobilenametip"
+                    placeholder="请输入您的手机号">
+            </div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd">
+                <label class="weui_label "><span class="must_input">*</span> <span class="i18n"
+                        name="lg_pwdname">密码</span></label>
+            </div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input id='pwd' class="weui_input i18n_ph" type="password" name="lg_pwdnametip" placeholder="请输入您的密码">
+            </div>
+        </div>
+    </div>
+    <div class="weui_btn_area">
+        <a class="weui_btn weui_btn_primary i18n" href="javascript:" onclick="doLogin()" name="lg_loginname">登录</a>
+    </div>
+    <div class="weui_cells_title">
+        <div class="weui_cell" style="padding: 0px;">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p onclick="toRegister();" class="i18n" name="lg_registername">还未注册？点击注册</p>
+            </div>
+            <div class="weui_cell_ft " onclick="findPwd();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+                    class="i18n" name="lg_findpwdname">忘记密码</span></div>
+        </div>
+    </div>
+    <!--手机号或密码错误-->
+    <div class="jf_pop" id="confirmDiv1" style="display:none;">
+        <div class="jf_pop_border djq_pop_border" style="top: 35%;">
+            <div class="jf_pop_box">
+                <input id="pkid" type="hidden">
+                <div class="jf_pop_detail djq_pop_detail" style="padding-top: 10px;">
+                    <p style="font-size: 2.5rem;font-weight: 600;line-height: 34px;">提示</p>
+                    <p>手机号或密码错误</p>
+                </div>
+                <div class="jf_pop_btn">
+                    <span class="jf_btn_left"><a onclick="cancle(1)">重新输入</a></span>
+                    <span class="jf_btn_right"><a class="btn_true" onclick="findPwd()">找回密码</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--手机号未注册-->
+    <div class="jf_pop" id="confirmDiv2" style="display:none;">
+        <div class="jf_pop_border djq_pop_border" style="top: 35%;">
+            <div class="jf_pop_box">
+                <input id="pkid" type="hidden">
+                <div class="jf_pop_detail djq_pop_detail" style="padding-top: 10px;">
+                    <p style="font-size: 2.5rem;font-weight: 600;line-height: 34px;">提示</p>
+                    <p>您还没有注册，请先注册</p>
+                </div>
+                <div class="jf_pop_btn">
+                    <span class="jf_btn_left"><a onclick="cancle(2)">再想想</a></span>
+                    <span class="jf_btn_right"><a class="btn_true" onclick="toRegister()">立即注册</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../../_foot.html %>
+
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="../../js/md5.min.js"></script>
+    <script src="../customer/login.js"></script>
+</body>
+
+</html>

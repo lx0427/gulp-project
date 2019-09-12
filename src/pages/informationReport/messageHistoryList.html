@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>信息反馈</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+</style>
+</head>
+
+<body>
+<article class="wx_layout">
+  <header class="wx_infofktop">
+    <ul class="hy_xxsb" style="display: none;">
+      <li class="xxsb_list xxsb_list_checked" onclick="onPage(2);"><span class="typeSpan" style="background:#ffffff;color:#3e7baf;">客户拜访</span></li>
+      <li class="xxsb_list" onclick="onPage(3);"><span class="typeSpan" style="">周 报</span></li>
+    </ul>
+  </header>
+  <section class="wx_infofk" id="infinitePage">
+    <div class="bfff toptit" id="list">
+      
+    </div>
+    <div class="weui-infinite-scroll">
+        <div class="infinite-preloader"></div>
+        <span class="i18n" name="sd_loading">正在加载</span>
+    </div>      
+  </section>
+</article>
+<footer class="wx_btnnext i18n" style="display: block;height: 35px;line-height: 35px;font-size: 1.6rem;" id="totalNum" name="xxfk_sbxx"  >总计:</footer>
+<% include ../../_foot.html %>
+<script type="text/javascript">
+  window.onpageshow = function(event) {
+    if (event.persisted) {
+    window.location.reload();
+    }
+  };
+</script>
+<script src="../../js/oauth2.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    $(function(){
+        wxconfig();
+    });
+</script>
+<script src="../informationReport/messageHistoryList.js"></script>
+
+<script id="list_page" type="text/html">
+  <div class="tit">{{if whType!=null && whType==1}}随手记{{/if}}{{if whType!=null && whType==2}}实地拜访{{/if}}{{if whType!=null && whType==3}}周报{{/if}}</div>
+    <div class="wx_suggest ssjlist">    
+    {{if whType!=null && whType==1}}
+    {{each data as value i}}    
+        <div class="item" onclick="toInfo('{{value.pkid}}', 1)">
+          <div class="inner">
+            <div class="top">
+              <div class="dt ellipsis1">{{value.problem}}<div class="slide">查看<i class="arrow"></i></div></div>
+              <div class="dd">反馈时间：{{#getDate(value.cdate,"yyyy.MM.dd HH:mm")}} | 
+              {{if value.isMark != null && value.isMark == 1}} <b class="cf84d02">收到点评</b> {{/if}}
+              {{if value.isMark == 0 && value.str01 == null}} <span class="">未点评</span> {{/if}}
+              {{if value.isMark == 0 && value.str01 != null}}<span class="">点评人: {{value.str01}}</span> {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+    {{/each}}
+    {{/if}}
+    {{if whType!=null && whType==2}}  
+    {{each data as value i}}    
+        <div class="item" onclick="toInfo('{{value.pkid}}', 2)">
+          <div class="inner">
+            <div class="top">
+              <div class="dt ellipsis1">{{value.customerName}}<div class="slide">查看<i class="arrow"></i></div></div>
+              <div class="dd">客户类型：
+              {{if value.customerType==1}}老客户 | 产品线：{{value.informationSources}} {{/if}}
+              {{if value.customerType==0}}新客户{{/if}} | 时间：
+              {{#getDate(value.cdate,"yyyy.MM.dd HH:mm")}} | 
+              {{if value.isMark != null && value.isMark == 1}} <b class="cf84d02">收到点评</b> {{/if}}
+              {{if value.isMark == 0 && value.str01 == null}} <span class="">未点评</span> {{/if}}
+              {{if value.isMark == 0 && value.str01 != null}}<span class="">点评人: {{value.str01}}</span> {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+    {{/each}}
+    {{/if}}
+    {{if whType!=null && whType==3}}
+    {{each data as value i}}    
+        <div class="item" onclick="toInfo('{{value.pkid}}', 3)">
+          <div class="inner">
+            <div class="top">
+              <div class="dt ellipsis1">{{value.informationSources}}<div class="slide">查看<i class="arrow"></i></div></div>
+              <div class="dd">反馈时间：{{#getDate(value.cdate,"yyyy.MM.dd HH:mm")}} | 
+              {{if value.isMark != null && value.isMark == 1}} <b class="cf84d02">收到点评</b> {{/if}}
+              {{if value.isMark == 0 && value.str01 == null}} <span class="">未点评</span> {{/if}}
+              {{if value.isMark == 0 && value.str01 != null}}<span class="">点评人: {{value.str01}}</span> {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+    {{/each}}
+    {{/if}}
+  </div>
+</script>
+
+</body>
+</html>

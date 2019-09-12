@@ -1,0 +1,17 @@
+<!-- 活动规则 -->
+<script id="popupTemplate" type="text/html">
+  <div id="{{id}}" class='weui-popup-container'>
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal wepopup__wrap">
+      <header class="wepopup__header">
+        {{title}}
+        <span class="wepopup__header-close close-popup">关闭</span>
+      </header>
+      <div class="wepopup__main">
+        {{each lists as value}}
+        <p>{{value}}</p>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</script>

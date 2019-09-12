@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>微商城后台</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_functionbox">
+                <p class="gntext">微商城后台功能列表</p>
+                <ul class="gnlist">
+                    <li onclick="menberFile();">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til">客户档案</p>
+                        <p class="cont">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="menberLevel()">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til">客户等级</p>
+                        <p class="cont">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="customerRelations()">
+                        <span><i class="iconfont icon-gzkhtj"></i></span>
+                        <p class="til">客户关系</p>
+                        <p class="cont">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="orderList()">
+                        <span><i class="iconfont icon-khdd"></i></span>
+                        <p class="til">订单列表</p>
+                        <p class="cont">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="employeeSet()">
+                        <span><i class="iconfont icon-ygsz"></i></span>
+                        <p class="til">员工设置</p>
+                        <p class="cont">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="materialRelation()">
+                        <span><i class="iconfont icon-ygsz"></i></span>
+                        <p class="til">物料对照关系</p>
+                        <p class="cont">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/mallBackstage.js"></script>
+</body>
+
+</html>

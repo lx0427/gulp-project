@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>自主注册客户</title>
+  <% include ../../components/_head.art %>
+  <script>
+  </script>
+  <style>
+    .wx_main {
+      top: 44px;
+    }
+
+    .wx_searchbox,
+    .wx_searchboxbg {
+      padding: 0px 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="wx_searchbox">
+    <div class="weui_search_bar">
+      <form id="form" class="weui_search_outer">
+        <div class="weui_search_inner">
+          <i class="weui_icon_search"></i>
+          <input type="search" class="weui_search_input noi18n_ph" name="sm_ssdd" id="querykey" placeholder="搜索客户"
+            value="" />
+          <a href="javascript:" class="weui_icon_clear"></a>
+        </div>
+        <label for="querykey" class="weui_search_text">
+          <i class="weui_icon_search"></i>
+          <span class="noi18n" name="sm_ssdd">搜索客户</span>
+        </label>
+      </form>
+      <a href="javascript:" class="weui_search_cancel noi18n" name="com_cancel">取消</a>
+    </div>
+  </header>
+  <article class="wx_layout">
+    <section class="wx_main">
+      <ul class="wx_hyfilter">
+        <li class="current" onclick="setaction(0,'a')" id="a">待操作<span class="xl"></span></li>
+        <li onclick="setaction(3,'b')" id="b">已接受<span class="xl"></span></li>
+        <li onclick="setaction(4,'c')" id="c">已退回<span class="xl"></span></li>
+      </ul>
+
+      <input type="hidden" name="action" id="action" value="">
+      <br /><br />
+      <div id="list">
+
+      </div>
+    </section>
+  </article>
+  <% include ../../_foot.html %>
+  <script src="../salesman/menberManagerSalesman.js"></script>
+  <script id="list_page" type="text/html">
+         {{each data as value i}}
+         <div class="wx_allot">
+         <div class="wx_allot">
+      <div class="wx_allotitem">
+        <div class="info">
+          <div class="tit">
+            <h3>{{value.mbname}}</h3>
+            <span>{{value.coplxr}}/{{value.copmobile}}</span>
+            <em>{{#getDate(value.optdate,"yyyy-MM-dd")}}</em>
+          </div>
+          <div class="cont">
+            <div class="left">
+              <p>经营范围：{{value.jyfw}}</p>
+              <p>拿货渠道：{{value.gtjg}}</p>
+            </div>
+            <div class="btn" >
+              <a class="allotbtn" href="javascript:void(0);" onclick="quxiao('{{value.sendid}}')">接收</a>
+              <a class="noallotbtn" href="javascript:void(0);" onclick="dakaifp({{value.sendid}})">退回</a>
+            </div>
+          </div>
+        </div> 
+      </div>
+      <div class="box allot" id="allot{{value.sendid}}">
+        <a class="btn" href="#" onclick="jieshou({{value.sendid}})">确定</a>
+        <a class="btn cancel" href="#" onclick="quxiao('{{value.sendid}}')">取消</a>
+      </div>
+      <div class="box noallot" id="{{value.sendid}}">
+        <div class="flex">
+          <span>理由</span>
+          <div class="inp"><input type="text" name="jjly" id="jjly{{value.sendid}}" maxlength="50" placeholder="请输入你的理由（不超过50字）"></div>
+          <a class="btn" href="#" onclick="jujue({{value.sendid}})">确定</a>
+        </div>
+      </div>
+     </div>
+    </div>
+    {{/each}}
+      </script>
+
+  <script id="fenpei" type="text/html">
+        {{each data as value i}}
+        <div class="wx_allot">
+         <div class="wx_allot">
+      <div class="wx_allotitem">
+        <div class="info">
+          <div class="tit">
+            <h3>{{value.mbname}}</h3>
+            <span>{{value.coplxr}}/{{value.copmobile}}</span>
+            <em>{{#getDate(value.optdate,"yyyy-MM-dd")}}</em>
+          </div>
+          <div class="cont">
+            <div class="left">
+              <p>经营范围：{{value.jyfw}}</p>
+              <p>拿货渠道：{{gtjg}}</p>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+    </div>
+    {{/each}}
+      </script>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>操作员列表</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            margin-top: 44px;
+            bottom: 45px;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wx_searchboxbg"></div>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="m_queryp2" id="querykey"
+                        placeholder="联系人/联系电话" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="m_queryp2">联系人/联系电话</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="sd_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycontactlist" id="list"></ul>
+
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    <span class="i18n" name="sd_loading">正在加载</span>
+                </div>
+            </div>
+        </section>
+    </article>
+    <footer class="wx_btnnext" onclick="toAdd();"><span class="i18n" name="m_xzlxr">新增联系人</span></footer>
+    <% include ../../_foot.html %>
+    <script src="../menber/mboptList.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <li>
+                <p onclick="toEdit('{{value.userid}}','{{value.username}}','{{value.isadmin}}','{{value.status}}','{{value.mobile}}');" class="contactimg"><img src="../../images/headpic.png" /></p>
+                <p onclick="toEdit('{{value.userid}}','{{value.username}}','{{value.isadmin}}','{{value.status}}','{{value.mobile}}');" class="contactlist_name">{{value.username}}</p>
+                <p onclick="toEdit('{{value.userid}}','{{value.username}}','{{value.isadmin}}','{{value.status}}','{{value.mobile}}');" class="contactlist_detail">{{value.mobile}}</p>
+                <i class="iconfont icon-tel" onclick="doCall('{{value.mobile}}')"></i>
+            </li>
+            {{/each}}
+        </script>
+</body>
+
+</html>

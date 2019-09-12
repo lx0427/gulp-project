@@ -1,18 +1,690 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <% include ../../components/_head.art %>
-  <link rel="stylesheet" href="@/pages/customer/index.less">
-  <title>首页</title>
+    <title name="in_title">恒逸微商城-易上手的B2B化纤交易平台</title>
+    <% include ../../components/_head.art %>
+
+
+    <style>
+        ::-webkit-input-placeholder {
+            color: #666;
+        }
+
+        ::-moz-placeholder {
+            color: #666;
+        }
+
+        /* firefox 19+ */
+
+        :-ms-input-placeholder {
+            color: #666;
+        }
+
+        /* ie */
+
+        input:-moz-placeholder {
+            color: #666;
+        }
+
+        .wx_searchboxbg {
+            opacity: 0;
+        }
+
+        .wx_main {
+            top: 44px;
+        }
+
+        .focuslist .overplus .overplus_3.end {
+            background: #a2a0a0;
+        }
+
+        .wx_searchbox .search_s {
+            background-color: #white;
+
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+        }
+
+        #mypoint {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            right: -5px;
+            top: 3px;
+            background: #f92c04;
+            border-radius: 50%;
+        }
+
+        .shopAmount {
+            border: 1px solid #f92c04;
+            border-radius: 50%;
+            position: absolute;
+            display: inline-block;
+            right: 31%;
+            top: 2px;
+            width: 15px;
+            height: 15px;
+            font-size: 1.1rem;
+            line-height: 15px;
+            background-color: #f92c04;
+            color: #fff;
+        }
+
+        .ms_djs {
+            margin: 7px 0 0 0;
+            position: relative;
+            text-align: center;
+            height: 44px;
+            background: #fff;
+        }
+
+        .ms_djs span {
+            display: inline-block;
+            font-size: 1.3rem;
+            color: #666;
+            padding: 0 10px;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            line-height: 44px;
+            background: #fff;
+            z-index: 999;
+            margin-left: -75px;
+        }
+
+        .ms_djsa {
+            margin: 7px 0 0 0;
+            position: relative;
+            text-align: center;
+            height: 44px;
+            background: #fff;
+        }
+
+        .ms_djsa span {
+            display: inline-block;
+            font-size: 1.3rem;
+            color: #666;
+            padding: 0 10px;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            line-height: 44px;
+            background: #fff;
+            z-index: 999;
+            margin-left: -75px;
+        }
+
+        .ms_list {
+            padding: 0 0px 0px;
+        }
+
+        .ms_list .item {
+            padding: 0 0 0px;
+        }
+
+        .ms_list li {
+            border-width: 0px 0px 1px;
+            border-style: solid;
+            padding: 0 10px 0;
+            background: #fff;
+            border-color: #e5e5e5;
+        }
+
+        .focuslist li .bot .btn {
+            position: absolute;
+            right: 10px;
+            top: 34%;
+            margin-top: -14px;
+            width: 80px;
+            height: 26px;
+            line-height: 26px;
+            background: #ff3c00;
+            color: #fff;
+            font-size: 1.6rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .wx_info {
+            margin-top: 10px;
+        }
+
+        .shanchu {
+            text-decoration: line-through;
+            color: #ff3c00;
+        }
+
+        .festival {
+            height: 120px;
+            width: 100%;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="mark"
+        style=" filter: Alpha(opacity=70); -moz-opacity: 0.7; opacity: 0.7; width: 100%; height: 100%; z-index: 100;position: absolute; left: 0; top: 0;  overflow: hidden; background-color: #000; display: none;">
+    </div>
+    <div class="wx_searchboxbg" style="z-index: 14;"></div>
+    <header class="wx_searchbox" style="z-index: 16;">
+        <div class="searchbg"></div>
+        <div class="search" style="display:none;">
+            <i class="iconfont icon-chaxk"></i>
+            <input name="in_searchtip" type="text" class="i18n_ph" readonly placeholder="请输入规格/批号">
+        </div>
+        <div class="search_s" onclick="toSearchHistoryList();"><i class="iconfont icon-chaxk"></i><span class="i18n"
+                name="in_searchname">请输入规格/批号</span></div>
+    </header>
+    <article class="wx_layout" style="z-index: 15;">
+        <div class="wx_zxzx" style="display:block;" id="kefu" onclick="showSm()">
+            <div class="zxzx_box">
+                <img src="../../images/zxdt3.gif" />
+            </div>
+        </div>
+        <div class="wx_ewm" style="display:none;" id="erwm">
+            <div class="wx_ewm_box">
+                <img src="../../images/sy_ewm.jpg" />
+                <p class="wx_ewm_text">长按图片扫码关注<br /><span>在线咨询时间：8:00-17:00</span></p>
 
-  <div id="content"></div>
-  <% include ./index.art %>
-  <% include ../../components/_foot.art %>
-  <script src="@/pages/customer/index.js"></script>
+            </div>
+            <i class="iconfont icon-chadel" onclick="colseEem()"></i>
+        </div>
+        <div class="rule" style="display: none;">
+            <div class="rule_bg">
+                <p class="rule_title i18n" id="rulename" name="in_rulename">优惠规则</p>
+                <p class="rule_detail" id="exDiscountRulesList"></p>
+                <p class="rule_close i18n" name="com_closename">关闭</p>
+            </div>
+        </div>
+        <section class="wx_main">
+            <div class="swiper-container wx_banner" id="wx_banner">
+                <!--<img src="../../images/hybanner.jpg" onclick="toCoupon();" />-->
+            </div>
+            <div class="wx_slogan">
+                <p class="wx_slogan_list"><span><img src="../../images/icon_qdg.png" style="vertical-align:middle;"
+                            width="13px" height="13px" /> 恒逸自营品牌</span></p>
+                <p class="wx_slogan_list"><span><img src="../../images/icon_qdg.png" style="vertical-align:middle;"
+                            width="13px" height="13px" /> 高品质无忧购货</span></p>
+                <p class="wx_slogan_list"><span><img src="../../images/icon_qdg.png" style="vertical-align:middle;"
+                            width="13px" height="13px" /> 快速售后响应</span></p>
+            </div>
+            <img src="../../images/happyNewYear.jpg" id="festivalImg" onclick="toBuy();" class="festival" />
+            <ul class="wx_hyproduct" id="prozh" style="display:none;">
+                <li onclick="toResourceList('DTY');"><span class="proicon"><img src="../../images/pro01.png" /></span>
+                    <p>DTY</p>
+                </li>
+                <li onclick="toResourceList('POY');"><span class="proicon"><img src="../../images/pro02.png" /></span>
+                    <p>POY</p>
+                </li>
+                <li onclick="toResourceList('FDY');"><span class="proicon"><img src="../../images/pro03.png" /></span>
+                    <p>FDY</p>
+                </li>
+                <li onclick="toResourceList('切片');"><span class="proicon"><img src="../../images/pro04.png" /></span>
+                    <p>涤纶切片</p>
+                </li>
+                <li onclick="toResourceList('锦纶切片');"><span class="proicon"><img src="../../images/pro05.png" /></span>
+                    <p>锦纶切片</p>
+                </li>
+                <!-- add by zx on 20180115 -->
+                <li onclick="toResourceList('短纤');"><span class="proicon"><img src="../../images/pro06.png" /></span>
+                    <p>短纤</p>
+                </li>
+            </ul>
+
+            <div class="wx_hybluebox" id="specialActivity">
+
+            </div>
+
+            <div class="wx_myfocus" id="proen" style="display:none;">
+                <ul class="flexible_item">
+                    <li class="flexible_list" onclick="toResourceList('DTY');"
+                        style="height: 120px;padding: 15px 25px 0 55px;">
+                        <span class="proicon_en"><img src="../../images/pro01.png" style="width: 100%;" /></span>
+                        <p class="flexible_en">DTY</p>
+                    </li>
+                    <li class="flexible_list" onclick="toResourceList('POY');"
+                        style="height: 120px;padding: 15px 25px 0 55px;">
+                        <span class="proicon_en"><img src="../../images/pro02.png" style="width: 100%;" /></span>
+                        <p class="flexible_en">POY</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="wx_info">
+                <p class="wx_info_list" id="msgTitle"></p>
+            </div>
+            <div id="doposter" style="width:100%;">
+
+            </div>
+            <!--<div id="activityPhotos" class="wx_myfocus wx_myfocus1">
+            </div>  -->
+            <div id="activityPhotos">
+            </div>
+            <div id="seckillList">
+            </div>
+            <!-- 隐藏首页限时购 勿删 -->
+            <!-- <div class="ms_djs purchase" style="display: none;">
+                <p class="ms_djs_line"></p>
+                <span class="xsg">限时购(即将开始)：<em id="hour">00</em>:<em id="min">00</em>:<em id="sec">00</em></span>
+            </div>
+            <div id="purchase" class="ms_list wx_xsg purchase" style="margin-top: -8px; display: none;">
+            </div>
+            <p class="purchase"
+                style="display: none; width: 100%;text-align: center;font-size: 1rem;height: 23px;background: #fff;"
+                onclick="toPurchase()">查看全部&gt;</p> -->
+            <div id="auctionList"></div>
+            <div id="activityPhotos1">
+            </div>
+            <div id="activityList">
+            </div>
+            <div class="wx_myfocus">
+                <div class="commontil hytil"><span class="line"></span><span class="tiltext i18n" name="in_guessname"
+                        id="guessLike">最近购买</span></div>
+                <ul class="focuslist" id="focusList">
+                </ul>
+            </div>
+
+        </section>
+    </article>
+    <div id="marketingPolicy" style="z-index: 110;"></div>
+    <div id="question"
+        style="z-index: 109;position:absolute; top:0; left:0; height:100%; width:100%;display: none; background:rgba(0,0,0,.5);">
+        <div class="wx_hysurvey">
+            <input type="hidden" name="questionId" id="questionId" value="">
+            <p>您有未完成的调查问卷！</p>
+            <div class="btn" onclick="goQuestion();">点击参加</div>
+            <a class="closebtn" href="javaScript:;" onclick="closeQuestion();"><i class="iconfont">&#xe70a;</i></a>
+        </div>
+    </div>
+    <footer class="wx_hybtmnav" style="z-index: 16;">
+        <ul class="wx_hybtmnavmc">
+            <li onclick="toIndex();" class="current"><i class="iconfont icon-hyhomek"></i><em class="i18n"
+                    name="com_indexname">首页</em></li>
+            <li onclick="toBuy();"><i class="iconfont icon-hyorderk"></i><em class="i18n" name="com_ordername">下单</em>
+            </li>
+            <li onclick="toShoppingCart();"><i class="iconfont icon-hybuyk"><span id="shopAmount" class="shopAmount"
+                        style="display: none;"></span> </i><em class="i18n" name="com_shopname">购物车</em></li>
+            <li onclick="toFavorites();"><i class="iconfont icon-storek" style="font-size: 26px;"><span id="shopAmount"
+                        class="shopAmount" style="display: none;"></span> </i><em class="i18n"
+                    name="com_shopname">收藏夹</em></li>
+            <li onclick="toMyPage();"><i class="iconfont icon-hymek"><span style="right:8%;top: 6px;display: none;"
+                        id="mypoint"></i><em class="i18n" name="com_myname">我的</em></li>
+        </ul>
+    </footer>
+    <div class="wx_pop" id="gift" style="display: none;">
+        <div class="wx_giftbox">
+            <p class="p1" id="couponName"></p>
+            <p class="p2" id="giftName"></p>
+            <div class="btn" onclick="getGift()">领取节日礼包</div>
+        </div>
+        <a class="close" onclick="$('.wx_pop').hide();"><i class="iconfont">&#xe70a;</i></a>
+    </div>
+    <div class="wx_pop" id="newGift" style="display:none;">
+        <div class="wx_giftbox">
+            <p class="p1" id="couponName"></p>
+            <p class="p2" id="giftName1"></p>
+            <div class="btn" onclick="getlottery()">点击领取</div>
+        </div>
+        <a class="close" onclick="$('.wx_pop').hide();"><i class="iconfont">&#xe70a;</i></a>
+    </div>
+    <% include ../../_foot.html %>
+    <script src="../customer/index.js"></script>
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="../../lib/swiper.min.js"></script>
+    <script id="focusList_page" type="text/html">
+            {{each data as value i}}
+            <li onclick="toResourceInfo('{{value.wzid}}','{{value.depid}}','{{value.salesType}}');">
+                <p class="proname">
+                    {{value.pm}}
+                    <span class="perty">{{value.cz}}</span> {{if value.pm == "DTY"}}
+                    <span class="perty">{{value.str02}}</span>
+                    <span class="perty">{{value.str03}}</span> {{else}}
+                    <span class="perty">{{value.wzlb}}</span> {{if value.str04 != null}}
+                    <span class="perty">{{value.str04}}</span> {{/if}} {{if value.str02 != null}}
+                    <span class="perty">{{value.str02}}</span> {{/if}} {{/if}}
+                    {{if value.differentiation != null&&value.differentiation==1}}
+                            <span class="perty">差异化</span> {{/if}}
+                </p>
+                <p class="size">
+                    {{if (value.pm != "切片" && value.pm != "锦纶切片")}} {{value.gg}}&nbsp;&nbsp;{{/if}} {{value.cd}}
+                </p>
+                {{if isLogin}}
+                <div class="price">{{#value.price00Str}}</div>
+                {{/if}}
+            </li>
+            {{/each}}
+        </script>
+    <script id="specialActivity_page" type="text/html">
+           <ul>
+                <li>
+                    {{if activity7}}
+                    <img onclick="openPage('{{activity7.title}}', '{{activity7.linkUrl}}');" src="{{filePath}}{{activity7.imgUrl}}" />
+                    {{/if}}
+                </li>
+                <li>
+                    {{if activity8}}
+                    <img onclick="openPage('{{activity8.title}}', '{{activity8.linkUrl}}');" src="{{filePath}}{{activity8.imgUrl}}" />
+                    {{/if}}
+                </li>
+                <li>
+                    {{if activity9}}
+                    <img onclick="openPage('{{activity9.title}}', '{{activity9.linkUrl}}');" src="{{filePath}}{{activity9.imgUrl}}"/>
+                    {{/if}}
+                </li>
+                <li>
+                    {{if activity10}}
+                    <img onclick="openPage('{{activity10.title}}', '{{activity10.linkUrl}}');" src="{{filePath}}{{activity10.imgUrl}}" />
+                    {{/if}}
+                </li>
+            </ul>
+        </script>
+
+    <!--<script id="activityPhotos_page" type="text/html">
+            <div class="homepage_img">
+                <div class="homepage_img_left">
+                    {{if activity1}}
+                    <img style="padding-right: 1px" src="{{filePath}}{{activity1.imgUrl}}" onclick="openPage('{{activity1.title}}', '{{activity1.linkUrl}}')"/>
+                    {{/if}}  
+                </div>
+                <div class="homepage_img_right" >
+                    {{if activity2}}
+                    <img style="padding-left: 1px" src="{{filePath}}{{activity2.imgUrl}}" onclick="openPage('{{activity2.title}}', '{{activity2.linkUrl}}')"/>
+                    {{/if}}
+                </div>
+              </div>
+                
+              <div class="homepage_img">
+                <div class="homepage_img_left" >
+                    {{if activity3}}
+                    <img style="padding-right: 1px" src="{{filePath}}{{activity3.imgUrl}}" onclick="openPage('{{activity3.title}}', '{{activity3.linkUrl}}')" />
+                    {{/if}}
+                </div>
+                <div class="homepage_img_right" >
+                    {{if activity4}}
+                    <img style="padding-left: 1px" src="{{filePath}}{{activity4.imgUrl}}" onclick="openPage('{{activity4.title}}', '{{activity4.linkUrl}}')" />
+                    {{/if}}
+                </div>
+              </div>
+        </script>-->
+    <script id="activityPhotos_page" type="text/html">
+	        {{if activity1||activity2||activity3||activity4}}
+            <div class="wx_myfocus wx_myfocus1 wx_indtit">
+			  <h2>商城活动</h2>
+			  <div class="homepage_img">
+			    <div class="homepage_img_left">
+			    	{{if activity1}}
+                    <img style="padding-right: 1px" src="{{filePath}}{{activity1.imgUrl}}" onclick="openPage('{{activity1.title}}', '{{activity1.linkUrl}}')"/>
+                    {{/if}}  
+			    </div>
+			    <div class="homepage_img_right">
+			    	{{if activity2}}
+                    <img style="padding-left: 1px" src="{{filePath}}{{activity2.imgUrl}}" onclick="openPage('{{activity2.title}}', '{{activity2.linkUrl}}')"/>
+                    {{/if}}
+			    </div>
+			  </div>
+			  <div class="homepage_img homepage_img1">
+			    <div class="homepage_img_left">
+			    	{{if activity3}}
+                    <img style="padding-right: 1px" src="{{filePath}}{{activity3.imgUrl}}" onclick="openPage('{{activity3.title}}', '{{activity3.linkUrl}}')" />
+                    {{/if}}
+			    </div>
+			    <div class="homepage_img_right">
+			    	{{if activity4}}
+                    <img style="padding-left: 1px" src="{{filePath}}{{activity4.imgUrl}}" onclick="openPage('{{activity4.title}}', '{{activity4.linkUrl}}')" />
+                    {{/if}}
+			    </div>
+			  </div>
+			</div>
+            {{/if}}
+		</script>
+    <script id="activityPhotos_page1" type="text/html">
+			<div class="wx_myfocus wx_myfocus1 wx_indtit">
+		      <h2>商城服务</h2>
+		      <div class="homepage_img">
+		        <div class="homepage_img_left">
+		        	{{if activity5}}
+                    <img style="padding-right: 1px" src="{{filePath}}{{activity5.imgUrl}}" onclick="openPage('{{activity5.title}}', '{{activity5.linkUrl}}')" />
+                    {{/if}}
+		        </div>
+		        <div class="homepage_img_right">
+		        	{{if activity6}}
+                    <img style="padding-left: 1px" src="{{filePath}}{{activity6.imgUrl}}" onclick="openPage('{{activity6.title}}', '{{activity6.linkUrl}}')" />
+                    {{/if}}
+		        </div>
+		      </div>
+		    </div>
+		</script>
+    <script id="purchaseList" type="text/html">
+        <div class="item" style="padding: 0px 0 0px;">
+        <ul>
+        	{{each list as value i}}
+	          <li>
+	            <dl>
+	              <dt><a><em>{{value.pm}}</em> {{value.cz}}{{value.str03}}</a></dt>
+	              <dd>{{value.gg}}<span>
+	              	|</span>{{value.cd}}<span>|</span>{{value.wzlb}}
+	              	{{if value.packstr != null && value.packstr != ''}}
+		              	{{if value.cd.indexOf("AA") == -1 || type != "DTY"}}
+		              		箱包净重:{{value.packstr}}kg</dd>
+		              	{{/if}}
+	              	{{/if}}
+
+		            </dl>
+	            <div class="bot">
+	              <div class="sale_price">限时价：<span>¥</span><em>{{value.newPrice}}</em></div>
+	              <div class="ori_price">原价：¥{{value.oldPrice}}</div>
+	              <div class="progress_bar">
+	                <span class="bar" style="width:{{value.percent}}%;"></span>
+	                <span class="txt">仅剩{{value.remainder}}kg</span>
+	              </div>
+	              {{if started == 1}}
+		              {{if value.status == 1}}
+		              	<a class="btn" onclick="purchase('{{value.pkid}}', '{{value.wzid}}', '{{value.depid}}', '{{value.salesType}}', '{{value.gpls}}', '{{value.purid}}')">马上抢</a>
+		              {{else}}
+		              	<a class="btn disabled">售 罄</a>
+		              {{/if}}
+		           {{else}}
+		           		<a class="btn disabled">即将开始</a>
+		           {{/if}}
+	            </div>
+	          </li>
+          {{/each}}
+        </ul>
+      </div>
+      </script>
+    <script id="seckillList_page" type="text/html">
+            {{if seckillGroup != null}}
+             <div class="ms_djs">
+              <input type="hidden" name="startMs" id="seckillStartMs" value="{{seckillGroup.startMs}}">
+              <p class="ms_djs_line"></p>
+              <span class="xsg" style="left:43%;">{{if seckillGroup.startMs>0}}秒杀即将开始：{{/if}}{{if seckillGroup.startMs<=0}}秒杀进行中：{{/if}}<em id="shour">00</em>:<em id="smin">00</em>:<em id="ssec">00</em></span>
+            </div>
+            {{each seckillGroup.seckillList as value i}}
+            <div class="wx_myfocus" style="margin-top: -14px;">
+                {{each value.mxList as mx i}}
+                <ul class="focuslist">
+                    <li style="border-bottom-style: dashed;">
+                        <p class="proname">
+                            {{mx.pm}}
+                            <span class="perty">{{mx.cz}}</span>
+                            {{if mx.pm == "DTY"}}
+                            <span class="perty">{{mx.str02}}</span>
+                            <span class="perty">{{mx.str03}}</span>
+                            {{else}}
+                            <span class="perty">{{mx.wzlb}}</span>
+                            {{if mx.str04 != null}}
+                            <span class="perty">{{mx.str04}}</span>
+                            {{/if}} {{if mx.str02 != null}}
+                            <span class="perty">{{mx.str02}}</span>
+                            {{mx.str02}}{{/if}}{{/if}} 
+                        </p>
+                        <p class="size">
+                            {{mx.gg}}&nbsp;|&nbsp;{{mx.cd}}&nbsp;|&nbsp;{{mx.sl}} kg
+                        </p>
+                    </li>
+                     <li class="overplus">
+                         <div class="bot">
+                           <div class="sale_price" style="float: left;font-size: 1.2rem;line-height: 36px;">秒杀价：<span style="color: #fe9311;font-size: 1.8rem;">¥</span><em style="color: #fe9311;font-size: 1.8rem;">{{mx.msprice}}</em></div>
+                           <div class="ori_price" style="position: relative;float: left;margin-left: 20px;font-size: 1.2rem;line-height: 38px;">原价：<span style="font-size: 1.8rem; text-decoration:line-through;">
+                           ¥{{mx.price00}}</span></div>
+
+                           {{if value.mxList.length==1 && value.status==1 && value.startMs<=0}}
+                            <a class="btn" href="javaScript:void(0);" onclick="doSeckill('{{value.pkid}}')" name="{{value.status}}">秒杀</a>
+                            {{/if}}
+                            {{if value.mxList.length==1 && value.status==1 && value.startMs>0}}
+                            <a class="btn disabled" href="javaScript:void(0);" onclick="toSeckillList()">即将开始</a>
+                            {{/if}}
+                        </div>
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+            {{/each}}
+            <p style="line-height: 2;border-top: solid 1px #e5e5e5;width: 100%;text-align: center;font-size: 1.3rem;height: 23px;background: #fff;" onclick="toSeckillList()">查看全部&gt;</p>
+            {{/if}}  
+        </script>
+
+    <script id="activityList_page" type="text/html">
+            {{each activityList as value i}}
+            <div class="wx_myfocus">
+                <div class="commontil hytil">
+                    <span class="line"></span>
+                    <span class="tiltext i18n" name="in_salename">限时抢购</span>
+                    <p class="activity">{{value.activityName}}</p>
+                    <i class="iconfont icon-mark" onclick="showrule('{{value.rulesRemark}}')"></i>
+                </div>
+                {{each value.mxList as mx i}}
+                <ul class="focuslist">
+                    <li>
+                        <p class="proname">
+                            {{mx.hangsource.pm}}
+                            <span class="perty">{{mx.hangsource.cz}}</span> {{if mx.hangsource.pm == "DTY"}}
+                            <span class="perty">{{mx.hangsource.str02}}</span>
+                            <span class="perty">{{mx.hangsource.str03}}</span> {{else}}
+                            <span class="perty">{{mx.hangsource.wzlb}}</span> {{if mx.hangsource.str04 != null}}
+                            <span class="perty">{{mx.hangsource.str04}}</span> {{/if}} {{if mx.hangsource.str02 != null}}
+                            <span class="perty">{{mx.hangsource.str02}}</span> {{/if}} {{/if}}
+                            {{if mx.hangsource.differentiation != null&&mx.hangsource.differentiation==1}}
+                            <span class="perty">差异化</span> {{/if}} 
+                        </p>
+                        <p class="size">
+                            {{if (mx.hangsource.pm != "切片" && mx.hangsource.pm != "锦纶切片")}} {{mx.hangsource.gg}}&nbsp;&nbsp;{{/if}} {{mx.hangsource.cd}}
+                        </p>
+                        {{if isLogin}}
+                        <div class="price">{{#mx.hangsource.price00Str}}</div>
+                        {{/if}}
+                    </li>
+                    <li class="overplus">
+                        <p class="overplus_1"><span class="i18n" name="in_stockname">剩余库存量</span>：<span id="surplus_{{mx.pkid}}" class="overplus_2">{{mx.surplus}}</span></p>
+                        {{if (mx.surplus == 0)}}
+                        <input value="抢购结束" name="in_saleendname" class="overplus_3 end i18n_va" type="button"> {{else}}
+                        <input id="flashSale_{{mx.pkid}}" onclick="doFlashSale('{{value.pkid}}', '{{value.activityName}}', '{{mx.pkid}}', '{{mx.wzid}}', '{{mx.depid}}', '{{mx.salesType}}','{{mx.hangsource.pm}}','{{mx.hangsource.cz}}','{{mx.hangsource.gg}}','{{mx.hangsource.cd}}');" value="立即抢购" name="in_salestartname" class="overplus_3 i18n_va" type="button"> {{/if}}
+                    </li>
+                </ul>
+                {{/each}}
+            </div>
+            {{/each}}            
+        </script>
+    <script id="sapBanner_page" type="text/html">
+            <div class="swiper-wrapper">
+                {{each sapBanner as value i}}
+                    <div class="swiper-slide">
+                    <img src="{{filePath}}{{value.imgUrl}}" onclick="toLinkUrl('{{value.title}}', '{{value.linkUrl}}')"/>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="swiper-pagination" style="bottom:0px;"></div>
+        </script>
+    <script id="msgTitle_page" type="text/html">
+		 {{if pubmsg.length >0}}
+          
+		 <marquee    contenteditable="true" onstart="this.firstChild.innerHTML+=this.firstChild.innerHTML;" >
+            {{each pubmsg as value i}}
+            <span onclick="toNoticeInfo({{value.pkid}})" contenteditable="false" style="padding-right: 70%"><img src="../../images/dot.png"  style="vertical-align:middle;" width="5px" height="5px"/> {{value.title}}</span>
+            {{/each}}
+        </marquee>
+		 {{/if}}
+	    </script>
+    <script id="msgTitle_page2" type="text/html">
+                 <div class="swiper-wrapper">
+                {{each pubmsg as value i}}
+                <div class="swiper-slide">
+                    <span onclick="toNoticeInfo({{value.pkid}})">{{value.title}}</span>
+                </div>
+                {{/each}}
+                </div>
+                
+        </script>
+    <script id="policyList" type="text/html">
+            <input type="hidden" id="count" name="count" value="">
+                {{each policyList as value i}}    
+                
+                 <div class="wx_prompt2 " id="{{i}}" style="display: none;">
+            
+                  <h2> {{value.title}}</h2>
+                  <div class="bd">
+                    <div class="cont" style="margin-right: 0;padding-right:8px;overflow-x:hidden; overflow-y:auto;min-height: 20px;max-height:270px;">
+                         {{#value.content}}
+                    </div>
+                    <div class="btnarea"><a class="operbtn" onclick="doCancelPolicy({{i}})">关闭</a></div>
+                  </div>               
+                </div>        
+             {{/each}}
+                
+        </script>
+    <script id="postertemp" type="text/html">
+            <img src="{{filePath}}{{list.imgurl}}" width="100%" onclick ="doPosterClick('{{list.url}}','{{list.ptype}}','{{list.couponId}}','{{list.title}}','{{list.pkid}}')">
+        </script>
+    <script id="auctionList_page" type="text/html">
+            {{if auctionList != null}}
+             <div class="ms_djsa">
+              <input type="hidden" name="StartTimeStr" id="auctionListStartTimeStr" value="{{auctionList.startTimeStr}}">
+              <p class="ms_djs_line" style="width: 92%;left: 13px"></p>
+              {{if auctionList.startTimeStr }}<span class="xsg" style="left:34%;margin-left: -26px">竞拍倒计时：<em id="ahour">00</em>:<em id="amin">00</em>:<em id="asec">00</em></span>{{else}}<span class="xsg" style="left:45%;margin-left: -26px">竞拍进行中</span>{{/if}}
+            </div>
+            <div class="wx_myfocus" style="margin-top: -14px;">
+                {{each auctionList.mxList as mx i}}
+                {{if i < 2}}
+                <ul class="focuslist" style="margin-right: 13px;margin-left: 13px;">
+                     <li style="border-bottom-style: dashed;padding: 6px 0px 6px 2px;margin-right: 0px;margin-left: 0px;">
+                        <p class="proname">
+                            {{mx.pm}}
+                            <span class="perty">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                            <span class="perty">{{mx.str02}}</span>
+                            <span class="perty">{{mx.str03}}</span> {{else}}
+                            <span class="perty">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                            <span class="perty">{{mx.str04}}</span> {{/if}} {{if mx.str02 != null}}
+                            <span class="perty">{{mx.str02}}</span> {{/if}} {{/if}}
+                            {{if mx.differentiation != null&&mx.differentiation==1}}
+                            <span class="perty">差异化</span> {{/if}} 
+                            <span class="shanchu" style="float: right;"><span class="perty" >原价：¥{{mx.price01}}</span></span>
+                        </p>
+                        <p class="size">
+                            {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}} {{mx.gg}}&nbsp;|{{/if}} {{mx.cd}} {{if mx.totalDiscount }}|&nbsp;数量{{mx.totalDiscount}}包
+                        {{/if}} {{if mx.totalWeight }}
+                       |&nbsp;重量{{mx.totalWeight}}kg
+                        {{/if}}
+                        </p>
+                    </li>
+                    <li class="overplus" style="height: 37px;margin-right: 0px;margin-left: 0px;padding: 0 2px;">
+                         <div class="bot">
+                           <div class="sale_price" style="float: left;font-size: 1.2rem;line-height: 32px;">当前拍卖单价：<span style="font-size: 1.4rem;color: #fa4802;">￥</span><em style="font-size: 1.8rem;color: #fa4802;">{{if mx.price03 }}{{mx.price03}} {{else}}{{mx.startingPrice}} {{/if}}</em>&nbsp;&nbsp;加价幅度{{mx.increasePrice}}元/次</div>
+                        </div>
+                    </li>
+                </ul>
+                {{/if}}
+                {{/each}}
+            </div>
+            <p style="line-height: 2;width: 100%;text-align: center;font-size: 1.3rem;height: 25px;background: #fff;margin-top: -14px;" >......</p>
+            <p style="line-height: 2;width: 100%;text-align: center;font-size: 1.3rem;height: 23px;background: #fff;" onclick="auctionList('{{auctionList.flag04}}')">查看全部▼</p>
+            {{/if}}  
+        </script>
+
+
 </body>
 
 </html>

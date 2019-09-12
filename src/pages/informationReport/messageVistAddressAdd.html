@@ -1,0 +1,1079 @@
+<!DOCTYPE html> 
+<html> 
+
+<head>
+    <title>信息反馈</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+.wx_main{top:65px; bottom:45px;}
+.wx_searchbox .searchbg { opacity:1; border-radius:4px;}
+.wx_searchbox .search_s { color:#3e7baf;}
+.xbs i{color:#f00; font-style:normal; padding-right:3px;}
+.zl i{color:#f00; font-style:normal; padding-right:3px;}
+.xxfk_cpx {padding-left: 10px;}
+.cpx_label {display: block; padding-left: 63px;}
+.xxfk_cpx .cpx_label span{padding:1px 8px;}
+.zlbox {padding-top: 2px;padding-right: 3px;padding-bottom: 2px;padding-left: 78px;}
+#img_ul img {width:75px; height: 75px;}
+.fillbox .zlbox {padding-right: 0px;}
+.fillbox .zlbox input{box-sizing: border-box; }
+.wx_tasdelist li .fillbox {padding: 5px 0}
+.fillbox dt {width: 90%}
+.fillbox .zlbox .kg {right: 5px;}
+.i_spinner span{font-size:14px;color:#6B6B6B}
+.i_spinner > div {
+  width: 6px;
+  height:6px;
+  background-color:#6B6B6B;
+ 
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+ 
+.i_spinner .i_bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+ 
+.i_spinner .i_bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+  
+.ndxq_add {
+  border-bottom: solid 1px #ccc;
+  border-bottom-style: dashed;
+  text-align:center;
+  }
+
+.ndxq_add span{
+  display:inline-block;
+  font-size:1.6rem;
+  color:#008cee;
+  line-height:44px;
+  position:relative;
+  padding-left:28px;
+}
+.ndxq_add span .icon-increase{
+  font-size:18px;
+  color:#008cee;
+  line-height:44px;
+  position:absolute;
+  top:2px;
+  left:0;
+}
+.ndxq_add span .icon-cut{
+  font-size:18px;
+  color:#008cee;
+  line-height:44px;
+  position:absolute;
+  top:2px;
+  left:0;
+}
+
+@-webkit-keyframes bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+ 
+@keyframes bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 40% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+.cpx_label{position:relative;}
+.wx_tasdelist li .fillbox{border-bottom:none;}
+
+.fillbox dt input.input {border: 1px solid #ccc; border-radius: 5px; width: 100%; padding:0px 5px;}
+.fillbox .zlbox input {border: 1px solid #ccc; border-radius: 5px; width: 100%; padding:0px 5px;} 
+
+.fillbox .zlbox {padding-left: 77px; border-right: none;}
+.wx_tasdelist li {border:none;}
+.need_product {margin-bottom: 5px;}
+.xxfk_cpx {border:none;}
+
+.fillbox dt input {
+   text-align: center;
+}
+
+.addOrDecrease {
+    position: absolute;
+    line-height: 24px;
+    color: #666;
+    top: 0;
+    right: -10px;
+    font-size: 1.4rem;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */ 
+font-size: 1.4rem; color: #e1e1e1; text-align: center;
+} 
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+font-size: 1.4rem; color: #e1e1e1;
+} 
+input::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+font-size: 1.4rem; color: #e1e1e1;
+} 
+input:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+font-size: 1.4rem; color: #e1e1e1; text-align: center;
+}
+
+textarea::-ms-input-placeholder {
+    text-align: center;
+}
+
+textarea::-webkit-input-placeholder {
+    text-align: center;
+}
+
+.showStyle {display: block;} 
+.hideStyle {display: none;} 
+
+.weui-popup-container, .weui-popup-overlay {
+  height: 90%;
+}
+
+.ggspan {font-size: 1.4rem; color: #666}
+
+.markettextarea {width: 60%; border-left: solid 1px #ccc; margin-left: 13px;}
+
+.xxfk_cpx .xxfk_title {color: #666; font-weight: initial; padding-left: 13px;}
+
+.xxfk_bz_title {text-align: center;font-weight: bold;}
+
+.marketAreaSpan i.iconfont {font-size: 24px; border: solid 1px #ccc;}
+
+.c3d729e {padding-top: 6px;text-align: right; font-size: 1.5rem;padding-bottom: 11px;}
+
+
+</style>
+
+
+<script>
+  /**
+   * 文本框根据输入内容自适应高度
+   * @param                {HTMLElement}        输入框元素
+   * @param                {Number}                设置光标与输入框保持的距离(默认0)
+   * @param                {Number}                设置最大高度(可选)
+   */
+  var autoTextarea = function(elem, extra, maxHeight) {
+    extra = extra || 0;
+    var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+      isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+      addEvent = function(type, callback) {
+        elem.addEventListener ?
+          elem.addEventListener(type, callback, false) :
+          elem.attachEvent('on' + type, callback);
+      },
+      getStyle = elem.currentStyle ? function(name) {
+        var val = elem.currentStyle[name];
+        if (name === 'height' && val.search(/px/i) !== 1) {
+          var rect = elem.getBoundingClientRect();
+          return rect.bottom - rect.top -
+            parseFloat(getStyle('paddingTop')) -
+            parseFloat(getStyle('paddingBottom')) + 'px';
+        };
+        return val;
+      } : function(name) {
+        return getComputedStyle(elem, null)[name];
+      },
+      minHeight = parseFloat(getStyle('height'));
+    elem.style.resize = 'none';
+    var change = function() {
+      var scrollTop, height,
+        padding = 0,
+        style = elem.style;
+      if (elem._length === elem.value.length) return;
+      elem._length = elem.value.length;
+      if (!isFirefox && !isOpera) {
+        padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+      };
+      scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      elem.style.height = minHeight + 'px';
+      if (elem.scrollHeight > minHeight) {
+        if (maxHeight && elem.scrollHeight > maxHeight) {
+          height = maxHeight - padding;
+          style.overflowY = 'auto';
+        } else {
+          height = elem.scrollHeight - padding;
+          style.overflowY = 'hidden';
+        };
+        style.height = height + extra + 'px';
+        scrollTop += parseInt(style.height) - elem.currHeight;
+        document.body.scrollTop = scrollTop;
+        document.documentElement.scrollTop = scrollTop;
+        elem.currHeight = parseInt(style.height);
+      };
+    };
+    addEvent('propertychange', change);
+    addEvent('input', change);
+    addEvent('focus', change);
+    change();
+  };
+</script>
+
+</head>
+
+<body>
+<header class="wx_ssjgsite wx_ssjgsite1" style="z-index: 99">
+  <ul class="hy_xxsb">
+    <li class="xxsb_list xxsb_list_checked"><span class="typeSpan" style="background:#ffffff;color:#3e7baf;">客户拜访</span></li>
+    <li class="xxsb_list" onclick="toWeekReport();"><span class="typeSpan" style="">周 报</span></li>
+  </ul>
+  <input type="hidden" id="openid" value=""/>
+  <input type="hidden" id="hydm" value=""/>
+  <input type="hidden" id="customerPlaceInfo" value=""/>  
+</header>
+
+  <div class="rule rule22" style="display: none;">
+      <div class="pop-up" style="border:1px solid #a09b9b;">
+          <div class="pop-up-main">
+             <div class="i_spinner">
+              <span style="left: 15%;line-height: 28px;" class="i18n" name="xxfk_hqdqdlwzz">获取当前地理位置中</span>
+              <div class="i_bounce1"></div>
+              <div class="i_bounce2"></div>
+              <div class="i_bounce3"></div>
+            </div>
+          </div>
+      </div>
+  </div>
+<article class="wx_layout">
+  <section class="wx_main">
+    <!-- 随手记 -->
+    <div class="floatimg" onclick="toRecordAnyway()"></div>
+
+     <div class="wx_suggest ssjlist" style="margin-top: 8px;" id="listHistory">
+        
+      </div>
+
+      <div class="xxfk_box">
+        <input type="hidden" name="placeInfo" id="placeInfo" value="" />
+        <p class="xxfk_khqc" >
+          <!-- <span id="displayPlaceInfo"> -->
+            <span style="padding-left: 3px;">
+            <!-- <i class="iconfont icon-address"></i> -->
+         <i>*</i>我的位置</span><input type="text" id="place" onclick="showAddressPopup()" placeholder="点此选择我的位置" readonly="readonly" />
+        </p>
+
+        <p class="xxfk_khqc"><span style="padding-left: 3px;"><i>*</i>客户全称</span><input type="text" id="customerName" onclick="showMenberPopup()" placeholder="请输入客户全称"  readonly="readonly" /></p>
+         
+        <div class="xxfk_cpx" >
+          <p class="xxfk_title">客户类型</p>
+          <span class="cpx_label" id="customerType" name="customerType">
+            <span class="tslx cpx_label_checked">老客户</span>
+            <span class="tslx">新客户</span>
+          </span>
+        </div>
+
+        <!-- 新客户 -->
+        <div id="newCustomer" style="display: none;">
+          <ul class="wx_tasdelist need_product">
+            <li style="padding-left: 13px;">
+              <dl class="fillbox" >
+                <dt class="zlbox">
+                <span class="zl">联系人</span>
+                <input type="text" id="linkman" placeholder="手动输入" name="linkman"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 13px;">
+              <dl class="fillbox" >
+                <dt class="zlbox">
+                <span class="zl">职位</span>
+                <input type="text" id="positionInfo" placeholder="手动输入" name="positionInfo"/>
+                </dt>
+              </dl>
+            </li>
+
+            <li style="padding-left: 13px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">联系电话</span>
+                <input type="text" id="telphoneNumble" placeholder="手动输入" name="telphoneNumble"/>
+                </dt>
+              </dl>
+            </li>
+
+          </ul>
+
+            <!-- 客户规模 -->
+            <div class="xxfk_cpx">
+              <p class="xxfk_title">客户规模</p>
+              <span class="cpx_label" id="customerScale" name="customerScale">
+                <span class="tslx cpx_label_checked">0-100万</span>
+                <span class="tslx">100-300万</span>
+                <span class="tslx">300-500万</span>
+                <span class="tslx">500-1000万</span>
+                <span class="tslx">1000万以上</span>
+              </span>
+            </div>
+
+            <!-- 营业额 -->
+            <div class="xxfk_cpx">
+              <p class="xxfk_title">营业额</p>
+              <span class="cpx_label" id="customerTurnover" name="customerTurnover">
+                <span class="tslx cpx_label_checked">0-50万</span>
+                <span class="tslx">50-100万</span>
+                <span class="tslx">100-300万</span>
+                <span class="tslx">300-500万</span>
+                <span class="tslx">500万以上</span>
+              </span>
+            </div>
+          
+          <p style="width: 100%; padding: 5px; border-bottom: solid 1px;"></p>
+          
+          <!-- 新客户可能需求产品有多种 -->
+        <div class="wx_tasdelist need_product" id="div_0">
+          <div class="xxfk_cpx" id="informationSourcesDivN_0">
+            <p class="xxfk_title">需求产品</p>
+            <span class="cpx_label" id="informationSourcesN_0" name="informationSourcesN_0">
+              <span class="tslx cpx_label_checked">POY</span>
+              <span class="tslx">DTY</span>
+              <span class="tslx">FDY</span>
+              <span class="tslx">涤纶切片</span>
+              <span class="tslx">锦纶切片</span>
+              <span class="tslx">短纤</span>
+            </span>
+          </div>
+
+            <!-- 设备类型 -->
+            <div class="xxfk_cpx" id="machineTypeDivN_0" >
+              <p class="xxfk_title"><i style="line-height: 2;padding-left: 6px;color: red;">*</i>设备类型</p>
+              <!-- POY -->
+              <span class="cpx_label showStyle" id="machineType1N_0" name="machineType1N_0">
+                <span class="tslx cpx_label_checked">1000 型 V 型机</span>
+                <span class="tslx">800 型 V 型机</span>
+                <span class="tslx">其他</span>
+              </span>
+              <!-- FDY,DTY -->
+              <span class="cpx_label hideStyle" id="machineType2N_0" name="machineType2N_0">
+                <span class="tslx cpx_label_checked">经编机</span>
+                <span class="tslx">喷气机</span>
+                <span class="tslx">喷水机</span>
+                <span class="tslx">圆机</span>
+                <span class="tslx">双轴向</span>
+                <span class="tslx">箭杆机</span>
+                <span class="tslx">倍捻机</span>
+                <span class="tslx">假捻机</span>
+                <span class="tslx">钩编机</span>
+                <span class="tslx">包覆机</span> 
+                <span class="tslx">其他</span>
+              </span>
+              <!-- 涤纶切片,锦纶切片 -->
+              <span class="cpx_label hideStyle" id="machineType3N_0" name="machineType3N_0">
+                <span class="tslx cpx_label_checked">日本TMT</span>
+                <span class="tslx">德国巴马格</span>
+                <span class="tslx">北京中丽</span>
+                <span class="tslx">中纺</span>
+                <span class="tslx">上海经纬</span>
+                <span class="tslx">北化机</span>
+                <span class="tslx">郑纺机</span>
+                <span class="tslx">日本帝人</span>
+                <span class="tslx">其他</span>
+              </span>
+              <!-- 短纤 -->
+              <span class="cpx_label hideStyle" id="machineType4N_0" name="machineType4N_0">
+                <span class="tslx cpx_label_checked">环锭纺</span>
+                <span class="tslx">涡流纺</span>
+                <span class="tslx">气流纺</span>
+                <span class="tslx">其他</span>
+              </span>
+            </div>
+
+        <div class="xxfk_cpx" id="competitorDivN_0" >
+        <p class="xxfk_title">竞争对手</p>
+        <!-- POY,FDY,DTY -->
+          <span class="cpx_label showStyle" id="competitor1N_0" name="competitor1N_0">
+            <span class="tslx cpx_label_checked">桐昆</span>
+            <span class="tslx">新凤鸣</span>
+            <span class="tslx">恒力</span>
+            <span class="tslx">盛虹</span>
+            <span class="tslx">荣盛</span>
+            <span class="tslx">百宏</span>
+            <span class="tslx">天圣</span>
+            <span class="tslx">申久</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片 -->
+          <span class="cpx_label hideStyle" id="competitor2N_0" name="competitor2N_0">
+            <span class="tslx cpx_label_checked">欣欣</span>
+            <span class="tslx">桐昆</span>
+            <span class="tslx">新凤鸣</span>
+            <span class="tslx">恒力</span>
+            <span class="tslx">盛虹</span>
+            <span class="tslx">荣盛</span>
+            <span class="tslx">天圣</span>
+            <span class="tslx">东南</span>
+            <span class="tslx">古纤道</span>
+            <span class="tslx">佳宝</span>
+            <span class="tslx">华成</span>
+            <span class="tslx">新民</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 锦纶切片 -->
+          <span class="cpx_label hideStyle" id="competitor3N_0" name="competitor3N_0">
+            <span class="tslx cpx_label_checked">台湾切片</span>
+            <span class="tslx">力恒</span>
+            <span class="tslx">锦江</span>
+            <span class="tslx">聚合顺</span>
+            <span class="tslx">方圆</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 短纤 -->
+          <span class="cpx_label hideStyle" id="competitor4N_0" name="competitor4N_0">
+            <span class="tslx cpx_label_checked">三房巷</span>
+            <span class="tslx">华宏</span>
+            <span class="tslx">倪家巷</span>
+            <span class="tslx">华西村</span>
+            <span class="tslx">江南</span>
+            <span class="tslx">德赛</span>
+            <span class="tslx">金纶</span>
+            <span class="tslx">山力</span>
+            <span class="tslx">经纬</span>
+            <span class="tslx">泉迪</span>
+            <span class="tslx">仪征</span>
+            <span class="tslx">翔鹭</span>
+            <span class="tslx">洛化</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+
+        <div class="xxfk_cpx" id="downstreamMarketDivN_0" >
+        <p class="xxfk_title">下游市场</p>
+          <!-- POY -->
+          <span class="cpx_label showStyle" id="downstreamMarket1N_0" name="downstreamMarket1N_0">
+            <span class="tslx cpx_label_checked">加弹 DTY</span>
+            <span class="tslx">复合丝</span>
+            <span class="tslx">上下游配套一体化</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- FDY,DTY -->
+          <span class="cpx_label hideStyle" id="downstreamMarket2N_0" name="downstreamMarket2N_0">
+            <span class="tslx cpx_label_checked">服装</span>
+            <span class="tslx">家纺</span>
+            <span class="tslx">墙布</span>
+            <span class="tslx">鞋材</span>
+            <span class="tslx">工业用布</span>
+            <span class="tslx">汽车内饰</span>
+            <span class="tslx">箱包</span>
+            <span class="tslx">拉链</span>
+            <span class="tslx">帐篷</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket3N_0" name="downstreamMarket3N_0">
+            <span class="tslx cpx_label_checked">黑丝</span>
+            <span class="tslx">色丝</span>
+            <span class="tslx">白丝</span>
+            <span class="tslx">细旦高 F</span>
+            <span class="tslx">单丝</span>
+            <span class="tslx">短纤</span>
+            <span class="tslx">薄膜</span>
+            <span class="tslx">绝缘材料</span>
+            <span class="tslx">光学膜</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 锦纶切片 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket4N_0" name="downstreamMarket4N_0">
+            <span class="tslx cpx_label_checked">POY</span>
+            <span class="tslx">HOY</span>
+            <span class="tslx">FDY</span>
+            <span class="tslx">细旦</span>
+            <span class="tslx">短纤</span>
+            <span class="tslx">单丝</span>
+            <span class="tslx">注塑</span>
+            <span class="tslx">其他</span>
+          </span>
+           <!-- 短纤 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket5N_0" name="downstreamMarket5N_0">
+            <span class="tslx cpx_label_checked">纯涤纱</span>
+            <span class="tslx">涤棉纱</span>
+            <span class="tslx">涤粘纱</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+        <div class="xxfk_cpx" id="materialGradeDivN_0" >
+        <p class="xxfk_title">原料档次</p>
+          <span class="cpx_label" id="materialGradeN_0" name="materialGradeN_0">
+            <span class="tslx cpx_label_checked">高</span>
+            <span class="tslx">中</span>
+            <span class="tslx">低</span>
+          </span>
+        </div>
+
+        <div class="xxfk_cpx" id="diffFlagDivN_0" >
+        <p class="xxfk_title">差异化</p>
+          <span class="cpx_label" id="diffFlagN_0" name="diffFlagN_0">
+            <span class="tslx cpx_label_checked">否</span>
+            <span class="tslx">是</span>
+          </span>
+        </div>
+  
+      <ul class="wx_tasdelist need_product">
+        <li style="padding-left: 4px;">
+            <span class="zl ggspan"><i>*</i>采购规格</span>
+            <textarea rows="3" placeholder="手动输入或下拉选择" class="xxfk_remark markettextarea" name="materialGgN_0" id="materialGgN_0"></textarea><span class="marketAreaSpan" id="materialGgBottomN_0" style="position: relative;"><i class="iconfont icon-xiala" ></i></span>
+
+        </li>
+        <li style="padding-left: 5px;">
+          <dl class="fillbox">
+            <dt class="zlbox">
+            <span class="zl"><i>*</i>月需求量</span>
+            <input type="text" id="monthlyDemandN_0" placeholder="手动输入" name="monthlyDemandN_0"/>
+            </dt>
+          </dl>
+        </li>
+
+        <li style="padding-left: 5px;">
+          <dl class="fillbox">
+            <dt class="zlbox">
+            <span class="zl" style="padding-left: 8px;">机台数量</span>
+            <input type="number" id="machineNumN_0" placeholder="手动输入" name="machineNumN_0"/>
+            </dt>
+          </dl>
+        </li>
+        <li style="padding-left: 12px;">
+            <span class="zl ggspan">市场区域</span>
+            <textarea rows="3" placeholder="手动输入或下拉选择" class="xxfk_remark markettextarea" name="marketAreaN_0" id="marketAreaN_0"></textarea><span class="marketAreaSpan" id="marketAreaBottomN_0" style="position: relative;"><i class="iconfont icon-xiala" ></i></span>
+        </li>
+        <li style="padding-left: 0px;"><p class="ndxq_add" onclick="addDiv();"><span><i class="iconfont icon-increase"></i>新增需求产品</span></p>
+        </li>
+      </ul>
+      </div>
+      <div id="list"></div>
+    </div>
+        
+
+<!-- 老客户 -->
+<div class="xxfk_cpx" id="informationSourcesDiv">
+        <p class="xxfk_title">产品线</p>
+        <span class="cpx_label" id="informationSources" name="informationSources">
+          <span class="tslx cpx_label_checked">POY</span>
+          <span class="tslx">DTY</span>
+          <span class="tslx">FDY</span>
+          <span class="tslx">涤纶切片</span>
+          <span class="tslx">锦纶切片</span>
+          <span class="tslx">短纤</span>
+        </span>
+      </div>
+
+      <div class="oldCustomer" id="oldCustomer" style="display: block;">
+        <div class="xxfk_cpx" id="machineTypeDiv" >
+          <p class="xxfk_title"><i style="line-height: 2;padding-left: 6px;color: red;">*</i>设备类型</p>
+          <!-- POY -->
+          <span class="cpx_label showStyle" id="machineType1" name="machineType1">
+            <span class="tslx cpx_label_checked">1000 型 V 型机</span>
+            <span class="tslx">800 型 V 型机</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- FDY,DTY -->
+          <span class="cpx_label hideStyle" id="machineType2" name="machineType2">
+            <span class="tslx cpx_label_checked">经编机</span>
+            <span class="tslx">喷气机</span>
+            <span class="tslx">喷水机</span>
+            <span class="tslx">圆机</span>
+            <span class="tslx">双轴向</span>
+            <span class="tslx">箭杆机</span>
+            <span class="tslx">倍捻机</span>
+            <span class="tslx">假捻机</span>
+            <span class="tslx">钩编机</span>
+            <span class="tslx">包覆机</span> 
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片,锦纶切片 -->
+          <span class="cpx_label hideStyle" id="machineType3" name="machineType3">
+            <span class="tslx cpx_label_checked">日本TMT</span>
+            <span class="tslx">德国巴马格</span>
+            <span class="tslx">北京中丽</span>
+            <span class="tslx">中纺</span>
+            <span class="tslx">上海经纬</span>
+            <span class="tslx">北化机</span>
+            <span class="tslx">郑纺机</span>
+            <span class="tslx">日本帝人</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 短纤 -->
+          <span class="cpx_label hideStyle" id="machineType4" name="machineType4">
+            <span class="tslx cpx_label_checked">环锭纺</span>
+            <span class="tslx">涡流纺</span>
+            <span class="tslx">气流纺</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+
+      <ul class="wx_tasdelist need_product">
+          <li style="padding-left: 4px;">
+              <span class="zl ggspan"><i>*</i>采购规格</span>
+              <textarea rows="3" placeholder="手动输入或下拉选择" class="xxfk_remark markettextarea" name="materialGg" id="materialGg"></textarea><span class="marketAreaSpan" id="materialGgBottom" style="position: relative;"><i class="iconfont icon-xiala" ></i></span>
+          </li>
+          <li style="padding-left: 5px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl"><i>*</i>月需求量</span>
+              <input type="text" id="monthlyDemand" placeholder="手动输入" name="monthlyDemand"/>
+              </dt>
+            </dl>
+          </li>
+      </ul>
+
+        <div class="xxfk_cpx" id="materialGradeDiv" >
+        <p class="xxfk_title">原料档次</p>
+          <span class="cpx_label" id="materialGrade" name="materialGrade">
+            <span class="tslx cpx_label_checked">高</span>
+            <span class="tslx">中</span>
+            <span class="tslx">低</span>
+          </span>
+        </div>
+        
+        <div class="xxfk_cpx" id="priceEvaluateDiv" >
+        <p class="xxfk_title">价值评估</p>
+          <span class="cpx_label" id="priceEvaluate" name="priceEvaluate">
+            <span class="tslx cpx_label_checked">高</span>
+            <span class="tslx">中</span>
+            <span class="tslx">低</span>
+          </span>
+        </div>
+        
+        <div class="xxfk_cpx" id="competitorDiv" >
+        <p class="xxfk_title">竞争对手</p>
+        <!-- POY,FDY,DTY -->
+          <span class="cpx_label showStyle" id="competitor1" name="competitor1">
+            <span class="tslx cpx_label_checked">桐昆</span>
+            <span class="tslx">新凤鸣</span>
+            <span class="tslx">恒力</span>
+            <span class="tslx">盛虹</span>
+            <span class="tslx">荣盛</span>
+            <span class="tslx">百宏</span>
+            <span class="tslx">天圣</span>
+            <span class="tslx">申久</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片 -->
+          <span class="cpx_label hideStyle" id="competitor2" name="competitor2">
+            <span class="tslx cpx_label_checked">欣欣</span>
+            <span class="tslx">桐昆</span>
+            <span class="tslx">新凤鸣</span>
+            <span class="tslx">恒力</span>
+            <span class="tslx">盛虹</span>
+            <span class="tslx">荣盛</span>
+            <span class="tslx">天圣</span>
+            <span class="tslx">东南</span>
+            <span class="tslx">古纤道</span>
+            <span class="tslx">佳宝</span>
+            <span class="tslx">华成</span>
+            <span class="tslx">新民</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 锦纶切片 -->
+          <span class="cpx_label hideStyle" id="competitor3" name="competitor3">
+            <span class="tslx cpx_label_checked">台湾切片</span>
+            <span class="tslx">力恒</span>
+            <span class="tslx">锦江</span>
+            <span class="tslx">聚合顺</span>
+            <span class="tslx">方圆</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 短纤 -->
+          <span class="cpx_label hideStyle" id="competitor4" name="competitor4">
+            <span class="tslx cpx_label_checked">三房巷</span>
+            <span class="tslx">华宏</span>
+            <span class="tslx">倪家巷</span>
+            <span class="tslx">华西村</span>
+            <span class="tslx">江南</span>
+            <span class="tslx">德赛</span>
+            <span class="tslx">金纶</span>
+            <span class="tslx">山力</span>
+            <span class="tslx">经纬</span>
+            <span class="tslx">泉迪</span>
+            <span class="tslx">仪征</span>
+            <span class="tslx">翔鹭</span>
+            <span class="tslx">洛化</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+
+        <div class="xxfk_cpx" id="downstreamMarketDiv" >
+        <p class="xxfk_title">下游市场</p>
+          <!-- POY -->
+          <span class="cpx_label showStyle" id="downstreamMarket1" name="downstreamMarket1">
+            <span class="tslx cpx_label_checked">加弹 DTY</span>
+            <span class="tslx">复合丝</span>
+            <span class="tslx">上下游配套一体化</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- FDY,DTY -->
+          <span class="cpx_label hideStyle" id="downstreamMarket2" name="downstreamMarket2">
+            <span class="tslx cpx_label_checked">服装</span>
+            <span class="tslx">家纺</span>
+            <span class="tslx">墙布</span>
+            <span class="tslx">鞋材</span>
+            <span class="tslx">工业用布</span>
+            <span class="tslx">汽车内饰</span>
+            <span class="tslx">箱包</span>
+            <span class="tslx">拉链</span>
+            <span class="tslx">帐篷</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket3" name="downstreamMarket3">
+            <span class="tslx cpx_label_checked">黑丝</span>
+            <span class="tslx">色丝</span>
+            <span class="tslx">白丝</span>
+            <span class="tslx">细旦高 F</span>
+            <span class="tslx">单丝</span>
+            <span class="tslx">短纤</span>
+            <span class="tslx">薄膜</span>
+            <span class="tslx">绝缘材料</span>
+            <span class="tslx">光学膜</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 锦纶切片 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket4" name="downstreamMarket4">
+            <span class="tslx cpx_label_checked">POY</span>
+            <span class="tslx">HOY</span>
+            <span class="tslx">FDY</span>
+            <span class="tslx">细旦</span>
+            <span class="tslx">短纤</span>
+            <span class="tslx">单丝</span>
+            <span class="tslx">注塑</span>
+            <span class="tslx">其他</span>
+          </span>
+           <!-- 短纤 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket5" name="downstreamMarket5">
+            <span class="tslx cpx_label_checked">纯涤纱</span>
+            <span class="tslx">涤棉纱</span>
+            <span class="tslx">涤粘纱</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+        
+        <div class="xxfk_cpx" id="marketPredictionDiv" >
+        <p class="xxfk_title">市场预判</p>
+          <span class="cpx_label" id="marketPrediction" name="marketPrediction">
+            <span class="tslx cpx_label_checked">看多</span>
+            <span class="tslx">震荡</span>
+            <span class="tslx">看空</span>
+          </span>
+        </div>
+
+
+        <div class="xxfk_cpx" id="diffFlagDiv" >
+        <p class="xxfk_title">差异化</p>
+          <span class="cpx_label" id="diffFlag" name="diffFlag">
+            <span class="tslx cpx_label_checked">否</span>
+            <span class="tslx">是</span>
+          </span>
+        </div>
+
+        <ul class="wx_tasdelist need_product">
+          <li style="padding-left: 5px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl" style="padding-left: 8px;">机台数量</span>
+              <input type="number" id="machineNum" placeholder="手动输入" name="machineNum"/>
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 12px;">
+            <span class="zl ggspan">市场区域</span>
+            <textarea rows="3" placeholder="手动输入或下拉选择" class="xxfk_remark markettextarea" name="marketArea" id="marketArea"></textarea><span class="marketAreaSpan" id="marketAreaBottom" style="position: relative;"><i class="iconfont icon-xiala" ></i></span>
+          </li>
+          <li style="padding-left: 5px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl" style="padding-left: 8px;">产品库存</span>
+              <input type="text" id="productInventory" placeholder="手动输入" name="productInventory"/>
+              </dt>
+            </dl>
+          </li>
+        </ul>
+        
+    </div>
+      
+      </div>
+              
+      <div class="xxfk_bz">
+        <p class="xxfk_bz_title" style="padding-left: 0px;color: #3e7baf;">备注</p>
+        <input type="hidden" id="complaintImages" value=""/>
+        <textarea rows="3" style="border: solid 1px #999;" placeholder="请在此输入您的内容（不超过500字）" class="xxfk_remark" name="problem" id="problem"></textarea>
+         <ul class="wx_qdphoto wx_cjht" id="img_ul" style="margin-top: 10px;">
+            <li id="addImg">
+              <p><img src="../../images/add.jpg"></p>
+            </li>  
+            <span style="float: left; padding: 0 8px 10px 10px;font-size: 1.4rem;color: #3e7baf;" class="i18n" name="xxfk_wxts">
+              温馨提醒：为保证信息更快被查看，请上传一张包含自己和拜访地的照片
+            </span>
+        </ul>
+      </div>
+
+      <p class="c3d729e history txtr pt10" onclick="toHistoryList()"><i class="iconfont">&#xeab1;</i>查看历史客户拜访</p>
+  </section>
+</article>
+<footer class="wx_btnnext" onclick="saveVistAddress();">保存客户拜访</footer>
+<% include ../../_foot.html %>
+  <% include ../include/ggReportPopup.html %>
+    <% include ../include/ggReportPopup2.html %>
+     <% include ../include/menberReportPopup.html %>
+      <% include ../include/addressPopup.html %>
+    <script src="../../lib/swiper.min.js"></script>
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        $(function(){
+            wxconfig();
+        });
+    </script>
+    <script src="../informationReport/messageVistAddressAdd.js"></script>
+  
+    <script id="list_page" type="text/html">
+        <div class="wx_tasdelist need_product" id="div_{{data}}">
+            <!-- 新客户可能需求产品有多种 -->
+          <div class="xxfk_cpx" id="informationSourcesDivN_{{data}}">
+            <p class="xxfk_title">需求产品</p>
+            <span class="cpx_label" id="informationSourcesN_{{data}}" name="informationSourcesN_{{data}}">
+              <span class="tslx cpx_label_checked">POY</span>
+              <span class="tslx">DTY</span>
+              <span class="tslx">FDY</span>
+              <span class="tslx">涤纶切片</span>
+              <span class="tslx">锦纶切片</span>
+              <span class="tslx">短纤</span>
+            </span>
+          </div>
+
+            <!-- 设备类型 -->
+            <div class="xxfk_cpx" id="machineTypeDivN_{{data}}" >
+              <p class="xxfk_title"><i style="line-height: 2;padding-left: 6px;color: red;">*</i>设备类型</p>
+              <!-- POY -->
+              <span class="cpx_label showStyle" id="machineType1N_{{data}}" name="machineType1N_{{data}}">
+                <span class="tslx cpx_label_checked">1000 型 V 型机</span>
+                <span class="tslx">800 型 V 型机</span>
+                <span class="tslx">其他</span>
+              </span>
+              <!-- FDY,DTY -->
+              <span class="cpx_label hideStyle" id="machineType2N_{{data}}" name="machineType2N_{{data}}">
+                <span class="tslx cpx_label_checked">经编机</span>
+                <span class="tslx">喷气机</span>
+                <span class="tslx">喷水机</span>
+                <span class="tslx">圆机</span>
+                <span class="tslx">双轴向</span>
+                <span class="tslx">箭杆机</span>
+                <span class="tslx">倍捻机</span>
+                <span class="tslx">假捻机</span>
+                <span class="tslx">钩编机</span>
+                <span class="tslx">包覆机</span> 
+                <span class="tslx">其他</span>
+              </span>
+              <!-- 涤纶切片,锦纶切片 -->
+              <span class="cpx_label hideStyle" id="machineType3N_{{data}}" name="machineType3N_{{data}}">
+                <span class="tslx cpx_label_checked">日本TMT</span>
+                <span class="tslx">德国巴马格</span>
+                <span class="tslx">北京中丽</span>
+                <span class="tslx">中纺</span>
+                <span class="tslx">上海经纬</span>
+                <span class="tslx">北化机</span>
+                <span class="tslx">郑纺机</span>
+                <span class="tslx">日本帝人</span>
+                <span class="tslx">其他</span>
+              </span>
+              <!-- 短纤 -->
+              <span class="cpx_label hideStyle" id="machineType4N_{{data}}" name="machineType4N_{{data}}">
+                <span class="tslx cpx_label_checked">环锭纺</span>
+                <span class="tslx">涡流纺</span>
+                <span class="tslx">气流纺</span>
+                <span class="tslx">其他</span>
+              </span>
+            </div>
+
+        <div class="xxfk_cpx" id="competitorDivN_{{data}}" >
+        <p class="xxfk_title">竞争对手</p>
+        <!-- POY,FDY,DTY -->
+          <span class="cpx_label showStyle" id="competitor1N_{{data}}" name="competitor1N_{{data}}">
+            <span class="tslx cpx_label_checked">桐昆</span>
+            <span class="tslx">新凤鸣</span>
+            <span class="tslx">恒力</span>
+            <span class="tslx">盛虹</span>
+            <span class="tslx">荣盛</span>
+            <span class="tslx">百宏</span>
+            <span class="tslx">天圣</span>
+            <span class="tslx">申久</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片 -->
+          <span class="cpx_label hideStyle" id="competitor2N_{{data}}" name="competitor2N_{{data}}">
+            <span class="tslx cpx_label_checked">欣欣</span>
+            <span class="tslx">桐昆</span>
+            <span class="tslx">新凤鸣</span>
+            <span class="tslx">恒力</span>
+            <span class="tslx">盛虹</span>
+            <span class="tslx">荣盛</span>
+            <span class="tslx">天圣</span>
+            <span class="tslx">东南</span>
+            <span class="tslx">古纤道</span>
+            <span class="tslx">佳宝</span>
+            <span class="tslx">华成</span>
+            <span class="tslx">新民</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 锦纶切片 -->
+          <span class="cpx_label hideStyle" id="competitor3N_{{data}}" name="competitor3N_{{data}}">
+            <span class="tslx cpx_label_checked">台湾切片</span>
+            <span class="tslx">力恒</span>
+            <span class="tslx">锦江</span>
+            <span class="tslx">聚合顺</span>
+            <span class="tslx">方圆</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 短纤 --> 
+          <span class="cpx_label hideStyle" id="competitor4N_{{data}}" name="competitor4N_{{data}}">
+            <span class="tslx cpx_label_checked">三房巷</span>
+            <span class="tslx">华宏</span>
+            <span class="tslx">倪家巷</span>
+            <span class="tslx">华西村</span>
+            <span class="tslx">江南</span>
+            <span class="tslx">德赛</span>
+            <span class="tslx">金纶</span>
+            <span class="tslx">山力</span>
+            <span class="tslx">经纬</span>
+            <span class="tslx">泉迪</span>
+            <span class="tslx">仪征</span>
+            <span class="tslx">翔鹭</span>
+            <span class="tslx">洛化</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+
+        <div class="xxfk_cpx" id="downstreamMarketDivN_{{data}}" >
+        <p class="xxfk_title">下游市场</p>
+          <!-- POY -->
+          <span class="cpx_label showStyle" id="downstreamMarket1N_{{data}}" name="downstreamMarket1N_{{data}}">
+            <span class="tslx cpx_label_checked">加弹 DTY</span>
+            <span class="tslx">复合丝</span>
+            <span class="tslx">上下游配套一体化</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- FDY,DTY -->
+          <span class="cpx_label hideStyle" id="downstreamMarket2N_{{data}}" name="downstreamMarket2N_{{data}}">
+            <span class="tslx cpx_label_checked">服装</span>
+            <span class="tslx">家纺</span>
+            <span class="tslx">墙布</span>
+            <span class="tslx">鞋材</span>
+            <span class="tslx">工业用布</span>
+            <span class="tslx">汽车内饰</span>
+            <span class="tslx">箱包</span>
+            <span class="tslx">拉链</span>
+            <span class="tslx">帐篷</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 涤纶切片 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket3N_{{data}}" name="downstreamMarket3N_{{data}}">
+            <span class="tslx cpx_label_checked">黑丝</span>
+            <span class="tslx">色丝</span>
+            <span class="tslx">白丝</span>
+            <span class="tslx">细旦高 F</span>
+            <span class="tslx">单丝</span>
+            <span class="tslx">短纤</span>
+            <span class="tslx">薄膜</span>
+            <span class="tslx">绝缘材料</span>
+            <span class="tslx">光学膜</span>
+            <span class="tslx">其他</span>
+          </span>
+          <!-- 锦纶切片 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket4N_{{data}}" name="downstreamMarket4N_{{data}}">
+            <span class="tslx cpx_label_checked">POY</span>
+            <span class="tslx">HOY</span>
+            <span class="tslx">FDY</span>
+            <span class="tslx">细旦</span>
+            <span class="tslx">短纤</span>
+            <span class="tslx">单丝</span>
+            <span class="tslx">注塑</span>
+            <span class="tslx">其他</span>
+          </span>
+           <!-- 短纤 -->
+          <span class="cpx_label hideStyle" id="downstreamMarket5N_{{data}}" name="downstreamMarket5N_{{data}}">
+            <span class="tslx cpx_label_checked">纯涤纱</span>
+            <span class="tslx">涤棉纱</span>
+            <span class="tslx">涤粘纱</span>
+            <span class="tslx">其他</span>
+          </span>
+        </div>
+
+        <div class="xxfk_cpx" id="materialGradeDivN_{{data}}" >
+        <p class="xxfk_title">原料档次</p>
+          <span class="cpx_label" id="materialGradeN_{{data}}" name="materialGradeN_{{data}}">
+            <span class="tslx cpx_label_checked">高</span>
+            <span class="tslx">中</span>
+            <span class="tslx">低</span>
+          </span>
+        </div>
+
+        <div class="xxfk_cpx" id="diffFlagDivN_{{data}}" >
+        <p class="xxfk_title">差异化</p>
+          <span class="cpx_label" id="diffFlagN_{{data}}" name="diffFlagN_{{data}}">
+            <span class="tslx cpx_label_checked">否</span>
+            <span class="tslx">是</span>
+          </span>
+        </div>
+
+      <ul class="wx_tasdelist need_product">
+        <li style="padding-left: 4px;">
+            <span class="zl ggspan"><i>*</i>采购规格</span>
+            <textarea rows="3" placeholder="手动输入或下拉选择" class="xxfk_remark markettextarea" name="materialGgN_{{data}}" id="materialGgN_{{data}}"></textarea><span class="marketAreaSpan" id="materialGgBottomN_{{data}}" style="position: relative;"><i class="iconfont icon-xiala" ></i></span>
+        </li>
+        <li style="padding-left: 5px;">
+          <dl class="fillbox">
+            <dt class="zlbox">
+            <span class="zl"><i>*</i>月需求量</span>
+            <input type="text" id="monthlyDemandN_{{data}}" placeholder="手动输入" name="monthlyDemandN_{{data}}"/>
+            </dt>
+          </dl>
+        </li>
+        <li style="padding-left: 5px;">
+          <dl class="fillbox">
+            <dt class="zlbox">
+            <span class="zl" style="padding-left: 8px;">机台数量</span>
+            <input type="number" id="machineNumN_{{data}}" placeholder="手动输入" name="machineNumN_{{data}}"/>
+            </dt>
+          </dl>
+        </li>
+        <li style="padding-left: 12px;">
+          <span class="zl ggspan">市场区域</span>
+          <textarea rows="3" placeholder="手动输入或下拉选择" class="xxfk_remark markettextarea" name="marketAreaN_{{data}}" id="marketAreaN_{{data}}"></textarea><span class="marketAreaSpan" id="marketAreaBottomN_{{data}}" style="position: relative;"><i class="iconfont icon-xiala" ></i></span>
+        </li>
+        <li style="padding-left: 0px;">
+          <p class="ndxq_add" onclick="decreaseDiv('div_{{data}}');">
+            <span><i class="iconfont icon-cut"></i>移除</span>
+          </p>
+        </li>
+      </ul>
+      </div>
+    </script>
+
+<script id="listHistory_page" type="text/html">
+  {{each data as value}}
+    <div class="item" onclick="toInfo('{{value.pkid}}')">
+      <div class="inner">
+        <div class="top">
+          <div class="dt" style="font-size: 1.4rem;">{{value.customerName}}</div>
+          <div class="dd" style="font-size: 1.2rem; color: #999">客户类型：
+          {{if value.customerType==1}}老客户 | 产品线：{{value.informationSources}} {{/if}}
+          {{if value.customerType==0}}新客户{{/if}} </div>
+          <div class="dd" style="font-size: 1.2rem; color: #999">时间：
+          {{#getDate(value.cdate,"yyyy.MM.dd HH:mm")}}</div>
+        </div>
+        <i class="iconfont icon-rarrow" style="float: right;margin-top: -40px;"></i>
+      </div>
+    </div>
+  {{/each}} 
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khgl">仓储费管理</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_functionbox">
+                <p class="gntext i18n" name="sm_khglgnlb">仓储费管理功能列表</p>
+                <ul class="gnlist">
+                    <li onclick="goStorageChargeList(1);">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">按照SAP订单查询</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="goStorageChargeList(2);">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">按照SAP交货单查询</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/storageCharge.js"></script>
+</body>
+
+</html>

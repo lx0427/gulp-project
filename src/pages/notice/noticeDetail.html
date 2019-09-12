@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>公告详情</title>
+    <meta id="i18n_pagename" content="strings">
+    <% include ../../components/_head.art %>
+    <style>
+        body {
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="main">
+            <div class="wx_hytitle">
+                <div class="hytitle">
+                    <p class="til" id="title"></p>
+                    <p class="time" id="dates"></p>
+                </div>
+            </div>
+            <p class="wx_hynoticeconts" id="content"></p>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../notice/noticeDetail.js"></script>
+    <!--显示悬浮图标-->
+    <script type="text/javascript">
+        $(function () {
+            initSuspendIcon();
+        });
+    </script>
+</body>
+
+</html>

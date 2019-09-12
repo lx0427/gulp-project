@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>信息反馈</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+<style>
+
+.wx_stars i {background:url(../../images/star.png) 0 0px no-repeat;}
+.wrapper {height:25px;}
+.wrapper li {float:left;width:25px;height:11px;background:url(../../images/star.png) 0 0px no-repeat; }/*开始默认选中*/
+.hy_xxsb {display: none;}
+.textareaDiv {width: 100%; height: max-content; border: solid 0px #999;font-size: 1.4rem;}
+.defultheight {width: 100%; height: 20px; border: solid 0px #999;}
+.tit1 {margin-top: 5px;padding-left: 10px;font-weight:bold;font-size:1.4rem;}
+.wx_infofk .ttwrap {position:relative;padding-left:25px;padding-bottom:5px;}
+.wx_infofk .wx_weekly h2 {padding:5px 0; font-weight:bold; font-size:1.6rem;}
+</style>
+</head>
+
+<body>
+<article class="wx_layout">
+  <header class="wx_infofktop">
+      <ul class="hy_xxsb">
+    <li class="xxsb_list xxsb_list_checked" onclick="onPage(2);"><span class="typeSpan" style="background:#ffffff;color:#3e7baf;">客户拜访</span></li>
+    <li class="xxsb_list" onclick="onPage(3);"><span class="typeSpan" style="">周 报</span></li>
+  </ul>
+  </header>
+  <section class="wx_infofk">
+    <div class="bfff toptit">
+      <div class="tit">周报</div> 
+      <div class="wx_suggest ssjlist" id="contentDiv">
+          
+      </div>
+      <div class="wx_suggest ssjlist" id="contentDiv1">
+          
+      </div>
+      
+      <div class="wx_suggest ssjlist" id="main">
+
+      </div>
+       <div class="wx_suggest ssjlist" id="main1">
+
+      </div>
+    </div>
+    <p class="c3d729e history" id="revocation" style="display: none;" onclick="toRevocation()"><i class="iconfont">&#xeab1;</i>撤销</p>
+  </section>
+</article>
+<% include ../../_foot.html %>
+<script src="../../js/oauth2.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    $(function(){
+        wxconfig();
+    });
+</script>
+<script src="../informationReport/messageWeekInfo.js"></script>
+<script src="../../lib/swiper.min.js"></script>
+<!-- 上报人查看 评分区 -->
+<script id="main_page" type="text/html">
+  <div class="item">
+      <div class="inner">
+      {{each list as value i}}
+        <div class="cont">
+          <ul class="list">
+            <li>
+              <dl>
+                <dt>{{value.receiveUserName}}</dt>
+                
+                <dd class="evaluate">
+                    <span class="tl">综合评价</span>
+                    {{if value.starts==null}}
+                      未评论
+                    {{/if}}
+                    {{if value.starts==1 }}
+                    <ul class="wrapper">
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">非常差</span></li>
+                    </ul>    
+                    {{/if}}
+                     {{if value.starts==2 }}
+                    <ul class="wrapper">
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">较差</span></li>
+                    </ul>    
+                    {{/if}}
+                     {{if value.starts==3 }}
+                    <ul class="wrapper">
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">一般</span></li>
+                    </ul>    
+                    {{/if}}
+                     {{if value.starts==4 }}
+                    <ul class="wrapper">
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px -20px;"></li>
+                      <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">较好</span></li>
+                    </ul>  
+                    {{/if}}
+                     {{if value.starts==5 }}
+                    <ul class="wrapper">
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li class="li" style="background-position: 0px 0px;"></li>
+                      <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">非常好</span></li>
+                    </ul>    
+                    {{/if}}
+                </dd>
+                {{if value.remartk != null}}
+                <p class="info_assess_content">{{value.receiveUserName}} : {{value.remartk}}</p>
+                {{/if}}
+                {{if value.commentList != null && value.commentList.length>0}}
+                {{each value.commentList as item i}}
+                <p class="info_assess_content">{{item.userName}} : {{item.content}}</p>
+                {{/each}}
+                {{/if}}
+              </dl>
+            </li>
+          </ul>
+          <div class="reply">
+            <div class="box">
+              <textarea placeholder="请输入您的内容（不超过300字）" id="remark_{{i}}"></textarea>
+            </div>
+            <p class="btn">
+              <a class="replybtn" href="javascript:void(0)" onclick="saveReply('{{value.pkid}}', '{{i}}', '{{value.starts}}', '{{value.receiveUserId}}', '{{value.reportId}}')">回复</a>
+              <a class="cancelbtn" href="javascript:void(0)" onclick="cleanContent('{{i}}')">取消</a>
+            </p>
+          </div>
+        </div>
+      {{/each}}
+      </div>
+    </div>
+</script>
+
+<!-- 接收人查看 评分区 -->
+<script id="main1_page" type="text/html">
+  <div class="item">
+      <div class="inner">
+        <div class="cont">
+          <ul class="list">
+            <li>
+              <dl>
+                <dt>{{data.receiveUserName}}</dt>
+               {{if data.starts==null}}
+                <div  id="t_startsNum">
+                    <span style="float: left;font-size: 1.2rem; padding-top: 2px;">综合评价</span>
+                    <span style="float: right; padding-right: 10%; padding-top: 1px; color: #ffad51; font-size: 1.2rem;" id="evaluateInfo">请打分(最少一颗星)</span>
+                  <ul class="wrapper" >
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                  </ul>
+                 <input type="hidden" id="startsNum" value="0">
+                </div>
+                {{/if}}
+                {{if data.starts==1 }}
+                  <ul class="wrapper">
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">非常差</span></li>
+                  </ul>    
+                  {{/if}}
+                   {{if data.starts==2 }}
+                  <ul class="wrapper">
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">较差</span></li>
+                  </ul>    
+                  {{/if}}
+                   {{if data.starts==3 }}
+                  <ul class="wrapper">
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">一般</span></li>
+                  </ul>    
+                  {{/if}}
+                   {{if data.starts==4 }}
+                  <ul class="wrapper">
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px -20px;"></li>
+                    <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">较好</span></li>
+                  </ul>  
+                  {{/if}}
+                   {{if data.starts==5 }}
+                  <ul class="wrapper">
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li class="li" style="background-position: 0px 0px;"></li>
+                    <li style="background: none; width: 70px;"><span style="color: #ffb251;line-height: 0;">非常好</span></li>
+                  </ul>    
+                  {{/if}}            
+
+                  {{if data.remartk != null}}
+                  <p class="info_assess_content">{{data.receiveUserName}} : {{data.remartk}}</p>
+                  {{/if}}
+                  {{if data.commentList != null && data.commentList.length>0}}
+                  {{each data.commentList as item i}}
+                  <p class="info_assess_content">{{item.userName}} : {{item.content}}</p>
+                  {{/each}}
+                  {{/if}}
+              </dl>
+            </li>
+          </ul>
+          <div class="reply">
+            <div class="box">
+              <textarea placeholder="请输入您的内容（不超过300字）" id="remark_{{data.pkid}}"></textarea>
+            </div>
+            <p class="btn">
+              <a class="replybtn" href="javascript:void(0)" onclick="saveReply('{{data.pkid}}', '{{data.pkid}}', '{{data.starts}}', '{{data.receiveUserId}}', '{{data.reportId}}')">回复</a>
+              <a class="cancelbtn" href="javascript:void(0)" onclick="cleanContent('{{data.pkid}}')">取消</a>
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</script>
+
+<!-- 上报人查看 内容区 -->
+<script id="contentDiv_page" type="text/html">
+  <div class="item" style="border-bottom: none;">
+    <div class="inner">
+      <div class="top">
+        <div class="dt ellipsis1" style="padding-right: 0px;"><div class="textareaDiv">{{data.informationSources}}</div></div>
+        <div class="dd"> {{#getDate(data.cdate,"yyyy-MM-dd HH:mm:ss")}}</div>
+      </div>
+    </div>
+  </div>
+ 
+    {{if data.saleTableFilePath != null && data.saleTableFilePath.length>0}}
+    <div class="txtc">
+      {{each data.saleTableFilePath as value i }}
+      <a class="bluebtn" href="{{filePathOld}}{{value}}">{{#getFileName(value)}}<i class="iconfont">&#xe61c;</i></a>
+     {{/each}}
+    </div>
+    {{/if}}
+    {{if data.informationSources=="POY"}}
+    <div id="poy">
+    <div class="bfff wx_weekly" id="list">
+      <h2>一、月度目标完成情况<span class="fs12">（车丝、塑料托盘推广情况）</span></h2>
+        <div class="ttwrap">
+      <div  class="textareaDiv">{{#toTextarea(data.monthGoalFinishPresentation)}}        
+      </div>
+    </div>
+      <h2 class="mt10">二、市场行情分析</h2>
+      {{if data.marketPrisentation != null}}
+      <p class="tit1">市场方面：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.marketPrisentation)}}
+      </div>
+    </div>
+    {{/if}}
+      {{if data.productPrisentation != null}}
+      <p class="tit1">产品方面：</p>
+        <div class="ttwrap">
+      <div  class="textareaDiv">{{#toTextarea(data.productPrisentation)}}        
+      </div></div>
+      {{/if}}
+      {{if data.restorePrisentation != null}}
+      <p class="tit1">预测：</p>
+        <div class="ttwrap">
+      <div  class="textareaDiv">{{#toTextarea(data.restorePrisentation)}}
+      </div></div>
+      {{/if}}
+      <h2 class="mt10">三、下周工作计划</h2>
+      {{if data.lastWeekVistSuggestions != null}}
+      <p class="tit1">上周走访回馈：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.lastWeekVistSuggestions)}}        
+      </div></div>
+      {{/if}}
+      {{if data.nextWeekVistSuggestions != null}}
+      <p class="tit1">下周计划走访客户：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.nextWeekVistSuggestions)}}
+      </div>  </div>
+      {{/if}}
+      {{each data.informationReportsMx as item}}
+        <h2 class="mt10">{{item.title}}<span class="fs12">（新增自填项）</span></h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(item.content)}}
+        </div></div>
+      {{/each}}  
+    </div>
+    </div>
+    {{/if}}
+    
+    {{if data.informationSources=="DTY"}}
+    <div id="dty">
+    <div class="bfff wx_weekly" id="list">
+      <h2>一、月度目标完成情况<span class="fs12">（车丝、塑料托盘推广情况）</span></h2>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.monthGoalFinishPresentation)}}
+      </div></div>
+      <h2 class="mt10">二、市场行情分析</h2>
+      {{if data.marketPrisentation != null}}
+      <p class="tit1">市场方面：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.marketPrisentation)}}
+      </div></div>
+      {{/if}}
+      {{if data.productPrisentation != null}}
+      <p class="tit1">产品方面：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.productPrisentation)}}
+      </div></div>
+      {{/if}}
+      {{if data.restorePrisentation != null}}
+      <p class="tit1">预测：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.restorePrisentation)}}
+      </div></div>
+      {{/if}}
+     <h2 class="mt10">三、下周计划</h2>
+      {{if data.salePlan != null}}
+      <p class="tit1">销售计划：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.salePlan)}}</div></div>
+      {{/if}}
+      {{if data.evectionPlan != null}}
+      <p class="tit1">出差计划：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.evectionPlan)}}</div></div>
+      {{/if}}
+      {{if data.learnPlan != null}}
+      <p class="tit1">学习计划：</p>
+        <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.learnPlan)}}</div> </div>
+      {{/if}}
+      {{each data.informationReportsMx as item}}
+        <h2 class="mt10">{{item.title}}<span class="fs12">（新增自填项）</span></h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(item.content)}}
+        </div></div>
+      {{/each}}  
+    </div>
+    </div>
+    {{/if}}
+
+    {{if data.informationSources=="差异化" || data.informationSources=="涤纶切片" || data.informationSources=="锦纶切片"}}
+  <div id="diff_qp">
+    <div class="bfff wx_weekly">
+        <h2>一、本周销售情况及存在问题</h2>
+      {{if data.taskFinishPresentation != null}}
+        <p class="tit1">任务完成情况：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.taskFinishPresentation)}}</div></div>
+        {{/if}}
+      {{if data.customerDevelopPresentation != null}}
+        <p class="tit1">客户开发情况：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.customerDevelopPresentation)}}</div></div>
+        {{/if}}
+      {{if data.existProblem != null}}
+        <p class="tit1">存在的问题：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.existProblem)}}</div></div>
+        {{/if}}
+        <h2 class="mt10">二、行情分析</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.marketAnalyses)}}</div></div>
+        <h2 class="mt10">三、下周计划</h2>
+      {{if data.salePlan != null}}
+        <p class="tit1">销售计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.salePlan)}}</div></div>
+        {{/if}}
+      {{if data.evectionPlan != null}}
+        <p class="tit1">出差计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.evectionPlan)}}</div></div>
+        {{/if}}
+      {{if data.learnPlan != null}}
+        <p class="tit1">学习计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.learnPlan)}}</div></div>
+        {{/if}}
+        <h2 class="mt10">四、改进建议</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.suggestions)}}</div></div>
+        {{each data.informationReportsMx as item}}
+          <h2 class="mt10">{{item.title}}<span class="fs12">（新增自填项）</span></h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(item.content)}}
+          </div></div>
+        {{/each}}
+      </div>
+  </div>
+  {{/if}}
+  {{if data.informationSources=="短纤"}}
+  <div id="dq">
+    <div class="bfff wx_weekly">
+        <h2>一、本周质量反馈</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.taskFinishPresentation)}}</div></div>
+        <h2>二、客户开发情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.customerDevelopPresentation)}}</div></div>
+        <h2>三、遇到问题</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.existProblem)}}</div></div>
+        <h2>四、行情分析</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.marketAnalyses)}}</div></div>
+        <h2 class="mt10">五、下周计划</h2>
+      {{if data.salePlan != null}}
+        <p class="tit1">销售计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.salePlan)}}</div></div>
+        {{/if}}
+      {{if data.evectionPlan != null}}
+        <p class="tit1">出差计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.evectionPlan)}}</div></div>
+        {{/if}}
+      {{if data.learnPlan != null}}
+        <p class="tit1">学习计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.learnPlan)}}</div></div>
+        {{/if}}
+        {{each data.informationReportsMx as item}}
+          <h2 class="mt10">{{item.title}}<span class="fs12">（新增自填项）</span></h2>
+        <div class="ttwrap">
+            <div class="textareaDiv">{{#toTextarea(item.content)}}</div>
+          </div>
+        {{/each}}
+      </div>
+  </div>
+  {{/if}}
+  {{if data.informationSources=="FDY"}}
+    <div id="fdy">
+      <div class="bfff wx_weekly">
+        <h2>一、下游客户开机率情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.downMarketCustomerOpenRate)}}</div>
+        </div>
+        <h2 class="mt10">二、原料及面料库存情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.inventoryPresentation)}}</div>
+        </div>
+        <h2 class="mt10">三、下游客户盈利状况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.downMarketCustomerPayOff)}}</div>
+        </div>
+        <h2 class="mt10">四、同行价格对比情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.priceComparePresentation)}}</div>
+        </div>
+        <h2 class="mt10">五、市场趋势判断情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.marketRestorePresentation)}}</div>
+        </div>
+        <h2 class="mt10">六、自身客户变动情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.customerChangePresentation)}}</div>
+        </div>
+        <h2 class="mt10">七、外围倍捻客户情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.externalCustomerPresentation)}}</div>
+        </div>
+        {{each data.informationReportsMx as item}}
+          <h2 class="mt10">{{item.title}}<span class="fs12">（新增自填项）</span></h2>
+          <div class="ttwrap">
+            <div class="textareaDiv">{{#toTextarea(item.content)}}</div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+</script>
+
+<!-- 接收人查看 内容区 -->
+<script id="contentDiv1_page" type="text/html">
+  <div class="item" style="border-bottom: none;">
+    <div class="inner">
+      <div class="top">
+        <div class="dt ellipsis1" style="padding-right: 0px;"><div class="textareaDiv">{{data.informationReports.informationSources}}</div></div>
+        <div class="dd"> {{#getDate(data.informationReports.cdate,"yyyy-MM-dd HH:mm:ss")}} | {{data.reportUserName}}
+        {{if data.productLine != null}} | {{data.productLine}}{{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{if data.informationReports.saleTableFilePath != null}}
+    <div class="txtc">
+      {{each data.informationReports.saleTableFilePath as value i }}
+      <a class="bluebtn" href="{{filePathOld}}{{value}}">{{#getFileName(value)}}<i class="iconfont">&#xe61c;</i></a>
+     {{/each}}
+    </div>
+    {{/if}}
+    {{if data.informationReports.informationSources=="POY"}}
+    <div id="poy">
+    <div class="bfff wx_weekly mt10" id="list">
+      <h2>一、月度目标完成情况<span class="fs12">（车丝、塑料托盘推广情况）</span></h2>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.monthGoalFinishPresentation)}}</div>
+        
+      </div>
+      <h2 class="mt10">二、市场行情分析</h2>
+      {{if data.informationReports.marketPrisentation != null}}
+      <p class="tit1">市场方面：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.marketPrisentation)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.productPrisentation != null}}
+      <p class="tit1">产品方面：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.productPrisentation)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.restorePrisentation != null}}
+      <p class="tit1">预测：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.restorePrisentation)}}</div>
+      </div>
+      {{/if}}
+      <h2 class="mt10">三、下周工作计划</h2>
+      {{if data.informationReports.lastWeekVistSuggestions != null}}
+      <p class="tit1">上周走访回馈：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.lastWeekVistSuggestions)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.nextWeekVistSuggestions != null}}
+      <p class="tit1">下周计划走访客户：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.nextWeekVistSuggestions)}}</div>
+      </div>
+      {{/if}}
+      {{each data.informationReports.informationReportsMx as item }}
+        <h2 class="mt10">{{item.title}}<span class="fs12">（上报人新增项）</span></h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(item.content)}}</div>
+        </div>
+      {{/each}}    
+    </div>
+    </div>
+    {{/if}}
+
+    {{if data.informationReports.informationSources=="DTY"}}
+    <div id="poy">
+    <div class="bfff wx_weekly" id="list">
+      <h2>一、月度目标完成情况<span class="fs12">（车丝、塑料托盘推广情况）</span></h2>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.monthGoalFinishPresentation)}}</div>
+        
+      </div>
+      <h2 class="mt10">二、市场行情分析</h2>
+      {{if data.informationReports.marketPrisentation != null}}
+      <p class="tit1">市场方面：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.marketPrisentation)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.productPrisentation != null}}
+      <p class="tit1">产品方面：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.productPrisentation)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.restorePrisentation != null}}
+      <p class="tit1">预测：</p>
+      <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.restorePrisentation)}}</div>
+      </div>
+      {{/if}}
+      <h2 class="mt10">三、下周计划</h2>
+      {{if data.informationReports.salePlan != null}}
+      <p class="tit1">销售计划：</p>
+      <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.informationReports.salePlan)}}</div>
+    </div>
+    {{/if}}
+      {{if data.informationReports.evectionPlan != null}}
+      <p class="tit1">出差计划：</p>
+      <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.informationReports.evectionPlan)}}</div>
+    </div>
+    {{/if}}
+      {{if data.informationReports.learnPlan != null}}
+      <p class="tit1">学习计划：</p>
+      <div class="ttwrap">
+      <div class="textareaDiv">{{#toTextarea(data.informationReports.learnPlan)}}</div>
+    </div>
+    {{/if}}
+      {{each data.informationReports.informationReportsMx as item}}
+        <h2 class="mt10">{{item.title}}<span class="fs12">（上报人新增项）</span></h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(item.content)}}</div>
+      </div>
+      {{/each}}    
+    </div>
+    </div>
+    {{/if}}
+
+    {{if data.informationReports.informationSources=="差异化" || data.informationReports.informationSources=="涤纶切片" || data.informationReports.informationSources=="锦纶切片"}}
+  <div id="diff_qp">
+    <div class="bfff wx_weekly">
+        <h2>一、本周销售情况及存在问题</h2>
+      {{if data.informationReports.taskFinishPresentation != null}}
+        <p class="tit1">任务完成情况：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.taskFinishPresentation)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.customerDevelopPresentation != null}}
+        <p class="tit1">客户开发情况：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.customerDevelopPresentation)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.existProblem != null}}
+        <p class="tit1">存在的问题：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.existProblem)}}</div>
+      </div>
+      {{/if}}
+        <h2 class="mt10">二、行情分析</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.marketAnalyses)}}</div>
+      </div>
+        <h2 class="mt10">三、下周计划</h2>
+      {{if data.informationReports.salePlan != null}}
+        <p class="tit1">销售计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.salePlan)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.evectionPlan != null}}
+        <p class="tit1">出差计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.evectionPlan)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.learnPlan != null}}
+        <p class="tit1">学习计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.learnPlan)}}</div>
+      </div>
+      {{/if}}
+        <h2 class="mt10">四、改进建议</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.suggestions)}}</div>
+      </div>
+        {{each data.informationReports.informationReportsMx as item}}
+          <h2 class="mt10">{{item.title}}<span class="fs12">（上报人新增项）</span></h2>
+          <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(item.content)}}</div>
+        </div>
+        {{/each}}
+      </div>
+  </div>
+  {{/if}}
+  {{if data.informationReports.informationSources=="短纤"}}
+  <div id="dq">
+    <div class="bfff wx_weekly">
+        <h2>一、本周质量反馈</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.taskFinishPresentation)}}</div>
+      </div>
+        <h2 class="mt10">二、客户开发情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.customerDevelopPresentation)}}</div>
+      </div>
+        <h2 class="mt10">三、遇到问题</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.existProblem)}}</div>
+      </div>
+        <h2 class="mt10">四、行情分析</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.marketAnalyses)}}</div>
+      </div>
+        <h2 class="mt10">五、下周计划</h2>
+      {{if data.informationReports.salePlan != null}}
+        <p class="tit1">销售计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.salePlan)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.evectionPlan != null}}
+        <p class="tit1">出差计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.evectionPlan)}}</div>
+      </div>
+      {{/if}}
+      {{if data.informationReports.learnPlan != null}}
+        <p class="tit1">学习计划：</p>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.learnPlan)}}</div>
+      </div>
+      {{/if}}
+        {{each data.informationReports.informationReportsMx as item}}
+          <h2 class="mt10">{{item.title}}<span class="fs12">（上报人新增项）</span></h2>
+          <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(item.content)}}</div>
+        </div>
+        {{/each}}
+      </div>
+  </div>
+  {{/if}}
+  {{if data.informationReports.informationSources=="FDY"}}
+    <div id="fdy">
+      <div class="bfff wx_weekly">
+        <h2>一、下游客户开机率情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.downMarketCustomerOpenRate)}}
+        </div>
+      </div>
+        <h2 class="mt10">二、原料及面料库存情况</h2>
+        <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(data.informationReports.inventoryPresentation)}}
+        </div>
+      </div>
+        <h2 class="mt10">三、下游客户盈利状况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.downMarketCustomerPayOff)}}
+        </div>
+      </div>
+        <h2 class="mt10">四、同行价格对比情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.priceComparePresentation)}}
+        </div>
+      </div>
+        <h2 class="mt10">五、市场趋势判断情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.marketRestorePresentation)}}
+        </div>
+      </div>
+        <h2 class="mt10">六、自身客户变动情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.customerChangePresentation)}}
+        </div>
+      </div>
+        <h2 class="mt10">七、外围倍捻客户情况</h2>
+        <div class="ttwrap">
+        <div class="textareaDiv">{{#toTextarea(data.informationReports.externalCustomerPresentation)}}
+        </div>
+      </div>
+        {{each data.informationReports.informationReportsMx as item}}
+          <h2 class="mt10">{{item.title}}<span class="fs12">（上报人新增项）</span></h2>
+          <div class="ttwrap">
+          <div class="textareaDiv">{{#toTextarea(item.content)}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+  
+</script>
+
+<!-- 评分 -->
+<script type="text/javascript">
+  function showStartsNum(){
+          var array = ["startsNum"];
+          if(array.length>0){
+            for (var i = 0; i <array.length; i++) {
+              var instance = array[i];
+              console.log(instance);
+              var star = $("#t_"+instance+" > ul > li");
+              showStar(star,instance);
+            }
+          }
+        }
+
+  //点击以及改变样式
+  function showStar(star,instance){
+    var temp = 0;
+    for(var i = 0, len = star.length; i < len; i++){//star.length=5
+      star[i].index = i;
+      star[i].onclick = function(){
+        clear();//点击的时候清除样式
+        temp = this.index+1;
+        $("#"+instance).val(temp);
+        current(temp);
+      }
+    }
+    //清除所有
+    function clear(){
+      for(var i = 0, len = star.length; i < len; i++){
+        star[i].style.backgroundPosition = '0 -20px';
+      }
+    }
+    //显示当前第几颗星
+    function current(temp){
+      if(temp==1){
+        $("#evaluateInfo").html("非常差");
+      }
+      if(temp==2){
+        $("#evaluateInfo").html("较差");
+      }
+      if(temp==3){
+        $("#evaluateInfo").html("一般");
+      }
+      if(temp==4){
+        $("#evaluateInfo").html("较好");
+      }
+      if(temp==5){
+        $("#evaluateInfo").html("非常好");
+      }
+      for(var i = 0; i < temp; i++){
+        star[i].style.backgroundPosition = '0 0px';
+      }
+    }
+  };
+</script>
+
+</body>
+</html>

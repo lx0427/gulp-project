@@ -1,0 +1,71 @@
+<style> 
+.weui-popup-container,
+.weui-popup-overlay {
+    z-index: 1000;
+}
+
+.weui-popup-modal {
+    z-index: 1000;
+}
+
+.weui_cells_radio .weui_check:checked + .weui_icon_checked:before {
+    margin-top: -20px;
+}
+.weui_cells {font-size: 1.5rem;}
+</style>
+<div id="ggPopup2" class='weui-popup-container'>
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal">
+        <header style="position: fixed; width: 100%; z-index: 100;">
+            <div class="tradecomp" style="text-align: center;">请选择<span class="delete close-popup">关闭</span></div>
+            <div class="weui_search_bar">
+                <form id="ggForm2" class="weui_search_outer">
+                    <div class="weui_search_inner">
+                        <i class="weui_icon_search"></i>
+                        <input type="search" class="weui_search_input" id="ggKeyword2" placeholder="请输入规格" />
+                        <a href="javascript:" class="weui_icon_clear gg2"></a>
+                    </div>
+                    <label for="ggKeyword2" class="weui_search_text">
+                        <i class="weui_icon_search"></i>
+                        <span>搜索</span>
+                    </label>
+                </form>
+                <a href="javascript:" class="weui_search_cancel gg2">取消</a>
+            </div>
+        </header>
+        <div class="wx_pulldownbox" style="top:88px;">
+            <div class="pulldown boxHeight" >
+                <ul class="leftnav boxHeight" style="top:88px;" id="ggLeft">
+                </ul>
+                <ul class="detailmes" id="ggRight">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../include/ggPopup2.js"></script>
+
+<script id="gg_left_list_page" type="text/html">
+<li class="current" min="0" max="10000">不限</li>
+{{each denierList as value}}
+    <li min="{{value.min}}" max="{{value.max}}">{{value.text}}</li>
+{{/each}}
+</script>
+
+<script id="gg_right_list_page" type="text/html">
+<li>
+    <dl class="contlist">
+        <dt class="close-popup ggselect" gg="">不限<i class="iconfont icon-duihao" style="display:none;"></i></dt>
+    </dl>
+</li>
+{{each ggMap as value denier}}
+    <li class="gglist" denier="{{denier}}">
+        <p class="til">{{#getDenier(denier)}}D</p>
+        <dl class="contlist">
+            {{each value as map i}}
+            <dt class="close-popup ggselect" gg="{{map.key}}">{{map.value}}<i class="iconfont icon-duihao" style="display:none;"></i></dt>
+            {{/each}}
+        </dl>
+    </li>
+{{/each}}
+</script>

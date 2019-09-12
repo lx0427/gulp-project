@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>合约客户查询</title>
+    <% include ../../components/_head.art %>
+         <style>
+        .wx_main {
+            top: 45px;
+        }
+        .wx_clienttil{
+            position: fixed;
+            width: 100%;
+            top: 1px;
+            left: 0px;
+        }
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+        
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+        
+        .wx_clienttil li:nth-child(1) {
+            width: 65%;
+        }
+       
+        .wx_clienttil li:nth-child(2) {
+            width: 35%;
+        }
+
+        .customer {padding:12px 10px; background: #fff; border-bottom: 1px solid #ddd; overflow: hidden;}
+        .customer .name {text-align: left; float: left; width: 65%; color: #333; font-size: 1.5rem; line-height: 19px;}
+        .customer .je {text-align: right; float: right; widows: 35%; color: #333; font-size: 1.5rem; line-height: 19px;}
+        </style>
+        <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+   <article class="wx_layout">
+        <ul class="wx_clienttil">
+            <li class="i18n" name="com_kh">客户</li>
+            <li class="i18n" name="ba_zhye" style="border-right: solid 0px #ddd;">当月合约量</li>
+		</ul>
+        <section class="wx_main" id="infinitePage">  
+            <div id="list">
+			</div>            
+        </section>
+    </article>
+       <% include ../../_foot.html %>
+       <script src="../public/sapHyOrder.js"></script>
+        <script id="list_page" type="text/html">
+            {{each data as value i}}
+             <div class="customer" onclick="toList('{{value.sapCustomerId}}');">
+                <div class="name">{{value.hyname}}</div>
+                <div class="je">{{value.sl2}}KG</div>
+			 </div>
+            {{/each}}
+        </script>
+      
+</body>
+
+</html>

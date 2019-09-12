@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>逸控代订单预审</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+        .wx_main {
+            bottom: 49px;
+        }
+
+        .wx_tasdelist {
+            margin-bottom: 20px;
+        }
+
+        .selectbox {
+            padding-right: 10px !important;
+        }
+
+        .selectbox em {
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #333;
+            display: block;
+            float: right;
+            font-size: 1.4rem;
+            height: 26px;
+            line-height: 24px;
+            margin-left: 5px;
+            text-align: center;
+            width: 55px;
+        }
+
+        .selectbox em.curr {
+            background: #3e7baf none repeat scroll 0 0;
+            border: medium none;
+            color: #fff;
+            line-height: 26px;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <input type="hidden" id="couponType" value="" />
+        <section class="wx_main" id="list"></section>
+    </article>
+    <footer class="wx_audit" id="footer" style="display: none;">
+        <div class="allsel current" onclick="doCheckAll(this)"><i class="iconfont icon-checkbox"></i><span class="i18n"
+                name="com_selectAll">全选</span></div>
+        <ul class="auditbtn">
+            <li onclick="doAgree();" class="i18n" name="com_approve">审核通过</li>
+            <li onclick="doReject();" class="i18n" name="com_unapprove">审核拒绝</li>
+        </ul>
+    </footer>
+    <% include ../../_foot.html %>
+    <script src="../salesman/fcOrderAuditView.js"></script>
+    <script id="list_page" type="text/html">
+            <input type="hidden" id="wbno01" value="{{data.wbno01}}">
+            <input type="hidden" id="wbno02" value="{{data.wbno02}}">
+            <div class="wx_ordernum">{{data.fphm}}<span>{{#getDate(data.cdate,"yyyy-MM-dd HH:mm")}}</span></div>
+            <div class="wx_clientname">{{data.hyname}} 
+            {{if data.htstr03 != null}} 
+                ({{data.htstr03}}) 
+            {{/if}}
+            &nbsp &nbsp &nbsp &nbsp &nbsp逸控代
+             {{if data.htstr04 != null}}
+                <span onclick="doCall('{{data.htstr04}}')"></span> 
+             {{/if}}
+            </div>
+
+            <ul class="wx_tasdelist">
+                {{each data.mxlist as mx i}}
+                <li class="current" id="{{mx.id.fphm}}_{{mx.id.htxh}}">
+                    <input type="hidden" id="fphm_{{mx.id.fphm}}_{{mx.id.htxh}}" value="{{mx.id.fphm}}" />
+                    <input type="hidden" id="htxh_{{mx.id.fphm}}_{{mx.id.htxh}}" value="{{mx.id.htxh}}" />
+                    <div class="promes">
+                        <i class="iconfont icon-checkbox" onclick="doCheck('{{mx.id.fphm}}_{{mx.id.htxh}}')"></i>
+                        <p class="proname_a">
+                            <input type="hidden" id="pm_{{mx.id.fphm}}_{{mx.id.htxh}}" value="{{mx.pm}}" /> {{mx.pm}}
+                            <span class="perty_a">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                            <span class="perty_a">{{mx.str02}}</span>
+                            <span class="perty_a">{{mx.str03}}</span> {{else}}
+                            <span class="perty_a">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                            <span class="perty_a">{{mx.str04}}</span> {{/if}} {{if mx.str02 != null}}
+                            <span class="perty_a">{{mx.str02}}</span> {{/if}} {{/if}}
+                                &nbsp;
+                            {{if mx.contractTypes == '1'}}
+                                合约A
+                            {{/if}}
+                            {{if mx.contractTypes == '2'}}
+                                合约B
+                            {{/if}}
+                            <input class="contractTypes" id="contractTypes_{{mx.id.fphm}}_{{mx.id.htxh}}" type="hidden" value="{{mx.contractTypes}}" />
+                            <input id="price_{{mx.id.fphm}}_{{mx.id.htxh}}" type="hidden" value="{{mx.price}}" />
+                        </p>
+                        <p class="size_a">
+                            {{if mx.pm != "切片" && mx.pm != "锦纶切片"}} {{mx.gg}}&nbsp;&nbsp; {{/if}} {{mx.cd}}
+                        </p>
+                        <div id="price_a_{{mx.id.fphm}}_{{mx.id.htxh}}" class="price_a">￥<em>{{mx.price}}</em></div>
+                    </div>
+                    <dl class="amendbox">
+                        <dt >
+                            <span class="i18n" name="com_gg">规格：</span>
+                            <input class="gg" id="gg_{{mx.id.fphm}}_{{mx.id.htxh}}" type="text" placeholder="请选择" readonly value="{{mx.gg}}" />
+                            <i class="iconfont icon-xiala"></i>
+                        </dt>
+                        <dt {{if jkqd!=null}} onclick="showCz('{{mx.pm}}','{{mx.id.fphm}}_{{mx.id.htxh}}')" {{/if}}>
+                            <span class="i18n" name="com_ph">批号：</span>
+                            <input class="cz" id="cz_{{mx.id.fphm}}_{{mx.id.htxh}}" type="text" placeholder="请选择" {{if jkqd==null}}readonly{{/if}} value="{{mx.cz}}" />
+                            <i class="iconfont icon-xiala"></i>
+                        </dt>
+                        <dt {{if jkqd!=null}} onclick="showCdPopupById('{{mx.id.fphm}}_{{mx.id.htxh}}')" {{/if}}>
+                            <span class="i18n" name="mi_cd">等级：</span>
+                            <input class="cd i18n_ph" id="cd_{{mx.id.fphm}}_{{mx.id.htxh}}" type="text" placeholder="请选择" {{if jkqd==null}}readonly{{/if}} value="{{mx.cd}}" name="com_choosetip" />
+                            <i class="iconfont icon-xiala"></i>
+                        </dt>
+                    </dl>
+                    {{if mx.pm == "POY"}}
+                    <div class="selectbox csselect" id="str02_{{mx.id.fphm}}_{{mx.id.htxh}}" {{if mx.str02 != "车丝"}}style="display:none;"{{/if}}>
+                        <span>车丝：</span>
+                        <em {{if mx.str02 == "车丝"}}class="curr"{{/if}} val="车丝">是</em>
+                        <em val="">否</em>
+                    </div>
+                    {{/if}}
+                    <div class="selectbox xbjzselect" id="packstr_{{mx.id.fphm}}_{{mx.id.htxh}}">
+                        <span class="i18n" name="com_packetnetweight">箱包净重：</span> {{if packstrList != null}} {{each packstrList as v j}} {{if (mx.packstr != null && mx.packstr != "")}} {{if (mx.packstr == v)}}
+                        <em class="xbjz curr" val="{{v}}">{{v}}{{mx.sldw2}}</em> {{else}}
+                        <em class="xbjz" val="{{v}}">{{v}}{{mx.sldw2}}</em> {{/if}} {{else}} {{if j == 0}}
+                        <em class="xbjz curr" val="{{v}}">{{v}}{{mx.sldw2}}</em> {{else}}
+                        <em class="xbjz" val="{{v}}">{{v}}{{mx.sldw2}}</em> {{/if}} {{/if}} {{/each}} {{else}} {{if (mx.packstr != null && mx.packstr != "")}}
+                        <em class="xbjz curr" val="{{mx.packstr}}">{{mx.packstr}}{{mx.sldw2}}</em> {{else}}
+                        <em class="xbjz curr" val="">不定重</em> {{/if}} {{/if}}
+                    </div>
+                    {{if (mx.pm == "FDY" && mx.lsxs != null && mx.lsxs != 0)}}
+                    <div class="selectbox" style="padding-right: 10px; text-align: right;"><span class="i18n" name="or_perweight">单丝净重：</span> {{mx.lsxs}}{{mx.sldw2}}
+                    </div>
+                    {{/if}}
+                    {{if jkqd !=null}}
+                    <dl class="fillbox">
+                        <dt class="zlbox">
+                            <span class="zl i18n" name="com_zl">重量：</span>
+                            <input id="sl2_{{mx.id.fphm}}_{{mx.id.htxh}}" name="" type="number" placeholder="0.00" value="{{mx.sl2}}" onchange="changeSl2('{{mx.id.fphm}}_{{mx.id.htxh}}');" />
+                            <span class="kg">{{mx.sldw2}}</span>
+                        </dt>
+                        <dt class="xbsbox">
+                            <span class="xbs i18n" name="mi_xbs">箱包数：</span>
+                            <input id="sl1_{{mx.id.fphm}}_{{mx.id.htxh}}" name="" type="number" placeholder="0" value="{{mx.sl1}}" onchange="changeSl1('{{mx.id.fphm}}_{{mx.id.htxh}}');" />
+                        </dt>
+                    </dl>
+                    {{/if}}
+
+                    {{if hkqd !=null}}
+                    <input type="hidden" id="timemd5" value="{{hkqd.timemd5}}">
+                    {{each hkqd.mxList as hkmx i}}
+                    <dl class="fillbox">
+                        <dt class="zlbox">
+                            <span class="zl i18n" name="com_zl">重量：</span>
+                            <input id="sl2_{{mx.id.fphm}}_{{mx.id.htxh}}" name="" type="number" placeholder="0.00" value="{{hkmx.sl2}}" readonly />
+                            <span class="kg">{{mx.sldw2}}</span>
+                        </dt>
+                        <dt class="xbsbox">
+                            <span class="xbs i18n" name="mi_xbs">箱包数：</span>
+                            <input id="sl1_{{mx.id.fphm}}_{{mx.id.htxh}}" name="" type="number" placeholder="0" value="{{hkmx.sl1}}" onchange="changeSl1('{{mx.id.fphm}}_{{mx.id.htxh}}');" readonly />
+                        </dt>
+                    </dl>
+
+                    <div class="selectbox csselect">
+                        <span class="i18n" name="com_packetnetweight">还款金额：</span> <input type="text" name="mxamt" readonly="readonly" value="{{hkmx.amt}} 元" style="float: right;">
+                    </div>
+                    {{/each}}
+                    {{/if}}
+                        
+                    <div class="selectbox notes">
+                        <span class="i18n" name="com_remark">备注:</span>
+                        <input id="remark_{{mx.id.fphm}}_{{mx.id.htxh}}" class="i18n_ph" type="text" {{if mx.pm=="FDY" }} placeholder="请输入颗数" name="or_enamount" {{else}} placeholder="请输入备注" name="or_enremark" {{/if}} value="{{mx.remark}}" />
+                    </div>
+                    {{if jkqd !=null}}
+                    <input type="hidden" id="timemd5" value="{{jkqd.timemd5}}">
+                    <div class="selectbox ">
+                        <span>阳光折扣:</span>
+                        <input id="sunshineDiscount_{{mx.id.fphm}}_{{mx.id.htxh}}"  type="number"  oninput="if(value.length>10)value=value.slice(0,10)"  placeholder="请输入阳光折扣"  value="{{mx.sunshineDiscount}}" />
+                    </div>
+                    <div class="selectbox notes">
+                        <span>政策优惠:</span>
+                        <input id="policyPreferences_{{mx.id.fphm}}_{{mx.id.htxh}}" type="number"  oninput="if(value.length>10)value=value.slice(0,10)"   placeholder="请输入政策优惠"  value="{{mx.policyPreferences}}" />
+                    </div>
+                    {{/if}}
+                </li>
+                {{/each}}
+            </ul>
+
+            <ul class="wx_setlist" style="margin-bottom: 10px;">       
+               {{if jkqd !=null}}
+                <li style="text-align: right; padding-right: 10px;">
+                	<span class="i18n" name="mi_paynum">借款金额:</span>
+                    <input id="jkamt" value="{{jkqd.amt}}" readonly />
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">订单总金额:</span>
+                    <input id="htamt" value="{{jkqd.amt3}}" readonly /></li>
+                {{if jkqd.contract!=null && jkqd.contract.fcCouponName != null}}
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">免息券:</span> {{jkqd.contract.fcCouponName}} 
+                </li>
+                {{/if}}
+                <li style="text-align: right; padding-right: 10px;">
+                	<span class="i18n" name="mi_paynum">借款单号:</span> {{jkqd.fphm}} 
+                </li> 
+                {{else if hkqd !=null}}
+                <li style="text-align: right; padding-right: 10px;">
+                	<span class="i18n" name="mi_paynum">提货金额:</span> {{hkqd.amt4}} 元
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">使用保证金:</span> {{hkqd.amt2}} 元
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">需付金额:</span> {{hkqd.amt3}} 元
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">实付金额:</span> {{hkqd.amt}} 元
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">利息:</span> {{hkqd.amt1}} 元
+                </li>
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="mi_paynum">还款单号:</span> {{hkqd.fphm}}
+                </li>
+                {{/if}}
+
+                <li class="jhway"><span class="i18n" name="or_deliveryway">交货方式</span> {{if data.htflag06 == 3}}
+                    <em class="way current i18n" name="or_delivery">配送</em> {{else}}
+                    <em class="way current i18n" name="or_getitself">自提</em> {{/if}}
+                </li>
+                <input type="hidden" id="psfs" value="{{data.htflag06}}" />
+                <li style="text-align: right; padding-right: 10px;"><span class="i18n" name="or_billingcompany">开票单位</span> {{data.kpname}}
+                </li>
+                <li>
+                    <span class="i18n" name="or_enquirydate">要货日期</span>
+                    <input type="text" class="i18n" name="com_choosetip" placeholder="请选择" id="date10Str" value="{{#getDate(data.date10,"yyyy-MM-dd")}}" readonly />
+                    <i class="iconfont icon-rarrow"></i>
+                </li>
+            </ul>
+        </script>
+    <% include ../include/ggPopup.html %>
+    <% include ../include/ggPopup2.html %>
+    <% include ../include/czPopup.html %>
+    <% include ../include/czPopup2.html %>
+    <% include ../include/cdPopup.html %>
+</body>
+
+</html>

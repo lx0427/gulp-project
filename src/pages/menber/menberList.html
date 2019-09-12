@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>会员管理</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 89px;
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="m_queryp" id="querykey"
+                        placeholder="请输入客户名称/拼音首字母/编码" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="m_qsrgjz">请输入关键字</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="sd_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <ul class="wx_hyfilter">
+            <input type="hidden" id="status" value="" />
+            <input type="hidden" id="orderName" value="" />
+            <input type="hidden" id="order" value="" />
+            <li style="position: relative;"><em id="rq_txt"><span class="i18n" name="m_rq">日期</span></em>
+                <span class="xl"></span>
+                <input type="text" id="rq" value=""
+                    style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+            </li>
+            <li id="statusStr">
+                <span class="i18n" name="m_zt">状态</span><span class="xl"></span>
+            </li>
+            <li id="sort">
+                <span class="i18n" name="m_px">排序</span><span class="xl"></span>
+            </li>
+        </ul>
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+            </div>
+            <div class="weui-infinite-scroll">
+                <div class="infinite-preloader"></div>
+                <span class="i18n" name="sd_loading">正在加载</span>
+            </div>
+        </section>
+    </article>
+    <!-- <footer class="wx_btnnext" onclick="tongBu();">同步客户销售数据</footer> -->
+    <% include ../../_foot.html %>
+    <script src="../menber/menberList.js"></script>
+    <script id="list_page" type="text/html">
+                {{each data as value i}}
+                <li onclick="toPage('{{value.hydm}}');">
+                    <p class="customlist_name">{{value.mbname}}</p>
+                    <p class="customlist_detail"><span class="i18n" name="m_bm">编码</span>：<span>{{value.sapCustomerId}}</span></p>
+                    <i class="iconfont icon-rarrow"></i>
+                </li>
+                {{/each}}               
+            </script>
+</body>
+
+</html>

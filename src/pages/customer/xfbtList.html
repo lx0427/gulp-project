@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="uo_title" >融资历史</title>
+    <% include ../../components/_head.art %>
+        <style>
+        .wx_main {
+            top: 89px;
+        }
+        
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+        
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+        
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+        
+        .zxf_a {
+            font-size: 1.3rem;
+            line-height: 23px;
+            color: #999;
+        }
+        
+        .wx_hyfilter li {
+            width: 33%;
+        }
+        
+        .size_a .price {
+            color: #fe9311;
+            margin-right: 10px;
+        }
+        
+        .buybtn {
+            position: absolute;
+            right: 0px;
+            bottom: 10px;
+            border: 1px solid #fe9311;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+        .orderbtn .status {border:none; float:left; color: #3e7baf; padding: 0px; margin: 0px;}
+        </style>
+        <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="uo_searchorder" id="querykey" placeholder="搜索订单" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+					<span class="i18n"  name="uo_searchorder">搜索订单</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel">
+			<span class="i18n"  name="com_cancel">取消</span>
+			</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+	<ul class="wx_hyfilter">
+		<li class="" style="position: relative;"><em id="dateli">
+			<span class="i18n"  name="com_date">日期</span>
+			</em>
+			<span class="xl"></span>
+			<input type="text" id="date10Str" value="" style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+		</li>
+		<li class="" id="status">
+			<span class="i18n" name="com_status">状态</span>
+			<span class="xl"></span>
+		</li>
+		<li class="" id="sort">
+			<span class="i18n" name="com_sorting">排序</span>
+			<span class="xl"></span>
+		</li>
+		<input type="hidden" id="cdate" value="" />
+		<input type="hidden" id="shStatus" value="" />
+		<input type="hidden" id="orderName" value="" />
+		<input type="hidden" id="order" value="" />
+	</ul>
+	<section class="wx_main" id="infinitePage">
+		 <ul class="xfbt_item" id="list">
+         </ul>
+        </section>
+</article>
+    <% include ../../_foot.html %>
+        <script src="../customer/xfbtList.js"></script>
+        <script id="list_page" type="text/html">
+           {{each data as value i}}
+        <li class="xfbt_list">
+        <p class="xfbt_list_title">融资编号：{{value.fphm}} {{if (value.status05 == 10)}}<span>待审核</span>{{/if}}{{if (value.status05 == 90)}}<span>已放款</span>{{/if}}{{if (value.status05 == 100)}}<span>已还款</span>{{/if}}</p>
+        <div class="xfbt_list_detail">
+          <div class="xfbt_list_lie"><p class="xfbt_list_left">订单日期：{{#getDate(value.cdate,"yyyy-MM-dd")}}</p><p class="xfbt_list_right">最后发货日期：{{#getDate(value.cdate,"yyyy-MM-dd")}}</p></div>
+		  {{each value.mxlist as mx i}}
+		  <div class="xfbt_list_lie"><p class="xfbt_list_left">品名：{{mx.pm}}</p><p class="xfbt_list_right">批号：{{mx.cz}}</p></div>
+          <div class="xfbt_list_lie"><p class="xfbt_list_left">规格：{{mx.gg}}</p><p class="xfbt_list_right">等级：{{mx.cd}}</p></div>
+		  {{/each}}
+          <div class="xfbt_list_lie"><p class="xfbt_list_left">订单总额：{{#getPrice(value.htamt)}}</p><p class="xfbt_list_right">借款金额：{{#getPrice(value.htamt)}}</p></div>
+          <div class="xfbt_list_lie"><p>订单编号：{{value.fphm}}</p>
+        </div>
+      </li>
+         {{/each}}
+        </script>
+</body>
+
+</html>

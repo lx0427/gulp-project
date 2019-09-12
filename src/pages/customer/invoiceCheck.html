@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="ivc_title">发票对账</title>
+    <% include ../../components/_head.art %>
+</head>
+<style type="text/css">
+</style>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage1">
+            <div class="swiper-container wx_banner" id="wx_banner"></div>
+            <ul class="wx_fpcheckbox" id="list">
+                <!-- <li>
+                    <p class="comp">绍兴柯桥泓通化纤有限公司</p>
+                    <div class="figure"><span>金额：￥4168.06</span><span>票号：90938206</span></div>
+                    <span class="date">2017-01-13</span>
+                </li>
+                <li>
+                    <p class="comp">绍兴柯桥泓通化纤有限公司</p>
+                    <div class="figure"><span>金额：￥3745.73</span><span>票号：90938206</span></div>
+                    <span class="date">2017-01-13</span>
+                </li> -->
+                <li>
+                    <p class="comp">浙江恒百华化纤有限公司</p>
+                    <div class="figure"><span><span class="i18n" name="ivc_money">金额</span>：￥275580.00</span><span><span
+                                class="i18n" name="ivc_piaohao">票号</span>：90939132</span></div>
+                    <span class="date">2017-01-16</span>
+                </li>
+                <li>
+                    <p class="comp">浙江恒百华化纤有限公司</p>
+                    <div class="figure"><span><span class="i18n" name="ivc_money">金额</span>：￥211760.68</span><span><span
+                                class="i18n" name="ivc_piaohao">票号</span>：90939133</span></div>
+                    <span class="date">2017-01-16</span>
+                </li>
+            </ul>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/invoiceCheck.js"></script>
+    <!--显示悬浮图标-->
+    <script type="text/javascript">
+        $(function () {
+            initSuspendIcon();
+        });
+    </script>
+    <script src="../../lib/swiper.min.js"></script>
+    <script id="otherBanner_page" type="text/html">
+            <div class="swiper-wrapper" >
+                {{each otherBanner as value i}}
+                    <div class="swiper-slide">
+                    <img src="{{filePath}}{{value.imgUrl}}"  onclick="toLinkUrl('{{value.title}}', '{{value.linkUrl}}')"/>
+                    </div>
+                {{/each}}
+            </div>
+        </script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <li>
+                <p class="comp">江苏海阳化纤有限公司</p>
+                <div class="figure">
+                    <span><span class="i18n" name="ivc_money">金额</span>：￥100000000.00</span>
+                    <span><span class="i18n" name="ivc_piaohao">票号</span>：12769482</span>
+                </div>
+                <span class="date">2016-11-26</span>
+            </li>
+            {{/each}}
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>拜访地信息详情</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_main {
+      top: 65px;
+    }
+
+    .wx_searchbox .searchbg {
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+      color: #3e7baf;
+    }
+
+    .wrapper {
+      height: 25px;
+    }
+
+    .wrapper li {
+      float: left;
+      width: 25px;
+      height: 20px;
+      background: url(../../images/star.png) 0 0px no-repeat;
+    }
+
+    /*开始默认选中*/
+    .xxfk_cpx {
+      padding-left: 3px;
+    }
+
+    .xbs i {
+      color: #f00;
+      font-style: normal;
+      padding-right: 3px;
+    }
+
+    .zl i {
+      color: #f00;
+      font-style: normal;
+      padding-right: 3px;
+    }
+
+    .xxfk_cpx {
+      padding-left: 10px;
+    }
+
+    .cpx_label {
+      display: block;
+      padding-left: 50px;
+    }
+
+    .xxfk_cpx .cpx_label span {
+      padding: 1px 8px;
+    }
+
+    .zlbox {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-left: 68px;
+    }
+
+    #img_ul img {
+      width: 75px;
+      height: 75px;
+    }
+
+    .fillbox .zlbox input {
+      box-sizing: border-box;
+      padding-left: 35px;
+    }
+
+    .pop-up {
+      margin-top: 0px;
+      width: 80%;
+      left: 10%;
+    }
+
+    .fillbox dt input.input {
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 0px 5px;
+      text-align: left;
+    }
+
+    .fillbox .zlbox input {
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 0px 5px;
+      text-align: left;
+    }
+
+    .need_product {
+      border-bottom: solid 1px #ccc;
+      border-bottom-style: dashed;
+      padding: 10px 0px;
+    }
+
+    .wx_tasdelist li .fillbox {
+      border-bottom: none;
+    }
+
+    .fillbox .zlbox {
+      padding-left: 70px;
+      border-right: none;
+      width: 90%;
+    }
+
+    .wx_tasdelist li {
+      border: none;
+    }
+
+    .xxfk_cpx {
+      border: none;
+    }
+
+    .xxfk_khqc {
+      font-weight: bold;
+      border-bottom-style: dashed;
+    }
+
+    .xxfk_box .xxfk_location {
+      border-bottom-style: dashed;
+    }
+
+    .fillbox .zlbox .kg,
+    .fillbox .zlbox .zl {
+      color: #3e7baf;
+    }
+
+    .ggspan {
+      color: #3e7baf;
+      font-size: 1.4rem;
+    }
+
+    .ggtextarea {
+      width: 63%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="wx_ssjgsite wx_ssjgsite1">
+    <div class="head_xxfk">
+      <p id="title_text">拜访信息</p>
+    </div>
+  </header>
+  <article class="wx_layout">
+    <section class="wx_main" id="main">
+
+    </section>
+  </article>
+
+  <script id="main_page" type="text/html">
+    <qnm1 style="display:block;">
+      <div class="xxfk_box">
+        <p class="xxfk_location" ><i class="iconfont icon-address"></i>{{data.placeInfo}}</p>
+
+        <p class="xxfk_khqc"><span>客户全称：</span><input style=" text-align: left;font-weight: bold;" type="text" value="{{data.customerName}}"  readonly="readonly"/></p>
+      
+      <ul class="wx_tasdelist">
+        <li style="padding-left: 0px;border-bottom: 1px solid #ccc; border-bottom-style: dashed;">
+        <dl class="fillbox">
+          <dt class="zlbox" style="padding-left: 53px;">
+          <span class="zl">业务员：</span>
+          <input type="text" style="border-bottom: none; color: #3e7baf;" value="{{data.reportUserName}}" readonly="readonly"/>
+          </dt>
+        </dl>
+        </li>
+        <li style="padding-left: 0px;border-bottom: 1px solid #ccc; border-bottom-style: dashed;">
+        <dl class="fillbox">
+          <dt class="zlbox" style="padding-left: 53px;">
+          <span class="zl">时间：</span>
+          <input type="text" style="border-bottom: none; color: #3e7baf;" value="{{#getDate(data.cdate,"yyyy-MM-dd HH:mm:ss")}}" readonly="readonly"/>
+          </dt>
+        </dl>
+        </li>
+        {{if data.customerType==1}}
+        <li style="padding-left: 0px;border-bottom: 1px solid #ccc; border-bottom-style: dashed;">
+        <dl class="fillbox">
+          <dt class="zlbox" style="padding-left: 53px;">
+          <span class="zl">产品线：</span>
+          <input type="text" style="border-bottom: none; color: #3e7baf;" value="{{data.informationSources}}" readonly="readonly"/>
+          </dt>
+        </dl>
+        </li>
+        {{/if}}
+      </ul>
+
+        {{if data.customerType==0}}
+        <div id="newCustomer">
+          <ul class="wx_tasdelist need_product" >
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">联系人</span>
+                <input type="text" value="{{data.linkman}}" readonly="readonly" id="linkman" name="linkman"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">职位</span>
+                <input type="text" value="{{data.positionInfo}}" readonly="readonly" id="positionInfo" name="positionInfo">
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">联系电话</span>
+                <input type="text" value="{{data.telphoneNumble}}" readonly="readonly" id="telphoneNumble" name="telphoneNumble"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">客户规模</span>
+                <input type="text" value="{{data.customerScale}}" readonly="readonly" id="customerScale" name="customerScale">
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox" style="padding-left: 83px;">
+                <span class="zl">客户营业额</span>
+                <input type="text" value="{{data.customerTurnover}}" readonly="readonly" id="customerTurnover" name="customerTurnover"/>
+                </dt>
+              </dl>
+              </dl>
+            </li>
+           <li style="height: 10px;"></li>
+          </ul>
+        {{each data.sapInformationReportsMx as value i}}
+          <ul class="wx_tasdelist need_product">
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">需求产品</span>
+                <input type="text" value="{{value.needProduct}}" readonly="readonly" id="needProduct" name="needProduct"/>
+                </dt>
+              </dl>
+            </li>
+             <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">设备类型</span>
+                <input type="text" value="{{value.machineType}}" readonly="readonly" id="machineType" name="machineType"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">竞争对手</span>
+                <input type="text" value="{{value.competitor}}" id="competitor1" name="competitor">
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">下游市场</span>
+                <input type="text" value="{{value.downstreamMarket}}" id="downstreamMarket" name="downstreamMarket"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">原料档次</span>
+                <input type="text" value="{{value.materialGrade}}" id="materialGrade" name="materialGrade"/>
+                </dt>
+              </dl>
+            </li>            
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">差异化</span>
+                <input type="text" value="{{value.diffFlag}}" id="diffFlag" name="diffFlag"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px; margin-top: 5px;">
+                <span class="zl ggspan">采购规格</span>
+                 <textarea rows="4" class="xxfk_remark ggtextarea">{{value.materialGg}}</textarea>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">月需求量</span>
+                <input type="text" value="{{value.needAmount}}" id="needAmount" name="needAmount"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px;">
+              <dl class="fillbox">
+                <dt class="zlbox">
+                <span class="zl">机台数量</span>
+                <input type="number" value="{{value.machineNum}}" readonly="readonly" id="machineNum1" name="machineNum"/>
+                </dt>
+              </dl>
+            </li>
+            <li style="padding-left: 0px; margin-top: 5px;">
+                <span class="zl ggspan">市场区域</span>
+                 <textarea rows="4" class="xxfk_remark ggtextarea">{{value.marketArea}}</textarea>
+            </li>
+           </ul>
+          {{/each}}
+          </div>
+        {{else}}
+        <ul class="wx_tasdelist" id="oldCustomer">
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 70px;">
+              <span class="zl">设备类型</span>
+              <input type="text" style="padding-right: 25px;" id="machineType" readonly="readonly" value="{{data.machineType}}" />
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px; margin-top: 5px;">
+              <span class="zl ggspan">采购规格</span>
+               <textarea rows="4" class="xxfk_remark ggtextarea">{{data.materialGg}}</textarea>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 70px;">
+              <span class="zl">月需求量</span>
+              <input type="text" style="padding-right: 25px;" value="{{data.monthlyDemand}}" />
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">原料档次</span>
+              <input type="text" value="{{data.materialGrade}}" id="materialGrade" readonly="readonly" name="materialGrade" />
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">价值评估</span>
+              <input type="text" value="{{data.priceEvaluate}}" id="priceEvaluate" readonly="readonly" name="priceEvaluate">
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">竞争对手</span>
+              <input type="text" value="{{data.competitor}}" id="competitor" readonly="readonly" name="competitor" />
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">下游市场</span>
+              <input type="text" value="{{data.downstreamMarket}}" id="downstreamMarket" name="downstreamMarket"/>
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">市场预判</span>
+              <input type="text" value="{{data.marketPrediction}}" id="marketPrediction" readonly="readonly" name="machineType" />
+              </dt>
+             </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">差异化</span>
+              <input type="text" value="{{data.diffFlag}}" id="diffFlag" readonly="readonly" name="diffFlag" />
+              </dt>
+             </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">机台数量</span>
+              <input type="text" value="{{data.machineNum}}" id="machineNum" readonly="readonly" name="machineNum" />
+              </dt>
+             </dl>
+          </li>
+          <li style="padding-left: 0px; margin-top: 5px;">
+                <span class="zl ggspan">市场区域</span>
+                 <textarea rows="4" class="xxfk_remark ggtextarea">{{data.marketArea}}</textarea>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox">
+              <span class="zl">产品库存</span>
+              <input type="text" value="{{data.productInventory}}" id="productInventory" readonly="readonly" name="productInventory" />
+              </dt>
+            </dl>
+          </li>
+         </ul>
+        {{/if}}
+      </div>
+              
+      <div class="xxfk_bz">
+        <p class="xxfk_bz_title"><span></span>其他备注</p>
+        <input type="hidden" id="complaintImages" value="{{data.complaintImages}}"/>
+        <textarea rows="10" readonly="readonly" class="xxfk_remark" name="problem" id="problem">{{data.problem}}</textarea>
+        
+        <div class="info_img" style="width:100%;margin-bottom: -20px;">
+          <!--图片路径，可能多张,逗号分隔-->
+          {{if data.uploadAppendageAddress != null }}
+          <ul class="wx_qdphoto wx_cjht" id="img_ul" style="margin-bottom: 10px;">
+          {{#getImg(filePath,data.uploadAppendageAddress)}} </ul>
+          {{/if}}
+        </div>
+
+      </div>
+    </qnm1>
+</script>
+
+  <% include ../../_foot.html %>
+
+  <script src="../../lib/swiper.min.js"></script>
+  <script src="../salesman/messageReportVistAddressInfo.js"></script>
+  <script>
+    $(function () {
+      wxconfig();
+    });
+  </script>
+</body>
+
+</html>

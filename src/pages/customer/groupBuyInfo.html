@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="gbi_title">团购详情</title>
+    <% include ../../components/_head.art %>
+    <style type="text/css">
+        .rule {
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <div class="rule rule11" style="display: none;">
+            <div class="rule_bg">
+                <p class="rule_title" id="rulename"><span class="i18n" name="gbi_tggz">团购规则</span></p>
+                <p class="rule_detail" id="exDiscountRulesList"></p>
+                <p class="rule_close">"><span class="i18n" name="gbi_guanbi">关闭</span></p>
+            </div>
+        </div>
+        <div class="rule rule22" style="display: none;">
+            <div class="pop-up">
+                <div class="pop-up-top">
+                    <p class="pop-up-logo"><img src="../../images/icon_logo.jpg" /></p>
+                    <p class="pop-up-text"><span class="i18n" name="gbi_hywsc">恒逸微商城·为您服务</span></p>
+                </div>
+                <div class="pop-up-main">
+                    <p class="pop-up-title"><span class="i18n" name="gbi_wypt">我要拼团</span></p>
+                    <p class="pop-up-detail"><span class="i18n" name="gbi_ctsltip">请输入您要参团的数量</span></p>
+                    <input type="number" id="sl" class="pop-up-box" />
+                </div>
+                <div class="pop-up-bottom">
+                    <p class="pop-up-cancel" onclick="doCancel()"><span class="i18n" name="gbi_qx">取消</span></p>
+                    <p class="pop-up-sure" onclick="doOk()"><span class="i18n" name="gbi_qd">确定</span></p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="mxid" value="" />
+        <input type="hidden" id="openid" value="" />
+        <input type="hidden" id="gbid" value="" />
+        <section class="wx_main" id="main">
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script>
+        $(function () {
+            wxconfig();
+        });
+    </script>
+    <script src="../customer/groupBuyInfo.js"></script>
+    <script id="main_page" type="text/html">
+            <div class="wx_myfocus">
+                <div class="commontil hytil">
+                    <input type="hidden" id="typ" value="{{exGroupBuy.typ}}"/>
+                    <span class="line1"></span>
+                    <span class="tiltext">{{exGroupBuy.title}}</span>
+                    <p class="activity"><span class="i18n" name="gbi_ptgzsm">拼团规则说明</span></p>
+                    <i class="iconfont icon-mark" onclick="showrule2('{{exGroupBuy.rules}}')"></i>
+                </div>
+                <ul class="focuslist">
+                    <li>
+                        <p class="proname">{{data.pm}}
+                            <span class="perty">{{data.cz}}</span> {{if data.pm == "DTY"}}
+                            <span class="perty">{{data.str02}}</span>
+                            <span class="perty">{{data.str03}}</span> {{else}}
+                            <span class="perty">{{data.wzlb}}</span> {{if data.str04 != null}}
+                            <span class="perty">{{data.str04}}</span> {{/if}} {{if data.str02 != null}}
+                            <span class="perty">{{data.str02}}</span> {{/if}} {{/if}}
+                        </p>
+                        <p class="size">
+                            {{if (data.pm != "切片" && data.pm != "锦纶切片")}} {{data.gg}}&nbsp;&nbsp;{{/if}} {{data.cd}}
+                        </p>
+                        <input type="hidden" id="maxsl" value="{{maxsl}}" />
+                        <p class="size"> <span class="i18n" name="gbi_yiping">已拼</span><em style="color: #fe9311; margin:0px 5px;">{{data.gbsl == null ? 0 : data.gbsl}}</em>
+                        {{if exGroupBuy.typ == 1}}包{{/if}} 
+                        {{if exGroupBuy.typ == 2}}kg{{/if}} 
+                        </p>
+                        <p class="size">
+                            {{if data.status == 1}}                                 
+                                {{if data.startMs }} 
+                                    <span id="title_{{data.pkid}}" class="i18n" name="gbi_ksdjs">开始倒计时</span>
+                                    <input type="hidden" class="time" id="{{data.pkid}}" value="{{data.startMs}}"/>
+                                    <input type="hidden" id="endMs_{{data.pkid}}" value="{{data.endMs}}"/>
+                                {{else}} 
+                                    <span id="title_{{data.pkid}}" class="i18n" name="gbi_jsdjs">结束倒计时</span>
+                                    <input type="hidden" class="time" id="{{data.pkid}}" value="{{data.endMs}}"/>
+                                {{/if}}                                
+                                    <span class="size_time" id="time_{{data.pkid}}">
+                                        
+                                    </span>                                        
+                            {{else if (data.status == 0)}} 
+                                 <span class="i18n" name="gbi_pterror">拼团失败</span>
+                            {{else if (data.status == 2 || data.status == 3)}} 
+                                 <span class="i18n" name="gbi_ptsuccess">拼团成功</span>
+                            {{/if}}                            
+                        </p>
+                        <div class="spell_price">
+                            <span class="i18n" name="gbi_ptprice">拼团价</span><span>￥</span><em>{{data.gbprice}}</em>
+                        </div>
+                        <div class="present_price"> <span class="i18n" name="gbi_newprice"><span class="i18n" name="gbi_newprice">现价</span></span>
+                            <span>￥</span><em>{{data.price00}}</em>
+                        </div>
+
+                        {{if data.status ==1}}
+                            {{if data.startMs }}
+                                <input type="button" class="overplus_5 i18n_va" name="gbi_jdkt" id="btn_{{data.pkid}}" style="background: #a2a0a0;" value="静等开团" /> 
+                            {{else}}
+                                <input type="button" class="overplus_5 i18n_va" name="gbi_wypt" id="btn_{{data.pkid}}" value="我要拼团" onclick="doGroupBuy()" />
+                            {{/if}} 
+                        {{else}}
+                            <input type="button" class="overplus_5 i18n_va" name="gbi_yiend" style="background: #a2a0a0;" value="已结束" />
+                        {{/if}}                        
+                    </li>
+                </ul>
+            </div>
+            <div class="shop_detail">
+                <p class="shop_note" style="padding-left: 10px;"><i class="iconfont icon-ptkh"></i><span class="i18n" name="gbi_ptkh">拼团客户</span></p>
+                <ul class="shop_table">
+                    {{each list as value i}}
+                    <li class="shop_tr">
+                        <p class="shop_td">
+                            {{if (mbname != value.mbname)}} {{#getName(value.mbname)}} {{else}} {{value.mbname}} {{/if}}
+                        </p>
+                        <p class="shop_td shop_td2">{{#getDate(value.cdate,"MM.dd HH:mm:ss")}}</p>
+                        <p class="shop_td1">
+                        {{if exGroupBuy.typ == 1}}{{value.sl1}}包{{/if}}
+                        {{if exGroupBuy.typ == 2}}{{value.sl2}}kg{{/if}}
+                        </p>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </script>
+</body>
+
+</html>

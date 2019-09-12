@@ -1,0 +1,44 @@
+<script id="calendarTemplate" type="text/html">
+  <li class="calendar__item" >
+    <em id="{{id}}Txt" class="i18n">{{text}}</em>
+    <span class="xl"></span>
+    <input class="rq" type="text" name="{{id}}" id="{{id}}" value="" />
+  </li>
+</script>
+<script>
+  function calendarInit(selecter, id, label, cb) {
+    $(selecter).append(
+      template('calendarTemplate', {
+        id: id,
+        text: label
+      })
+    )
+    var val = ''
+    var flag = false
+    $('#' + id).calendar({
+      onOpen: function () {
+        if (flag) {
+          val = ''
+          flag = false
+        }
+      },
+      onChange: function (p, values) {
+        flag = true
+        val = values
+        console.log(values, 'onChange')
+      },
+      onClose: function () {
+        $('#' + id + 'Txt').parent().siblings().removeClass('current')
+        if (flag) {
+          $('#' + id + 'Txt').html(val).parent().addClass('current')
+        } else {
+          $('#' + id).val('')
+          $('#' + id + 'Txt').html(label)
+        }
+
+        flag = false
+        cb && cb()
+      }
+    })
+  }
+</script>

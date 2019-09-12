@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>实物兑换</title>
+<% include ../../components/_head.art %>
+<meta name="keywords" content="高达微鑫">
+<meta name="description" content="高达微鑫">
+<% include ../../components/_head.art %>
+<script>
+</script>
+<style>
+.wx_searchbox .searchbg { opacity:1; border-radius:4px;}
+.wx_searchbox .search_s { color:#50c6d8;}
+</style>
+</head>
+
+<body>
+<article class="wx_layout">
+    <section class="wx_main b00" id="infinitePage">
+        <div class="zyz_top djq_top">当前纤币：<spa id="totalScore">0</spa><span onclick="toExchangeDetail(2700)">兑换明细</span></div>
+        <div class="swdh_box" >
+            <ul class="swdh_list" id="list">
+                
+            </ul>
+        </div>
+        <!-- <p class="zyz_more">下拉显示更多</p> -->
+    </section>
+</article> 
+<!--实物兑换-->
+<div class="jf_pop" id="confirmDiv" style="display:none;">
+    <div class="jf_pop_border djq_pop_border">
+        <div class="jf_pop_box">
+            <input id="pkid" type="hidden" >
+            <div class="jf_pop_detail djq_pop_detail">
+                <p>确定兑换<span id="entity"></span>？</p>
+            </div>
+            <div class="jf_pop_btn">
+                <span class="jf_btn_left"><a onclick="cancle()">取消</a></span>
+                <span class="jf_btn_right"><a class="btn_true" onclick="confirmExchange()">我要兑换</a></span>
+            </div>
+        </div>
+    </div>
+</div> 
+<!--实物兑换-->
+<div class="jf_pop" id="successDiv" style="display:none;">
+    <div class="jf_pop_border djq_pop_border">
+        <div class="jf_pop_box">
+            <div class="jf_pop_detail djq_pop_detail">
+                <i class="iconfont icon-selected"></i>
+                <p>恭喜您，兑换成功！</p>
+            </div>
+            </div>
+        </div>
+    </div>
+</div> 
+</body>
+
+<% include ../../_foot.html %>
+    <script src="../score/entity.js"></script>
+    <script type="text/html" id="list_page">
+       {{each data as value i}}
+
+        {{if i%2==0}}
+            <li class="swdh_item">
+        {{/if}}
+        <div class="swdh_item_team swdh_item_left">
+                        <div class="swdh_item_box">
+                            <img class="swdh_img" src="{{filePathOld}}{{value.img}}" />
+                            <div class="swdh_info">
+                                <p class="djq_list_title">{{value.lpname}}</p>
+                                <p class="djq_list_descript">{{value.score}}纤币（今日仅剩{{value.sl}}份）</p>
+                                <p class="djq_list_states">正在抢兑中......</p>
+                            </div>
+                            {{if value.sl==0}}
+                            <p class="swdh_btn"><a href="">已兑完</a></p>
+                            {{else if value.score > account.score}}
+                            <p class="swdh_btn"><a href="">纤币不足</a></p>
+                            {{else if value.score <= account.score}}
+                            <p class="swdh_btn swdh_btn1"><a href="javaScript:;" onclick="toExchange('{{value.lpid}}','{{value.lpname}}')">立即兑换</a></p>
+                            {{/if}}
+                        </div>
+                    </div>
+        {{if i%2==1}}
+            </li>
+        {{/if}}
+  {{/each}}
+    </script>
+</html>

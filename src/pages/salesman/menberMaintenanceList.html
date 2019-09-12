@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khwh">客户维护</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 44px;
+            bottom: 45px;
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="sm_khmc" id="querykey"
+                        placeholder="客户名称" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="sm_khmc">客户名称</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="com_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    <span class="i18n" name="sd_loading">正在加载</span>
+                </div>
+            </div>
+        </section>
+    </article>
+    <footer class="wx_btnnext i18n" name="sd_wywh" id="wx_btnnextid" onclick="doMaintence();">我要维护</footer>
+    <% include ../../_foot.html %>
+    <script src="../salesman/menberMaintenanceList.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <li onclick="info('{{value.hydm}}')">
+                {{value.mbname}}
+                <span style="display:inline-block;color: grey;" >
+                    <span class="i18n" name="sd_zjwhsj">最近维护时间</span>&nbsp;{{#getDate(value.logDate,"yyyy-MM-dd HH:mm")}}
+                </span>
+            </li>
+            {{/each}}
+            
+        </script>
+</body>
+
+</html>

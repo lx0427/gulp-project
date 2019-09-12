@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>信息反馈详情</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .wx_main {
+      top: 65px;
+      bottom: 45px;
+    }
+
+    .wx_searchbox .searchbg {
+      opacity: 1;
+      border-radius: 4px;
+    }
+
+    .wx_searchbox .search_s {
+      color: #3e7baf;
+    }
+
+    .wrapper {
+      height: 25px;
+    }
+
+    .wrapper li {
+      float: left;
+      width: 25px;
+      height: 20px;
+      background: url(../../images/star.png) 0 0px no-repeat;
+    }
+
+    /*开始默认选中*/
+    .xxfk_cpx {
+      padding-left: 3px;
+    }
+
+    .xbs i {
+      color: #f00;
+      font-style: normal;
+      padding-right: 3px;
+    }
+
+    .zl i {
+      color: #f00;
+      font-style: normal;
+      padding-right: 3px;
+    }
+
+    .xxfk_cpx {
+      padding-left: 10px;
+    }
+
+    .cpx_label {
+      display: block;
+      padding-left: 50px;
+    }
+
+    .xxfk_cpx .cpx_label span {
+      padding: 1px 8px;
+    }
+
+    .zlbox {
+      padding-top: 2px;
+      padding-right: 3px;
+      padding-bottom: 2px;
+      padding-left: 68px;
+    }
+
+    .xbsbox {
+      padding-top: 2px;
+      padding-right: 0px;
+      padding-bottom: 2px;
+      padding-left: 79px;
+    }
+
+    #img_ul img {
+      width: 75px;
+      height: 75px;
+    }
+
+    .fillbox .zlbox {
+      padding-right: 0px;
+    }
+
+    .fillbox .zlbox input {
+      box-sizing: border-box;
+      padding-left: 35px;
+    }
+
+    .fillbox .xbsbox input {
+      box-sizing: border-box;
+      padding-left: 52px;
+    }
+
+    .pop-up {
+      margin-top: 0px;
+      width: 80%;
+      left: 10%;
+    }
+
+    .fillbox dt input.input {
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 0px 5px;
+      text-align: left;
+    }
+
+    .fillbox .xbsbox input {
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 0px 5px;
+      text-align: left;
+    }
+
+    .fillbox .zlbox input {
+      border-bottom: 1px solid #ccc;
+      width: 100%;
+      padding: 0px 5px;
+      text-align: left;
+    }
+
+    .need_product {
+      border-bottom: solid 1px #ccc;
+      border-bottom-style: dashed;
+      padding: 10px 0px;
+    }
+
+    .wx_tasdelist li .fillbox {
+      border-bottom: none;
+    }
+
+    .fillbox .zlbox {
+      padding-left: 70px;
+      border-right: none;
+    }
+
+    .fillbox .xbsbox {
+      padding-left: 80px;
+      padding-right: 0px;
+    }
+
+    .wx_tasdelist li {
+      border: none;
+    }
+
+    .xxfk_cpx {
+      border: none;
+    }
+
+    .xxfk_khqc {
+      font-weight: bold;
+      border-bottom-style: dashed;
+    }
+
+    .xxfk_box .xxfk_location {
+      border-bottom-style: dashed;
+    }
+
+    .fillbox .zlbox .kg,
+    .fillbox .zlbox .zl {
+      color: #3e7baf;
+    }
+
+    .fillbox .xbsbox .xbs {
+      color: #3e7baf;
+      left: 8px;
+    }
+
+    .addComment {
+      float: right;
+      height: 28px;
+      font-size: 1.3rem;
+      line-height: 28px;
+      color: #fe9311;
+      padding: 0 16px;
+      border: 1px solid #fe9311;
+      border-radius: 2px;
+      margin-left: 10px;
+      width: 50px;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="hidden" id="openid" value="" />
+  <input type="hidden" id="hydm" value="" />
+  <input type="hidden" id="sapCustomerId" value="" />
+  <input type="hidden" id="whType" value="" />
+
+  <div class="rule rule22" style="display: none;background:rgba(0,0,0,0);">
+    <div class="pop-up" style="border:1px solid #a09b9b;">
+      <div class="pop-up-main">
+        <div id="t_startsNum" style="margin-left:10%;">
+          <span style="float: left;font-size: 1.2rem; padding-top: 2px;">综合评价</span>
+          <span style="float: right; padding-right: 10%; padding-top: 1px; color: #ffad51; font-size: 1.2rem;"
+            id="evaluateInfo">非常好</span>
+          <ul class="wrapper">
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+            <li class="li"></li>
+          </ul>
+          <input type="hidden" id="startsNum" value="5">
+        </div>
+        <textarea rows="5" placeholder="请在此输入您的内容（不超过200字）" style="width:80%; margin-top:4px;border-style: dashed;"
+          id="area"></textarea>
+        <textarea rows="5" placeholder="请在此输入您的内容（不超过200字）" style="width:80%; margin-top:4px;border-style: dashed;"
+          id="area1"></textarea>
+      </div>
+      <div class="pop-up-bottom">
+        <p onclick="doCancel()" class="i18n" name="com_cancel">取消</p>
+        <p style="color:#3e7baf;" onclick="doOk()" id="addComment" class="i18n" name="xxfk_qd">确定</p>
+      </div>
+    </div>
+  </div>
+  <header class="wx_ssjgsite wx_ssjgsite1">
+    <div class="head_xxfk">
+      <p id="title_text">信息反馈</p>
+    </div>
+  </header>
+  <article class="wx_layout">
+    <section class="wx_main" id="main">
+
+    </section>
+  </article>
+
+  <script id="main_page" type="text/html">
+    <qnm1 style="display:block;"> 
+      <div class="wx_addsitebox" style="padding-top: 10px;">
+        <input type="hidden" name="placeInfo" id="placeInfo" value="" />
+        <p class="xxfk_location"><i class="iconfont icon-address"></i>
+          <span id="displayPlaceInfo">{{data.sapReports.placeInfo}}</span>
+        </p>
+      </div>  
+      <div class="xxfk_bz">
+        
+        <p class="xxfk_bz_title"></p>
+        <input type="hidden" id="complaintImages" value="{{data.sapReports.complaintImages}}"/>
+        <textarea rows="10" readonly="readonly" class="xxfk_remark" name="problem" id="problem">{{data.sapReports.problem}}</textarea>
+        
+        <div class="info_img" style="width:100%;margin-bottom: -20px;">
+          <!--图片路径，可能多张,逗号分隔-->
+          {{if data.sapReports.uploadAppendageAddress != null }}
+          <ul class="wx_qdphoto wx_cjht" id="img_ul" style="margin-bottom: 10px;">
+          {{#getImg(filePath,data.sapReports.uploadAppendageAddress)}} </ul>
+          {{/if}}
+        </div>
+      </div>
+    </qnm1>
+
+    <qnm2 style="display:none;">
+    <div class="xxfk_zb">
+      <ul class="wx_tasdelist">
+        <li style="padding-left: 10px;border-bottom: 1px solid #ccc; border-bottom-style: dashed;">
+        <dl class="fillbox">
+          <dt class="zlbox" style="padding-left: 53px; width: 38%">
+          <span class="zl">业务员：</span>
+          <input type="text" style="border-bottom: none; color: #3e7baf;" value="{{data.reportUserName}}" readonly="readonly" id="reportUserName" name="reportUserName"/>
+          </dt>
+          <span style="color: #3e7baf; float: left;"> | </span>
+          <dt class="xbsbox" style="padding-left: 63px; width: 57%">
+          {{if data.whType==2}}
+          <span class="xbs" style="color: #3e7baf;">{{#getDate(data.sapReports.cdate,"yyyy.MM.dd HH:mm:ss")}}</span>
+          {{else if data.sapReports.whType==3}}
+          <span class="xbs" style="color: #3e7baf;">{{#getDate(data.sapReports.bdate,"yyyy.MM.dd")}}-{{#getDate(data.sapReports.edate,"yyyy.MM.dd")}}</span>
+          {{/if}}
+          </dt>
+        </dl>
+        </li>
+      </ul>
+
+     <!-- 业务员一天可能拜访多个客户 -->
+     <div id="list" style="margin-top: 5px;">
+
+
+        <p class="wx_functionbox" >
+         <ul class="gnlist" style="padding-left: 15px; background: #fff;">
+          {{each data.sapReports.sapInformationReports as value i}}
+             <li onclick="toInfo({{value.pkid}})">
+               <p class="til noi18n" name="sm_dkxd">{{value.customerName}}</p>
+               <p class="cont noi18n" name="sm_jkhzjkd">
+               {{value.reportUserName}} &nbsp;
+               {{if value.customerType==1}}老客户{{/if}}
+               {{if value.customerType==0}}新客户{{/if}} &nbsp;
+               {{if value.customerType==1}}
+               <em>|</em>
+               产品线 : 
+               {{value.informationSources}}
+               {{/if}}
+               </p>
+               <i class="iconfont icon-rarrow"></i>
+             </li>
+          {{/each}}
+         </ul>
+       </p>
+     </div>
+
+      <p class="zb_title" id="contentP" style="color: #3e7baf; font-weight: bold; border-bottom-style: dashed;"><span></span>本周工作内容</p>
+        <div class="xxfk_box">
+          <ul class="wx_tasdelist">
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 83px;">
+              <span class="zl">电话拜访数</span>
+              <input type="number" value="{{data.sapReports.customerTelNum}}" id="customerTelNum" readonly="readonly" name="customerTelNum" />
+              </dt>
+              <dt class="xbsbox" style="padding-left: 90px;"> 
+              <span class="xbs">实地拜访数</span>
+              <input type="number" value="{{data.sapReports.customerVistNum}}" id="customerVistNum" readonly="readonly" name="customerVistNum">
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 83px;">
+              <span class="zl">新增客户数</span>
+              <input type="number" value="{{data.sapReports.addCustomerNum}}" id="addCustomerNum" readonly="readonly" name="addCustomerNum" />
+              </dt>
+              <dt class="xbsbox" style="padding-left: 77px;">
+              <span class="xbs">重点客户</span>
+              <input type="text" value="{{data.sapReports.inportantCustomer}}" id="inportantCustomer" readonly="readonly" name="inportantCustomer">
+              </dt>
+            </dl>
+          </li>
+          <p></p>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 56px;">
+              <span class="zl">订单数</span>
+              <input type="number" value="{{data.sapReports.orderNum}}" id="orderNum" readonly="readonly" name="orderNum" />
+              </dt>
+              <dt class="xbsbox" style="padding-left: 64px;">
+              <span class="xbs">出库数</span>
+              <input type="number" value="{{data.sapReports.deliveryNum}}" id="deliveryNum" readonly="readonly" name="deliveryNum">
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 40px;">
+              <span class="zl">规格</span>
+              <input type="text" value="{{data.sapReports.reportGg}}" id="reportGg" readonly="readonly" name="reportGg" />
+              </dt>
+              <dt class="xbsbox" style="padding-left: 49px;">
+              <span class="xbs">重量</span>
+              <input type="text" value="{{data.sapReports.weight}}" id="weight" readonly="readonly" name="weight">
+              </dt>
+            </dl>
+          </li>
+
+        </ul>
+        </div>
+        <div class="xxfk_bz" id="problemDiv2" style="display: none;">
+          <p class="xxfk_bz_title">备注</p>
+          <textarea rows="2" readonly="readonly" id="problem2" class="xxfk_remark">{{data.sapReports.problem}}</textarea>
+        </div>
+        <div class="xxfk_bz" style="display: none;" id="problemDiv3">
+          <p class="xxfk_bz_title"><i class="iconfont icon-gzzxkd"></i>遇到的问题</p>
+          <textarea rows="2" readonly="readonly" id="problem" class="xxfk_remark">{{data.sapReports.problem}}</textarea>
+        </div>
+    </div>
+
+   <qnm3 style="display:none;">
+    <div class="xxfk_zb">
+      <p class="zb_title"><span></span>下周工作计划</p>
+      <div class="xxfk_box">
+        <ul class="wx_tasdelist">
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 83px;">
+              <span class="zl">电话拜访数</span>
+              <input type="number" value="{{data.sapReports.weekCustomerTelNum}}" id="weekCustomerTelNum" readonly="readonly" name="weekCustomerTelNum" />
+              </dt>
+              <dt class="xbsbox" style="padding-left: 90px;">
+              <span class="xbs">实地拜访数</span>
+              <input type="number" value="{{data.sapReports.weekCustomerVistNum}}" id="weekCustomerVistNum" readonly="readonly" name="customerVistNum">
+              </dt>
+            </dl>
+          </li>
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="padding-left: 83px;">
+              <span class="zl">新增客户数</span>
+              <input type="number" value="{{data.sapReports.weekAddCustomerNum}}" id="weekAddCustomerNum" readonly="readonly" name="weekAddCustomerNum" />
+              </dt>
+              <dt class="xbsbox" style="padding-left: 77px;">
+              <span class="xbs">重点客户</span>
+              <input type="text" value="{{data.sapReports.weekInportantCustomer}}" id="weekInportantCustomer" readonly="readonly" name="weekInportantCustomer">
+              </dt>
+            </dl>
+          </li>
+        </ul>
+      </div>
+      <div class="xxfk_box">
+        <ul class="wx_tasdelist">
+          <li style="padding-left: 0px;">
+            <dl class="fillbox">
+              <dt class="zlbox" style="width: 100%;padding-left: 95px;">
+              <span class="zl">预估出售总量</span>
+              <input type="number" value="{{data.sapReports.weekEvaluateSales}}" id="weekEvaluateSales" readonly="readonly" name="weekEvaluateSales" />
+              </dt>
+            </dl>
+          </li>
+        </ul>
+      </div>
+      <div class="xxfk_bz">
+        <p class="xxfk_bz_title"><i class="iconfont icon-gzzxkd"></i>计划说明</p>
+        <textarea rows="2" readonly="readonly" id="weekPlanIntroduce" class="xxfk_remark">{{data.sapReports.weekPlanIntroduce}}</textarea>
+      </div>
+    </div>
+   </qnm3>
+   </qnm2>
+
+   {{if data.starts != null }}
+    <div class="info_assess">
+      <p class="info_xing">综合评价:  
+        {{if data.starts==1 }}
+        <ul class="wrapper">
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li style="background: none; width: 70px;"><span style="color: #ffb251">非常差</span></li>
+        </ul>    
+        {{/if}}
+         {{if data.starts==2 }}
+        <ul class="wrapper">
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li style="background: none; width: 70px;"><span style="color: #ffb251">较差</span></li>
+        </ul>    
+        {{/if}}
+         {{if data.starts==3 }}
+        <ul class="wrapper">
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li style="background: none; width: 70px;"><span style="color: #ffb251">一般</span></li>
+        </ul>    
+        {{/if}}
+         {{if data.starts==4 }}
+        <ul class="wrapper">
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px -20px;"></li>
+          <li style="background: none; width: 70px;"><span style="color: #ffb251">较好</span></li>
+        </ul>  
+        {{/if}}
+         {{if data.starts==5 }}
+        <ul class="wrapper">
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li class="li" style="background-position: 0px 0px;"></li>
+          <li style="background: none; width: 70px;"><span style="color: #ffb251">非常好</span></li>
+        </ul>    
+        {{/if}}
+     </p>
+      <p class="info_assess_content">{{data.receiveUserName}} : {{data.remartk}}</p>
+      {{if data.commentList != null && data.commentList.length>0}}
+      {{each data.commentList as item i}}
+      <p class="info_assess_content">{{item.userName}} : {{item.content}}</p>
+      {{/each}}
+      {{/if}}
+      <p class="info_xing" style="padding-bottom: 50px;"><input type="bottom" class="addComment" value="追加评语" onclick="markAdd();"/> </p>
+    </div>
+    {{/if}}
+</script>
+
+  <footer class="wx_btnnext" onclick="markScore();">点评打分</footer>
+
+  <% include ../../_foot.html %>
+
+  <script src="../../lib/swiper.min.js"></script>
+  <script src="../salesman/messageReportInfo.js"></script>
+  <script>
+    $(function () {
+      wxconfig();
+    });
+  </script>
+
+
+  <script type="text/javascript">
+
+    $(function () {
+      var array = ["startsNum"];
+      for (var i = 0; i < array.length; i++) {
+        var instance = array[i];
+        console.log(instance);
+        var star = $("#t_" + instance + " > ul > li");
+        // var oDiv = $("#t_"+instance+" > ul")[0];
+        showStar(star, instance);
+      }
+    });
+
+    //点击以及改变样式
+    function showStar(star, instance) {
+      var temp = 0;
+      for (var i = 0, len = star.length; i < len; i++) {//star.length=5
+        star[i].index = i;
+        star[i].onclick = function () {
+          clear();//点击的时候清除样式
+          temp = this.index + 1;
+          $("#" + instance).val(temp);
+          current(temp);
+        }
+      }
+      //清除所有
+      function clear() {
+        for (var i = 0, len = star.length; i < len; i++) {
+          star[i].style.backgroundPosition = '0 -20px';
+        }
+      }
+      //显示当前第几颗星
+      function current(temp) {
+        if (temp == 1) {
+          $("#evaluateInfo").html("非常差");
+        }
+        if (temp == 2) {
+          $("#evaluateInfo").html("较差");
+        }
+        if (temp == 3) {
+          $("#evaluateInfo").html("一般");
+        }
+        if (temp == 4) {
+          $("#evaluateInfo").html("较好");
+        }
+        if (temp == 5) {
+          $("#evaluateInfo").html("非常好");
+        }
+        for (var i = 0; i < temp; i++) {
+          star[i].style.backgroundPosition = '0 0px';
+        }
+      }
+    };
+
+  </script>
+</body>
+
+</html>

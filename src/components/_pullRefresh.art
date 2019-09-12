@@ -1,0 +1,32 @@
+<script type="text/javascript">
+// 处理分页
+$(function() {
+    if ($("#infinitePage").length !== 0) {
+        // 加入下拉刷新内容
+        if ($(".weui-pull-to-refresh-layer").length === 0) {
+            var prependHtml = "<div class='weui-pull-to-refresh-layer'>";
+            prependHtml += "<div class='pull-to-refresh-arrow'></div>";
+            prependHtml += "<div class='pull-to-refresh-preloader'></div>";
+            prependHtml += "<div class='down'>下拉刷新</div>";
+            prependHtml += "<div class='up'>释放刷新</div>";
+            prependHtml += "<div class='refresh'>正在刷新</div>";
+            prependHtml += "</div>";
+
+            $("#infinitePage").prepend(prependHtml);
+        }       
+    }
+});
+
+
+// 下拉加载
+$("#infinitePage").pullToRefresh().on("pull-to-refresh", function() {
+	if(pullRefresh){
+		return;
+	}
+	pullRefresh = true;
+    setTimeout(function() {    	
+    	$("#pageIndex").val("0");
+        queryData();
+    }, 10);    
+});
+</script>

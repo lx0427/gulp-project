@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>订单查询</title>
+    <% include ../../components/_head.art %>
+        <style>
+        .wx_main {
+            top: 89px;
+            bottom: 45px;
+        }
+        
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+        
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+        
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+        
+        .zxf_a {
+            font-size: 1.3rem;
+            line-height: 23px;
+            color: #999;
+        }
+         .wx_hyfilter li{width: 25%;}
+        .size_a .price {color: #fe9311; margin-right: 10px;}
+        .buybtn {position: absolute; right: 0px; bottom: 10px; border: 1px solid #fe9311; border-radius:2px; color: #fe9311; padding: 0px 5px; font-size: 1.3rem; line-height: 22px;}
+        </style>
+        <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox" > 
+        <div class="swiper-container wx_banner" id="wx_banner"></div>
+	<div class="wx_prompt rule22" style="display: none;top: 2%;left: 2%;width: 96%;height: 96%;z-index: 999;">
+      <h2>查看价格</h2>
+      <div class="bd">
+        <div class="cont">
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p id="showprice" style="color: #fe9311;text-align: center;"></p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+           <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+		   <p>&nbsp;</p>
+          </div>
+        <div class="btnarea"><a class="operbtn"  onclick="doOk()">关闭</a></div>
+      </div>
+    </div>
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_va" id="querykey" placeholder="搜索订单" value="" name="so_searchname"/>
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span  name="so_searchname" class="i18n">搜索订单</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout" style="z-index: 98;">
+        <ul class="wx_hyfilter" >
+            <input type="hidden" id="hydm" value=""/>
+            <input type="hidden" id="mbname" value=""/>
+            <input type="hidden" id="sapCustomerId" value=""/>
+            <input type="hidden" id="vkorg" value=""/>
+            
+            <input type="hidden" id="e_circleId" value=""/>
+            <input type="hidden" id="e_isSalesman" value=""/>
+            <input type="hidden" id="e_userId" value=""/>
+            <input type="hidden" id="e_sapCustomerId" value=""/>
+            
+            <li onclick="showMenberPopup();" id="khname" style="display: none;">
+               <span class="i18n" name="com_kh">客户</span><span class="xl"></span>
+            </li>
+            <li id="depname" style="display: none;">
+              <span class="i18n" name="com_xszz">销售组织</span><span class="xl"></span>
+            </li>
+            <li style="position: relative;"><em id="dateli_start" name="com_ksrq" class="i18n">开始日期</em>
+                <span class="xl"></span>
+                <input type="text" id="date10Str_start" value="" style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+            </li>
+            <li style="position: relative;"><em id="dateli_end" name="com_jsrq" class="i18n">结束日期</em>
+                <span class="xl"></span>
+                <input type="text" id="date10Str_end" value="" style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+            </li>
+            <li id="sort">
+                 <span class="i18n" name="com_sorting">排序</span><span class="xl"></span>
+            </li>
+            <input type="hidden" id="start_date" value="" />
+						<input type="hidden" id="end_date" value="" />
+            <input type="hidden" id="shStatus" value="" />
+            <input type="hidden" id="orderName" value="" />
+            <input type="hidden" id="order" value="" />
+        </ul>
+        <section class="wx_main" id="infinitePage">    
+              
+            <div id="list"></div>
+            <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div><span class="i18n" name="com_loading">正在加载</span></div>
+        </section>
+
+    </article>
+    <footer class="wx_btnnext i18n" onclick="toExport();"  style="z-index: 98;" name="com_dc">导出</footer>
+    <% include ../../_foot.html %>
+       <% include ../include/menberPopup.html %>
+        <script src="../public/sapOrder.js"></script>
+        <!--显示悬浮图标-->
+        <script type="text/javascript">
+            $(function() {
+                initSuspendIcon();
+            });
+        </script>
+        <script src="../../lib/swiper.min.js"></script>
+        <script id="otherBanner_page" type="text/html">
+            <div class="swiper-wrapper" >
+                {{each otherBanner as value i}}
+                    <div class="swiper-slide">
+                    <img src="{{filePath}}{{value.imgUrl}}" id="obanner" onclick="toLinkUrl('{{value.title}}', '{{value.linkUrl}}')"/>
+                    </div>
+                {{/each}}
+            </div>
+        </script> 
+        <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_hyordermesbox">
+                <p class="ddnumber">{{value.vbeln}}<span>
+           （{{if isSalesman != null && isSalesman == 1}}
+                {{value.mbname}}
+              {{else}}
+                {{value.depname}}
+              {{/if}}
+            ）
+            	{{if value.contractTypes == 1}}
+                &nbsp;合约A
+              {{/if}}
+              {{if value.contractTypes == 2}}
+                &nbsp;合约B
+              {{/if}}
+            </span></p>
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        <li>
+                            <p class="proname_a">
+                                {{value.pm}}
+                                <span class="perty_a">{{value.cz}}</span> {{if value.pm == "DTY"}}
+                                <span class="perty_a">{{value.nx}}</span>
+                                <span class="perty_a">{{value.sz}}</span> {{else if (value.pm == "切片" || value.pm == "锦纶切片")}}
+                                <span class="perty_a">{{value.gg}}</span>
+                                <span class="perty_a">{{value.cd}}</span> {{else}}
+                                <span class="perty_a">{{value.wzlb}}</span>
+                                <span class="perty_a">{{value.lbsm}}</span> {{/if}}
+                            </p>
+                            {{if (value.pm != "切片" && value.pm != "锦纶切片")}}
+                            <p class="size">{{value.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{value.cd}}</p>
+                            {{/if}}
+                            <p class="size_a">
+                            <span name="com_zl" class="i18n">重量</span>：{{value.kwmeng}} {{value.meins}}&nbsp;&nbsp;&nbsp;&nbsp;<span name="com_xbs" class="i18n">箱包数</span>：{{value.volum}}{{value.voleh}}</p>
+                            <div class="status">
+                                {{value.txt30}}
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="time">{{#getDate(value.erdat,"yyyy-MM-dd")}}{{#getDate(value.erzet," HH:mm")}}
+					
+					<div class="buybtn i18n" onclick="showPrice('{{value.price}}');" name="com_zlyd">查看价格</div>
+					
+                        <div class="total">
+                            <!--
+                  <span class="xd">
+                      客户下单
+                  </span>
+                  -->   
+                        
+                        </div>
+                    </div>
+                    <ul class="orderbtn">
+					    {{if value.languageFlag == 1}}
+                    	<li onclick="upPho('{{value.vbeln}}-{{value.posnr}}');" name="com_zlyd" class="i18n">上传图片</li>
+                        {{/if}}
+
+                        {{if e_userId  !=  value.userId}}
+                            {{if value.status==0}}
+                            <li onclick="toEvaluate('{{value.vbeln}}','{{value.posnr}}');" name="com_ckwl" class="i18n">评价</li>
+                            {{/if}} 
+                        {{/if}}
+    
+
+                        <li onclick="buyAgain('{{value.hydm}}','{{value.mbname}}','{{value.matnr}}','{{value.vkorg}}','{{value.vtweg}}','{{isSalesman}}');" name="com_zlyd" class="i18n">再来一单</li>
+                        <li onclick="toHtmsList('{{value.vbeln}}','{{value.pm}}','{{value.cz}}','{{value.nx}}','{{value.sz}}','{{value.gg}}','{{value.cd}}','{{value.wzlb}}','{{value.lbsm}}')"name="com_ckwl" class="i18n">查看物流</li>
+                        
+                                  
+					</ul>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+</body>
+
+</html>

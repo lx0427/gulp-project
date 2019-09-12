@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khgl">融资管理</title>
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_functionbox">
+                <p class="gntext i18n" name="sm_khglgnlb">融资管理功能列表</p>
+                <ul class="gnlist">
+                    <li onclick="financingList();">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">融资管理</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <em class="infor" id="jkShNum">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="menberLevelList()">
+                        <span><i class="iconfont icon-rank"></i></span>
+                        <p class="til i18n" name="sm_khdj">还款管理</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">将客户装进口袋</p>
+                        <em class="infor" id="hkShNum">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="financeManager()">
+                        <span><i class="iconfont icon-khdd"></i></span>
+                        <p class="til">还款进度</p>
+                        <p class="cont">查看发货完成进度</p>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="loansOrderList(13);">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">逸信代订单</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">查看逸信代订单信息</p>
+                        <em class="infor" id="loansShNum">0</em>
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                    <li onclick="loansOrderList(7);">
+                        <span><i class="iconfont icon-hyda"></i></span>
+                        <p class="til i18n" name="sm_khda">逸白条订单</p>
+                        <p class="cont i18n" name="sm_jkhzjkd">查看逸白条订单信息</p>
+                        <!--<em class="infor" id="loansShNum">0</em>-->
+                        <i class="iconfont icon-rarrow"></i>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/financing.js"></script>
+</body>
+
+</html>

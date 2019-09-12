@@ -1,0 +1,181 @@
+.ms_djs span {
+  z-index: 3;
+  margin-left: -113px;
+}
+
+.ms_djs .ms_djs_line {
+  z-index: 1;
+}
+
+.ms_top {
+  width: 100%;
+  height: 165px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+.purchase {
+  &__wrap {
+    margin-top: 20px;
+    padding: 0 15px 30px;
+  }
+
+  &__tabs {
+    display: flex;
+
+    &-item {
+      padding: 0 12px;
+      font-size: 1.6rem;
+      color: #fff;
+      background-color: #B4B5B5;
+
+      &:active {
+        background-color: #3e7baf;
+      }
+
+      &+& {
+        margin-left: 1px;
+      }
+
+      &.active {
+        background-color: #3e7baf;
+      }
+    }
+  }
+
+  &__list {}
+
+  &__group {
+    border-bottom: 1px solid #3e7caf;
+    margin-top: 0px;
+
+    &.group {
+      margin-top: 15px;
+      margin-bottom: 50px;
+    }
+
+    &:nth-of-type(1) {
+      margin-top: 0;
+    }
+
+    &-buy {
+      margin-top: 6px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  &__item {
+    font-size: 1.2rem;
+    color: #303131;
+    background-color: #fff;
+    padding: 10px;
+    line-height: 25px;
+    border: 1px solid #3e7caf;
+    border-bottom: none;
+    position: relative;
+
+    &+& {
+      border-top: 1px dashed #3e7caf;
+    }
+
+    &-title {
+      color: #69696A;
+      font-size: 1.4rem;
+
+      .main {
+        color: #303131;
+      }
+
+      span+span {
+        margin-left: 5px;
+      }
+    }
+
+    &-attr {
+      color: #868686;
+      border-bottom: 1px dashed #cecfd0;
+      line-height: 14px;
+      padding: 5px 0 10px 0;
+      margin-bottom: 5px;
+      display: flex;
+
+      span+span {
+        margin-left: 4px;
+        padding-left: 4px;
+        border-left: 2px solid #c2c3c4;
+      }
+    }
+
+    &-price {
+      span+span {
+        margin-left: 20px;
+      }
+
+      b {
+        font-weight: normal;
+        font-size: 1.4rem;
+        color: #fa4802;
+      }
+
+      em {
+        font-size: 1.8rem;
+        color: #fa4802;
+      }
+
+      .delete {
+        position: relative;
+
+        &::after {
+          content: '';
+          width: 100%;
+          height: 1px;
+          background-color: #ff3c00;
+          position: absolute;
+          top: 50%;
+          left: 0;
+        }
+      }
+    }
+
+    &-weight {
+      color: #3E7CAF;
+    }
+
+    &-buy {
+      position: absolute;
+      right: 10px;
+      bottom: 15px;
+
+      &.group {
+        right: 0;
+        bottom: -38px;
+      }
+
+      &.hide {
+        display: none;
+      }
+    }
+  }
+
+  &__buy {
+    width: 80px;
+    height: 28px;
+    font-size: 1.6rem;
+    color: #fff;
+    background-color: #ff3c00;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.disabled {
+      background-color: #969695;
+    }
+  }
+}

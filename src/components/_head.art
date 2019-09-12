@@ -1,4 +1,14 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<link rel="stylesheet" href="@/assets/css/common.css">
+<meta charset="utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="化纤,涤纶长丝价格,涤纶长丝价格行情,DTY,POY,FDY,切片,聚酯">
+<meta id="i18n_pagename" content="strings">
+
+<link rel="stylesheet" href="../../css/weui.min.css">
+<link rel="stylesheet" href="../../css/jquery-weui.min.css">
+<link rel="stylesheet" href="../../css/app.min.css">
+<link rel="stylesheet" href="../../css/common.min.css">
+<link rel="stylesheet" href="../../fonts/iconfont.css" />

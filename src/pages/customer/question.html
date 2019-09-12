@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>调查问卷</title>
+  <% include ../../components/_head.art %>
+</head>
+<style type="text/css">
+  .wx_layout {
+    background: #3e7caf;
+  }
+
+  .wx_lookinto_list {
+    padding-top: 45px;
+  }
+</style>
+
+<body>
+  <article class="wx_layout">
+    <section class="wx_main">
+      <div class="wx_lookinto_list">
+        <p class="txt fs14">感谢您百忙之中参与我们的调研</p>
+        <p class="txt fs18">您的满意是我们坚持不懈的追求</p>
+        <ul class="cont" id="list">
+          <!--<li>
+          <div class="tit"><em>未参与</em>参与调查送200元代金券</div>
+          <dl>
+            <dt>浙江恒逸石化销售公司客户满意度调查</dt>
+            <dd>调研时间 2018.6.22-2018.7.21</dd>
+          </dl>
+        </li>
+        <li>
+          <div class="tit"><em>未参与</em>参与调查送200元代金券</div>
+          <dl>
+            <dt>浙江恒逸石化销售公司客户满意度调查</dt>
+            <dd>调研时间 2018.6.22-2018.7.21</dd>
+          </dl>
+        </li>
+        <li class="partake">
+          <div class="tit"><em>已参与</em>参与调查送200元代金券</div>
+          <dl>
+            <dt>浙江恒逸石化销售公司客户满意度调查</dt>
+            <dd>调研时间 2018.6.22-2018.7.21</dd>
+          </dl>
+        </li>
+        <li>
+          <div class="tit"><em>未参与</em>参与调查送200元代金券</div>
+          <dl>
+            <dt>浙江恒逸石化销售公司客户满意度调查</dt>
+            <dd>调研时间 2018.6.22-2018.7.21</dd>
+          </dl>
+        </li>-->
+        </ul>
+      </div>
+    </section>
+  </article>
+  <% include ../../_foot.html %>
+  <script src="../customer/question.js"></script>
+  <!--显示悬浮图标-->
+  <script type="text/javascript">
+    $(function () {
+      initSuspendIcon();
+    });
+  </script>
+  <script id="list_page" type="text/html">
+        {{each list as value i}}
+        	{{if value.isDone == 0}}
+            <li onclick="openQuestion('{{value.queId}}','{{value.queName}}','{{value.summary}}');"> 
+          {{else if value.status == 1}}
+            <li onclick="openNewQuestion('{{value.pkid}}','{{value.rechar}}');"> 
+          {{else}}
+            <li class="partake">
+          {{/if}}
+              <div class="tit" style="display:block; overflow: hidden;text-overflow:ellipsis;white-space:nowrap;font-size: large;">
+                {{if value.isDone == 0}}
+                  <em>未参与</em>
+                {{/if}}
+                {{if value.isDone == 1}}
+                  <em>已完成</em>
+                {{/if}}
+                {{if value.isDone == 2}}
+                  <em>未完成</em>
+                {{/if}}
+                {{value.queName}}</div>
+              <dl>
+                <dt style="display:block; overflow: hidden;text-overflow:ellipsis;white-space:nowrap;">{{value.summary}}</dt>
+                <dd>调研时间 {{#getDate(value.startTime,"yyyy-MM-dd")}}至{{#getDate(value.endTime,"yyyy-MM-dd")}}</dd>
+              </dl>
+            </li>
+        {{/each}}
+      </script>
+</body>
+
+</html>

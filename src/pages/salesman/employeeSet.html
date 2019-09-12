@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>员工列表</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 44px;
+            /*  同步员工数据按钮高度清空 bottom: 45px;*/
+
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .customlist_detail span {
+            margin-left: 10px;
+        }
+
+        .customlist_detail span:nth-child(1) {
+            margin-left: 0px;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input" id="querykey" placeholder="请输入业务员名称/编码/手机号"
+                        value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span>请输入关键字</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    正在加载
+                </div>
+            </div>
+
+        </section>
+    </article>
+    <!--    crm功能暂时屏蔽掉
+        <footer class="wx_btnnext" onclick="tongBu();" id="wx_btnnextid">同步员工数据</footer> 
+    -->
+    <% include ../../_foot.html %>
+    <script src="../salesman/employeeSet.js"></script>
+    <script id="list_page" type="text/html">
+                {{each data as value i}}
+                <li onclick="toPage('{{value.userid}}','{{value.dpname}}');">
+                    <p class="customlist_name">
+                        {{value.username}}({{value.userid}})                        
+                    </p>
+                    <p class="customlist_detail">
+                        {{if value.mobile1 != null}}
+                            <span>{{value.mobile1}}</span>
+                        {{/if}}                        
+                        {{if value.flag07 == 1}}
+                            <span>内勤</span>
+                        {{/if}}
+                        {{if value.flag08 == 1}}
+                            <span>经销商</span>
+                        {{/if}}
+                        {{if value.str01 != null}}
+                            <span>{{value.str01}}</span>
+                        {{/if}}
+                        {{if value.flag10 == 1}}
+                            <span>老工厂</span>
+                        {{/if}}
+                        {{if value.flag10 == 2}}
+                            <span>新工厂</span>
+                        {{/if}}
+                        <span>
+                            {{if value.flag00 == 1}}
+                                启用
+                            {{else}}
+                                停用
+                            {{/if}}
+                        </span>
+                    </p>
+                    <i class="iconfont icon-rarrow"></i>
+                </li>
+                {{/each}}               
+            </script>
+</body>
+
+</html>

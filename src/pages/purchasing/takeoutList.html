@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>物资外卖</title>
+	<% include ../../components/_head.art %>
+</head>
+
+<body>
+	<article class="wx_layout">
+		<section class="wx_main" id="list">
+		</section>
+	</article>
+	<% include ../../_foot.html %>
+	<script src="../../lib/swiper.min.js"></script>
+	<script src="../purchasing/takeoutList.js"></script>
+	<script id="takeoutList_page" type="text/html">
+            {{each data as value i}}
+            <div class="wzwm_box">
+                <div class="wzwm_top">
+                    <p class="wzwm_title">{{value.title}}</p>
+                    <div class="wzwm_img">
+               			 {{if value.logoimg00!=null}}
+                			   <img src="{{filePath}}{{value.logoimg00}}" index={{i}} onclick="bindImgClick($(this))" >
+                			   <input type='hidden' class="img_{{i}}" value="{{filePath}}{{value.logoimg00}}" 
+                			   {{if value.img00Remark!=null}}imgRemark="{{value.img00Remark}}"{{/if}}
+                			   >
+               			 {{/if}}
+               			 {{if value.logoimg01!=null}}
+                			   <input type='hidden' class="img_{{i}}" value="{{filePath}}{{value.logoimg01}}"
+                			   {{if value.img01Remark!=null}}imgRemark="{{value.img01Remark}}"{{/if}}
+                			   >
+               			 {{/if}}
+               			 {{if value.logoimg02!=null}}
+                			   <input type='hidden' class="img_{{i}}" value="{{filePath}}{{value.logoimg02}}"
+                			   {{if value.img02Remark!=null}}imgRemark="{{value.img02Remark}}"{{/if}}
+                			   >
+               			 {{/if}}
+               			 {{if value.logoimg03!=null}}
+                			   <input type='hidden' class="img_{{i}}" value="{{filePath}}{{value.logoimg03}}"
+                			   {{if value.img03Remark!=null}}imgRemark="{{value.img03Remark}}"{{/if}}
+                			   >
+               			 {{/if}}
+               			 {{if value.logoimg04!=null}}
+                			   <input type='hidden' class="img_{{i}}" value="{{filePath}}{{value.logoimg04}}"
+                			   {{if value.img04Remark!=null}}imgRemark="{{value.img04Remark}}"{{/if}}
+                			   >
+               			 {{/if}}
+            		  </div>
+                </div>
+                <ul class="wzwm_item">
+                    <li class="wzwm_list"><span>联系人</span>{{value.str06}}</li>
+                    <li class="wzwm_list" {{if (value.str07 != null)}}onclick="doCall('{{value.str07}}')" {{/if}}><span>联系方式</span>{{value.str07}}<i class="iconfont icon-tel"></i>
+                    </li>
+                </ul>
+            </div>
+            {{/each}}
+        </script>
+</body>
+
+</html>

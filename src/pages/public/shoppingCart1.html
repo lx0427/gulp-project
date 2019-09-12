@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>购物车</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+        .wx_main {
+            bottom: 143px;
+            top: 49px;
+        }
+
+        .tradecomp {
+            padding-left: 36px;
+            position: relative;
+        }
+
+        body {
+            font-size: 62.5%;
+        }
+
+        .tradecomp .icon-checkbox {
+            font-size: 16px;
+            line-height: 16px;
+            color: #999;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            margin-top: -8px;
+        }
+
+        .tradecomp.current i:before {
+            content: "\e62b";
+            color: #3e7baf;
+        }
+
+        .totalpri {
+            position: fixed;
+            bottom: 49px;
+            z-index: 100;
+            width: 100%;
+            height: 44px;
+            box-sizing: border-box;
+            background: #fff;
+            padding: 0 10px;
+            font-size: 1.5rem;
+            line-height: 44px;
+            color: #333;
+        }
+
+        .totalpri .prinum {
+            color: #fe9311;
+        }
+
+        .totalpri .prinum em {
+            font-size: 1.2rem;
+        }
+
+        .totalpri .smwz {
+            font-size: 1rem;
+            color: #999;
+        }
+
+        .wx_tasdelist li .promes .btnframe {
+            right: 0px;
+        }
+
+        .wx_tasdelist li .promes .price_a {
+            right: 40px;
+        }
+
+        .xbjzselect {
+            padding-right: 10px !important;
+        }
+
+        .xbjzselect .xbjz {
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            box-sizing: border-box;
+            color: #333;
+            display: block;
+            float: left;
+            font-size: 1.4rem;
+            height: 20px;
+            line-height: 20px;
+            margin-left: 5px;
+            text-align: center;
+            width: 50px;
+        }
+
+        .wx_cart dd .pxbjz {
+            background: #fff;
+        }
+
+        .xbjzselect .xbjz.curr {
+            background: #3e7baf none repeat scroll 0 0;
+            border: medium none;
+            color: #fff;
+            line-height: 20px;
+            cursor: pointer;
+        }
+
+        .wx_btnjs {
+            height: 98px;
+        }
+
+        .wx_btnjs .price {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .wx_btnjs .settle {
+            top: 49px;
+        }
+
+        .wx_btnjs .total em {
+            color: #fe9311;
+            font-size: 13px;
+        }
+
+        .wx_btnjs .total span {
+            font-size: 16px;
+        }
+
+        .rtxt {
+            text-align: right !important;
+            padding-right: 10px !important;
+        }
+
+        .yhgz_table {
+            background: #fff;
+        }
+
+        .rz {
+            display: none;
+        }
+
+        #mypoint {
+            position: absolute;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            right: -5px;
+            top: 3px;
+            background: #f92c04;
+            border-radius: 50%;
+        }
+
+        .wx_cart .csall {
+            margin: 10px 10px 10px 18px;
+            overflow: hidden;
+        }
+
+        /*.wx_layout{    top: 49px;}*/
+        .wx_cart .edit em {
+            font-size: 1.4rem;
+        }
+
+        .wx_cart .edit .input {
+            height: 20px;
+        }
+
+        .wx_cart .edit .input input {
+            font-size: 1.6rem;
+        }
+
+        .wx_cart .edit .input input::-webkit-input-placeholder {
+            font-size: 1.2rem;
+            line-height: 22px;
+            color: #ccc;
+        }
+
+        .wx_cart .edit .input input::-moz-placeholder {
+            font-size: 1.2rem;
+            line-height: 22px;
+            color: #ccc;
+        }
+
+        .wx_cart .edit .input input::-ms-input-placeholder {
+            font-size: 1.2rem;
+            line-height: 22px;
+            color: #ccc;
+        }
+
+        .wx_cart .edit .num label {
+
+            height: 15px;
+            font-size: 2.2rem;
+            line-height: 15px;
+        }
+
+        .wx_isrz label {
+            font-size: 1.5rem;
+
+        }
+
+        .wx_isrz span a {
+            font-size: 1.5rem;
+            line-height: 20px;
+        }
+
+        .wx_cart .remark label {
+            font-size: 1.4rem;
+        }
+
+        .wx_cart .remark input {
+            font-size: 1.4rem;
+            height: 19px;
+        }
+
+        .wx_cart .remark input::-webkit-input-placeholder {
+            color: #ccc;
+        }
+
+        .wx_cart .remark input::-moz-placeholder {
+            color: #ccc;
+        }
+
+        .wx_cart .remark input::-ms-input-placeholder {
+            color: #ccc;
+        }
+
+        .wx_cart .edit .input {
+            border: 1px solid #efeff1;
+        }
+
+        .wx_cart .edit .num label:first-child {
+            border-right: 1px solid #efeff1;
+        }
+
+        .wx_cart .edit .num label:last-child {
+            border-left: 1px solid #efeff1;
+        }
+    </style>
+
+
+</head>
+
+<body style="overflow-y: hidden;">
+    <header style="    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 49px;
+    line-height: 49px;
+    z-index: 99;
+    box-shadow: 0px -2px 5px rgba(0,0,0,.1);">
+        <ul>
+            <li class="mbname" style="    background: #3e7baf;
+    color: #fff;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 550;"></li>
+        </ul>
+    </header>
+    <article class="wx_layout">
+
+        <!-- <a class="gwc_zd" id="toEnd" style="display: none;" onclick="scrollToEnd()"><span class="gwc_rz i18n" style="font-weight:bold;color: #fff;width: 70px;" name="sh_financingname" >融资</span></a> -->
+
+        <input type="hidden" id="openid" value="" />
+        <input type="hidden" id="activityId" value="" />
+        <input type="hidden" id="couponType" value="" />
+        <input type="hidden" id="couponCode" value="" />
+        <input type="hidden" id="couponName" value="" />
+        <input type="hidden" id="couponAmt" value="" />
+        <input type="hidden" id="ruleId" value="" />
+        <input type="hidden" id="couponLimitMinAmt" value="" />
+        <input type="hidden" id="fccouponCode" value="" />
+        <input type="hidden" id="fccouponName" value="" />
+        <input type="hidden" id="freeDays" value="" />
+        <section class="wx_main b140 wx_cart" id="main">
+
+        </section>
+    </article>
+    <footer class="wx_bominfo" id="footer">
+
+    </footer>
+    <footer class="wx_footerbtn">
+        <ul>
+            <li class="bluebtn" id="balance">结算</li>
+        </ul>
+    </footer>
+    <!--   <footer class="wx_hybtmnav">
+        <ul class="wx_hybtmnavmc">
+            <li onclick="toIndex();"><i class="iconfont icon-hyhomek"></i><em class="i18n" name="com_indexname">首页</em></li>
+            <li onclick="toBuy();"><i class="iconfont icon-hyorderk"></i><em class="i18n"  name="com_ordername">下单</em></li>
+            <li onclick="toShoppingCart();" class="current"><i class="iconfont icon-hybuyk"></i><em class="i18n"  name="com_shopname">购物车</em></li>
+            <li onclick="toFavorites();"><i class="iconfont icon-storek" style="font-size: 26px;"><span id="shopAmount" class="shopAmount" style="display: none;"></span> </i><em class="i18n"  name="com_shopname">收藏夹</em></li>
+            <li onclick="toMyPage();"><i class="iconfont icon-hymek" ><span style="right:32px;top: 8px; display: none;" id="mypoint"></i><em class="i18n"  name="com_myname">我的</em></li>
+        </ul>
+    </footer> -->
+    <% include ../../_foot.html %>
+    <% include ../include/couponPopup.html %>
+    <% include ../include/fccouponPopup.html %>
+    <!-- <% include ../include/sendRandomCode.html %> -->
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="../public/shoppingCart1.js"></script>
+    <script id="main_page" type="text/html">
+            <ul >
+            {{if data != null && data.length > 0}}
+                {{each data as value i}}
+                <li >
+                    {{if value.differentiation != null&&value.differentiation==1}}
+                <input type="hidden" id="cfxx_{{value.pkid}}" value="{{value.circleId}}_{{value.hzdm}}_{{value.pm}}_{{value.depid}}_{{value.orderType}}_{{value.flag11}}_{{value.differentiation}}_{{value.activityMxId}}" />
+                    <input type="hidden" id="differentiation_{{value.pkid}}" value="{{value.differentiation}}" />
+                {{else}}
+                <input type="hidden" id="cfxx_{{value.pkid}}" value="{{value.circleId}}_{{value.hzdm}}_{{value.pm}}_{{value.depid}}_{{value.orderType}}_{{value.flag11}}_0_{{value.activityMxId}}" />
+                {{/if}}
+                    <input type="hidden" id="gpls_{{value.pkid}}" value="{{value.gpls}}" />
+                    <input type="hidden" id="pm_{{value.pkid}}" value="{{value.pm}}" />
+                    <input type="hidden" id="cd_{{value.pkid}}" value="{{value.cd}}" />
+                    <input type="hidden" id="depid_{{value.pkid}}" value="{{value.depid}}" />
+                    <input type="hidden" id="flag11_{{value.pkid}}" value="{{value.flag11}}" />
+
+                    <div id="{{value.pkid}}" class="checkicon on" {{if !value.activityMxId}} onclick="doCheck('{{value.pkid}}');" {{/if}}><i class="iconfont" >&#xe64b;</i></div>
+                    <dl>
+                        <dt {{if !value.activityMxId}} onclick="doCheck('{{value.pkid}}');" {{/if}}>
+                            <span>{{value.pm}} </span>
+                            {{value.cz}} 
+                            {{if value.pm == "DTY"}}
+                                {{value.str02}} 
+                                {{value.str03}} 
+                            {{else}}
+                                {{value.wzlb}} 
+                                {{if value.str04 != null}}
+                                    {{value.str04}} 
+                                {{/if}}
+                                {{if value.str02 != null}}
+                                    {{value.str02}} 
+                                {{/if}}
+                            {{/if}}
+                            {{if value.differentiation != null&&value.differentiation==1}}
+                            <span >差异化</span> 
+                            {{/if}}
+                            
+                            {{if value.price00==null}}
+                            <span style="align-content: right; float: right; color: blue;">预约 </span>
+                        	{{/if}}
+                        </dt>
+                        <dd {{if !value.activityMxId}} onclick="doCheck('{{value.pkid}}');" {{/if}}>
+                            <p>
+                            {{if (value.pm != "切片" && value.pm != "锦纶切片")}}
+                                {{value.gg}}&nbsp;&nbsp;
+                            {{/if}}
+                                {{value.cd}}&nbsp;&nbsp;
+                            {{if value.pm == "DTY"}}
+                                {{value.inventoryStr}}&nbsp;&nbsp;
+                            {{/if}}<!--<i class="iconfont">&#xe62f;</i>--></p>
+                        </dd>
+                        {{if value.tclx != null}}
+                        <dd class=" xbjzselect xbselect " id="packstr_{{value.pkid}}">
+                            <p class="pxbjz" val="{{value.pkid}}" ><span style="float: left">箱包净重：</span>
+                            {{each value.tclx.split(",") as xbjz j}}     
+                                {{if value.packstr != null}}
+                                    {{if value.packstr == xbjz}}
+                                        <span id="{{value.pkid}}_em{{j}}" onclick="checkXbjz('{{value.pkid}}_em{{j}}')" class="xbjz curr" val="{{xbjz}}">{{xbjz}}{{value.sldw2}}</span>
+                                    {{else}}
+                                        <em id="{{value.pkid}}_em{{j}}" onclick="checkXbjz('{{value.pkid}}_em{{j}}')" class="xbjz" val="{{xbjz}}">{{xbjz}}{{value.sldw2}}</em>
+                                    {{/if}}
+                                {{else}}
+                                    {{if j == 0}}
+                                        <span id="{{value.pkid}}_em{{j}}" onclick="checkXbjz('{{value.pkid}}_em{{j}}')" class="xbjz curr"  val="{{xbjz}}">{{xbjz}}{{value.sldw2}}</span>
+                                    {{else}}
+                                        <em id="{{value.pkid}}_em{{j}}" onclick="checkXbjz('{{value.pkid}}_em{{j}}')" class="xbjz" val="{{xbjz}}">{{xbjz}}{{value.sldw2}}</em>
+                                    {{/if}}
+                                {{/if}}                                    
+                            {{/each}}
+                            </p>
+                        </dd>
+
+                            {{if (value.pm == "FDY" && value.lsxs != null && value.lsxs != 0)}}
+                            <dd><label {{if !value.activityMxId}} onclick="doCheck('{{value.pkid}}');" {{/if}}>单丝重量:{{value.lsxs}}{{value.sldw2}}</label></dd>
+                            {{/if}}
+                        {{else}}
+                        <dd>
+                            <label {{if !value.activityMxId}} onclick="doCheck('{{value.pkid}}');" {{/if}}>箱包净重：{{if (value.packstr != null && value.packstr != "")}}
+                            <input type="hidden" id="packstr_{{value.pkid}}" value="{{value.packstr}}"/>
+                            {{value.packstr}}{{value.sldw2}}
+                         {{else}}不定重{{/if}}</label>
+                    {{if (value.pm == "FDY" && value.lsxs != null && value.lsxs != 0)}}
+                    <label {{if !value.activityMxId}} onclick="doCheck('{{value.pkid}}');" {{/if}}>单丝重量:{{value.lsxs}}{{value.sldw2}}</label>
+                    {{/if}}
+                        </dd>
+                        {{/if}}
+                        <dd class="price"><em>{{if value.price00!=null}}{{if language =="zh"}}￥{{else}}${{/if}}{{/if}}</em><em id="price_{{value.pkid}}" style="font-size: 1.8rem;">{{#getPrice(value.price00,portList)}}</em><input id="priceBak_{{value.pkid}}" type="hidden" value="{{#getPrice(value.price00,portList)}}" /> <i onclick="deleteShopping('{{value.gpls}}','{{value.wzid}}','{{value.depid}}','{{value.salesType}}');" class="iconfont">&#xe778;</i></dd>
+                    </dl>
+                    <div class="edit">
+                        <div class="weight">
+                            <em style="font-weight: bold;padding: 0;">重量：</em>
+                            <div class="input">
+                                <input id="sl02_{{value.pkid}}" type="number" placeholder="0" oninput="changeSl2('{{value.pkid}}');" value="{{value.sl02}}"/>
+                            </div>
+                            <em>kg</em>
+                        </div>
+                        <div class="num">
+
+                        {{if language !="zh" && value.cartonBag !=null}}
+                            <em>柜数：</em>
+                            <input type="hidden" id="cartonBag_{{value.pkid}}" value="{{value.cartonBag}}"/>
+                            <input type="hidden" id="sl01_{{value.pkid}}" value="{{value.sl01}}"/>
+                            <div class="input">
+                                <label>-</label>
+                                {{if language !="zh" && value.sl01%value.cartonBag ==0}}
+                                <input id="sl03_{{value.pkid}}" type="number" placeholder="0" value="{{value.sl01/value.cartonBag}}" oninput="changeSl3('{{value.pkid}}');" pm="{{value.pm}}" />
+                                {{else}}
+                                <input id="sl03_{{value.pkid}}" type="number" placeholder="0" value="{{value.sl01/value.cartonPallet}}" oninput="changeSl3('{{value.pkid}}');" pm="{{value.pm}}" />
+                                {{/if}}
+                                <label>+</label>
+                            </div>
+                        {{else}}
+                            <em style="font-weight: bold;padding: 0;">箱包数：</em>
+                            <div class="input">
+                                <label id="sub_{{value.pkid}}" onclick="changrSl1Sub('{{value.pkid}}')">-</label>
+                                <input id="sl01_{{value.pkid}}" type="number" placeholder="0" value="{{value.sl01}}" autocomplete="off" oninput="changeSl1('{{value.pkid}}');" pm="{{value.pm}}" style="
+    -webkit-appearance: none;-moz-appearance: textfield;" />
+                                <label id="add_{{value.pkid}}" onclick="changrSl1Add('{{value.pkid}}')">+</label>
+                            </div>
+                        {{/if}}
+                        </div>
+                    </div>
+                    {{if customerId !="" &&value.pm != "锦纶切片" && value.pm != "短纤"}}
+                    <div class="remark">
+                        <label>备注：</label>
+                        <input type="text" class="i18n_ph"  oninput="changeRemark('{{value.pkid}}');" value="{{value.remark}}" id="remark_{{value.pkid}}" {{if value.pm=="FDY" }} name="sh_remarkstip1" placeholder="可输入颗数" {{else}}  name="sh_remarkstip2" placeholder="请输入备注" {{/if}} >
+                    </div><div class="remark">
+                        <label>阳光折扣：</label>
+                        <input type="text"  oninput="changeSun('{{value.pkid}}');" value="{{value.sunshineDiscount}}" id="sunshineDiscount_{{value.pkid}}"  oninput="if(value.length>10)value=value.slice(0,10)"     placeholder="请输入阳光折扣" >
+                    </div><div class="remark">
+                        <label>折扣原因：</label>
+                        <input type="text"  oninput="changeSun('{{value.pkid}}');" value="{{value.sunshineRemark}}" id="sunshineRemark_{{value.pkid}}"  placeholder="请输入折扣原因" >
+                    </div><div class="remark">
+                        <label>优惠政策：</label>
+                        <input type="text"   oninput="changeSun('{{value.pkid}}');" value="{{value.policyPreferences}}" id="policyPreferences_{{value.pkid}}"  oninput="if(value.length>10)value=value.slice(0,10)"   placeholder="请输入政策优惠" >
+                    </div>
+                    {{else}} 
+                    <div class="remark">
+                        <label>备注：</label>
+                        <input type="text" class="i18n_ph"  oninput="changeRemark('{{value.pkid}}');" value="{{value.remark}}" id="remark_{{value.pkid}}" {{if value.pm=="FDY" }} name="sh_remarkstip1" placeholder="可输入颗数" {{else}}  name="sh_remarkstip2" placeholder="请输入备注" {{/if}} />
+                    </div>
+                    {{/if}}
+                </li>
+                {{/each}}
+                {{else}}
+                <div style="text-align: center; margin-top: 120px;">
+                    <img src="../../images/zwt.png" style="width: 109px;">
+                </div>
+                {{/if}}
+            </ul>
+            
+                 {{if data != null && data.length > 0}}
+                    <div class="csall"><div id="allCheckicon" class="checkicon" onclick="checkAll()"><i class="iconfont">&#xe64b;</i></div><label>全选</label></div>
+                    {{/if}}
+        </script>
+    <!-- creditFlag 逸控代 XfcreditFlag 会员信用额度 creditLoans 逸白条 eloanCredit 逸信代 -->
+    <script id="footer_page" type="text/html">
+        {{if (creditFlag!=null && creditFlag==1) || (XfcreditFlag!=null && XfcreditFlag==1) || creditLoans!=null || eloanCredit!=null}}
+        {{if data != null && data.length > 0}}
+        <div class="wx_isrz"><label>是否融资</label><span id="rzFlag"> <a href="javaScript:;" class="current" val="0">否</a><a href="javaScript:;" val="1">是</a></span></div>
+        {{/if}}
+        {{/if}}
+        <div class="wx_sum"><label>总价：<span id="yuan">¥</span><b id="totalAmt">0.00</b></label><label>总重：<b id="totalSl2">0</b>kg</label></div>
+        </script>
+</body>
+
+</html>

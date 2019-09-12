@@ -1,7 +1,106 @@
-.xianzi {
-  width: 125px;
-  height: 100px;
-  background-image: url(../images/1.gif);
-  background-size: contain;
-  background-repeat: no-repeat;
+.calendar {
+  &__item {
+    position: relative;
+  }
 }
+
+.hy {
+  &__noData {
+    position: fixed;
+    left: 50%;
+    margin-left: -55px;
+    top: 200px;
+    display: none;
+
+    img {
+      width: 109px;
+    }
+  }
+}
+
+.wepopup {
+  &__wrap {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    border-bottom: 1px solid #ddd;
+    line-height: 40px;
+    font-size: 1.5rem;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #EFEFF4;
+
+    &-close {
+      font-size: 1.4rem;
+      color: #3e7baf;
+      float: right;
+    }
+  }
+
+  &__main {
+    flex: 1;
+    padding: 10px;
+    font-size: 1.4rem;
+    line-height: 23px;
+    overflow: auto;
+
+    p {
+      min-height: 10px;
+      line-height: 23px;
+    }
+  }
+}
+
+/* .remark {
+  &__container {
+    display: none;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  &__shade {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  &__wrap {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #fff;
+    color: #333;
+  }
+
+  &__title {
+    line-height: 45px;
+    border-bottom: 1px solid #ddd;
+    margin: 0 10px;
+    text-align: center;
+    font-size: 1.6rem;
+  }
+
+  &__content {
+    height: 260px;
+    font-size: 1.4rem;
+    line-height: 23px;
+    padding: 5px 10px 0;
+  }
+
+  &__button {
+    line-height: 45px;
+    font-size: 1.7rem;
+    color: #fff;
+    text-align: center;
+    background-color: #3e7baf;
+  }
+} */

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>商家信息</title>
+   <meta id="i18n_pagename" content="strings">
+   <% include ../../components/_head.art %>
+   <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+   <article class="wx_layout">
+      <% include ../../_foot.html %>
+      <script src="../../lib/swiper.min.js"></script>
+      <script src="../MerchantDisplay/MerchantDisplayInfo.js"></script>
+      <section class="wx_main" id="main">
+      </section>
+
+      <script id="main_page" type="text/html">
+  	<div class="qyjs_image">
+        <img width="100%" style="height: 150px;" src="{{filePath}}{{exAppFindEnterprise.logoimg}}" />
+        <p class="qyjs_address"><i class="iconfont icon-address"></i>{{exAppFindEnterprise.proName}}{{exAppFindEnterprise.cityName}}{{exAppFindEnterprise.xjName}}{{exAppFindEnterprise.addr}}</p>
+     </div>
+     <div class="qyjs_product">
+        <p class="qyjs_title"><span class="i18n" name="md_zycp">主营产品</span></p>
+        <p class="qyjs_detail" style="word-break: break-word;">{{exAppFindEnterprise.scopes}}</p>
+     </div>
+     <div class="qyjs_product">
+        <p class="qyjs_title"><span class="i18n" name="md_gsjj">公司简介</span></p>
+        <p class="qyjs_detail" style="word-break: break-word;" >{{exAppFindEnterprise.remark}}</p>
+        <ul class="qyjs_item">
+        	{{if (exAppFindEnterprise.bannerimg00 != null)}}
+           <li class="qyjs_list">
+              <img style="height: 58px;" src="{{filePath}}{{exAppFindEnterprise.bannerimg00}}" />
+           </li>
+           {{/if}}
+           {{if (exAppFindEnterprise.bannerimg01 != null)}}
+           <li class="qyjs_list">
+              <img style="height: 58px;" src="{{filePath}}{{exAppFindEnterprise.bannerimg01}}" />
+           </li>
+           {{/if}}
+           {{if (exAppFindEnterprise.bannerimg02 != null)}}
+           <li class="qyjs_list">
+              <img style="height: 58px;" src="{{filePath}}{{exAppFindEnterprise.bannerimg02}}" />
+           </li>
+           {{/if}}
+           {{if (exAppFindEnterprise.bannerimg03 != null)}}
+           <li class="qyjs_list">
+              <img style="height: 58px;" src="{{filePath}}{{exAppFindEnterprise.bannerimg03}}" />
+           </li>
+           {{/if}}
+        </ul>
+     </div>
+     
+     {{if (exAppFindEnterpriseOpts.length != 0)}}
+     <div class="qyjs_product">
+        <p class="qyjs_title"><span class="i18n" name="md_lxfs">联系方式</span></p>
+        <ul class="qyjs_link">
+        
+        {{each exAppFindEnterpriseOpts as value i}}
+           <li class="qyjs_linkman">
+              <p class="qyjs_name">{{value.userName}}</p>
+              <p class="qyjs_tel"><span class="i18n" name="md_zj">座机</span>：<span>{{value.userMobile}}</span></p>
+              
+              		{{if (value.phone != null )}}
+		             		<a href="tel:{{value.userMobile}}"><i class="iconfont icon-tel"></i></a>
+		             	{{/if}}
+		             	
+           </li>   
+        {{/each}}
+        </ul>
+     </div>
+     {{/if}}
+  </script>
+   </article>
+</body>
+
+</html>

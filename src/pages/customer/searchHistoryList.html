@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title name="shl_title">资源列表</title>
+        <% include ../../components/_head.art %>
+        <style>
+            body {
+                background: #fff;
+            }
+
+            .wx_main {
+                top: 44px;
+            }
+
+            .wx_hotbox {
+                border-bottom: 0px;
+            }
+        </style>
+    </head>
+
+<body>
+    <div class="wx_searchboxbg"></div>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar" style="padding:0;position:initial">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="sh_qsrggph" id="querykey"
+                        placeholder="请输入规格/批号" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="sh_search">请输入规格/批号</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel">
+                <span class="i18n" name="sh_qx">取消</span>
+            </a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main">
+            <div class="wx_hotbox">
+                <p class="hottil"><span class="i18n" name="sh_searchjl">搜索记录</span></p>
+                <div class="wx_history" style="padding-left: 0px;">
+                    <ul class="hissearch" id="list2">
+                    </ul>
+                </div>
+                <p class="hottil"><span class="i18n" name="sh_rmsearch">搜索发现</span></p>
+                <ul class="hotsearch" id="list1">
+                </ul>
+            </div>
+
+            <div class="emptybox" onclick="clearAllSearch();"><span class="empty i18n"
+                    name="sh_clearsearchjl">清除搜索历史</span></div>
+
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../customer/searchHistoryList.js"></script>
+    <script id="list_page1" type="text/html">
+        {{each hotlist as value i}}
+        <li onclick="toResourceList('{{value}}');" >{{value}}</li>
+        {{/each}}
+    </script>
+    <script id="list_page2" type="text/html">
+        {{each data as value i}}
+        <li ><i class="iconfont icon-shijian"onclick="toResourceList('{{value}}');"></i><p onclick="toResourceList('{{value}}');">{{value}}</p><i class="iconfont icon-chadel" onclick="clearOneSearch('{{value}}');" ></i></li>
+        {{/each}}
+    </script>
+</body>
+
+</html>

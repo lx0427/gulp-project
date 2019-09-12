@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>纤币兑换</title>
+<% include ../../components/_head.art %>
+<style>
+html,body {}
+.
+</style>
+</head>
+<body>
+  <article class="wx_layout wx_main"  >
+    <div id="list">
+    </div>
+  </article>
+<% include ../../_foot.html %>
+<script src="../score/couponExchangeDetail.js"></script>
+<script type="text/html" id="list_page">
+    <!-- 纤币流水 -->
+    <section class="wx_coinlist" >
+      <div class="wx_linetit"><label>兑换明细</label></div>
+      <div class="list" >
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <tbody id="listTbody">
+            {{if data!=null&&data.length>0}}
+            {{each data as value i}}
+            <tr {{if i > 5}}class="hide"{{/if}}>
+              <td>{{value.lyName}}</td>
+              <td>{{#getDate(value.cdate)}}</td>
+              <td {{if value.styp==1}}class="cff7b05"{{else}}class="c098bcf"{{/if}}>{{if value.styp==2}}-{{/if}}{{value.score2}}纤币</td>
+            </tr>
+            {{/each}}
+            {{else}}
+            <tr>
+              <td></td>
+              <td>暂无纤币流水</td>
+              <td class="cff7b05"></td>
+            </tr>
+            {{/if}}
+          </tbody>
+        </table>
+        {{if data!=null&&data.length>6}}
+        <div class="fold" onclick="listToggle()"><i class="iconfont">&#xe62f;</i><label>展开</label></div>
+        {{/if}}
+      </div>
+    </section>
+    <!-- 纤币流水 end-->
+</script>
+</script><script type="text/html" id="listTbody_page">
+    <!-- 纤币流水 -->
+            {{each data as value i}}
+            <tr class="hide">
+              <td>{{value.lyName}}</td>
+              <td>{{#getDate(value.cdate)}}</td>
+              <td {{if value.styp==1}}class="cff7b05"{{else}}class="c098bcf"{{/if}}>{{if value.styp==2}}-{{/if}}{{value.score2}}纤币</td>
+            </tr>
+            {{/each}}
+    <!-- 纤币流水 end-->
+</script>
+</body>
+</html>

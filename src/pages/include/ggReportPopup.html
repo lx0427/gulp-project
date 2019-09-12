@@ -1,0 +1,61 @@
+<style>
+.weui-popup-container,
+.weui-popup-overlay {
+    z-index: 1000;
+}
+
+.weui-popup-modal {
+    z-index: 1000;
+}
+
+.weui_cells_radio .weui_check:checked+.weui_icon_checked:before{
+     margin-top: 0px !important;
+}
+
+.weui_cells {font-size: 1.5rem;}
+.submit {float: right;}
+
+</style>
+<div id="ggReportPopup" class='weui-popup-container'>
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal">
+        <header style="position: fixed; width: 100%; z-index: 100;">
+            <div class="tradecomp" style="text-align: center;">请选择<span class="submit close-popup" onclick="submitGG()">确定</span></div>
+            <div class="weui_search_bar">
+                <form id="ggForm" class="weui_search_outer">
+                    <div class="weui_search_inner">
+                        <i class="weui_icon_search"></i>
+                        <input type="search" class="weui_search_input" id="ggKeyword" placeholder="请输入规格" />
+                        <a href="javascript:" class="weui_icon_clear"></a>
+                    </div>
+                    <label for="ggKeyword" class="weui_search_text">
+                        <i class="weui_icon_search"></i>
+                        <span>搜索</span>
+                    </label>
+                </form>
+                <a href="javascript:" class="weui_search_cancel">取消</a>
+            </div>
+        </header>
+        <article class="wx_layout">
+            <section class="wx_main" style="top: 88px; bottom: 0px;">
+                <div id="ggList" class="weui_cells weui_cells_radio">
+                    
+                </div>
+            </section>
+        </article>
+    </div>
+</div>
+<script src="../include/ggReportPopup.js"></script>
+<script id="ggList_page" type="text/html">
+    {{each data as value i}}
+    <label class="weui_cell weui_check_label" id="{{i}}" onclick="chooseGg(this)">
+        <div class="weui_cell_bd weui_cell_primary">
+            <p id="ggp_{{i}}">{{value}}</p>
+        </div>
+        <div class="weui_cell_ft">
+            <input type="checkbox" class="weui_check" name="ggRadio">
+            <span class="weui_icon_checked"></span>
+        </div>
+    </label>
+    {{/each}}
+</script>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khdj">客户等级</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 44px;
+            bottom: 0px;
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .wx_hyordermesbox .wx_hycustomlist li {
+            padding: 8px 10px;
+        }
+
+        .wx_hyordermesbox .wx_hycustomlist li .customlist_detail span {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="sm_qsrkhmcbmdjcpx" id="querykey"
+                        placeholder="请输入客户名称/编码/等级/产品线" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="m_qsrgjz">请输入关键字</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="com_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    <span class="i18n" name="sd_loading">正在加载</span>
+                </div>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/menberLevelList.js"></script>
+    <script id="list_page" type="text/html">
+                {{each data as value i}}
+                <li>
+                    <p class="customlist_name">{{value.sapCustomerName}} ({{value.sapCustomerId}})</p>
+                    <p class="customlist_detail">
+                    <span>{{value.levelName}}</span>
+                    <span>{{value.score}}</span>
+                    <span>{{value.pm}}</span>
+                    </p>
+                </li>
+                {{/each}}
+            </script>
+</body>
+
+</html>

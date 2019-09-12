@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>操作员设置</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" style="bottom: 50px;">
+            <input type="hidden" id="wxOpenid" value="" />
+            <div class="wx_addsitebox">
+                <div class="commontype">
+                    <span>姓名</span>
+                    <input type="text" placeholder="请输入姓名" id="username" />
+                </div>
+                <div class="commontype">
+                    <span>联系电话</span>
+                    <input type="text" placeholder="请输入联系人" id="mobile1" />
+                </div>
+                <div class="commontype1">
+                    <span>内勤</span>
+                    <input type="text" id="flag07_txt" placeholder="是否是内勤" />
+                    <input type="hidden" id="flag07" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>经销商</span>
+                    <input type="text" id="flag08_txt" placeholder="是否是经销商" class="hynewlytext" />
+                    <input type="hidden" id="flag08" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>手机端管理权限</span>
+                    <input type="text" id="flag09_txt" placeholder="手机端管理权限" class="hynewlytext" />
+                    <input type="hidden" id="flag09" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>所属工厂</span>
+                    <input type="text" id="flag10_txt" placeholder="请选择所属工厂" class="hynewlytext" />
+                    <input type="hidden" id="flag10" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>部门</span>
+                    <input type="text" placeholder="请选择部门" id="dpname" class="hynewlytext" />
+                    <input type="hidden" id="dpid" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>产品经理</span>
+                    <input type="text" placeholder="请选择产品" id="str01_txt" class="hynewlytext" />
+                    <input type="hidden" id="str01" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>状态</span>
+                    <input type="text" id="flag00_txt" placeholder="是否启用" class="hynewlytext" />
+                    <input type="hidden" id="flag00" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+            </div>
+        </section>
+    </article>
+    <footer class="wx_btnnew">
+        <div onclick="doEdit();">保存</div>
+    </footer>
+    <% include ../../_foot.html %>
+    <script src="../salesman/employeeEdit.js"></script>
+    <script src="../../js/md5.min.js"></script>
+</body>
+
+</html>

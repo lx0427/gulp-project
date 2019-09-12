@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>操作员申请</title>
+  <% include ../../components/_head.art %>
+  <script>
+  </script>
+  <style>
+    .wx_main {
+      top: 44px;
+    }
+
+    .wx_searchbox,
+    .wx_searchboxbg {
+      padding: 0px 0px;
+    }
+
+    .allotbtn {
+      border: 1px solid #fa9006;
+      color: #fa9006;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 1.2rem;
+      text-align: center;
+      margin-left: 8px;
+      border-radius: 3px;
+      margin-top: 8px;
+    }
+
+    .noallotbtn {
+      border: 1px solid #bcbcbc;
+      color: #999;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 1.2rem;
+      text-align: center;
+      margin-left: 8px;
+      border-radius: 3px;
+      margin-top: 8px;
+    }
+
+    .wx_allot .wx_allotitem .tit em {
+      background: rgba(0, 0, 0, 0);
+      color: #333;
+    }
+
+    .wx_btnnext,
+    .wx_hyfilter {
+      z-index: 89;
+    }
+
+    .wx_searchbox,
+    .wx_searchboxbg {
+      z-index: 89;
+    }
+
+    .wx_pulldownbox .pulldown {
+      height: 250px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="wx_searchbox">
+    <div class="weui_search_bar">
+      <form id="form" class="weui_search_outer">
+        <div class="weui_search_inner">
+          <i class="weui_icon_search"></i>
+          <input type="search" class="weui_search_input noi18n_ph" name="sm_ssdd" id="keyWord" placeholder="请输入关键字"
+            value="" />
+          <a href="javascript:" class="weui_icon_clear"></a>
+        </div>
+        <label for="keyWord" class="weui_search_text">
+          <i class="weui_icon_search"></i>
+          <span class="noi18n" name="sm_ssdd">请输入关键字</span>
+        </label>
+      </form>
+      <a href="javascript:" class="weui_search_cancel noi18n" name="com_cancel">取消</a>
+    </div>
+  </header>
+  <article class="wx_layout">
+    <section class="wx_main">
+      <ul class="wx_hyfilter">
+        <li class="current" onclick="showSelect('time')" id="timetitle">时间<span class="xl"></span></li>
+        <li onclick="showSelect('status')" id="statustitle">状态<span class="xl"></span></li>
+        <li onclick="showSelect('order')" id="ordertitle">排序<span class="xl"></span></li>
+      </ul>
+      <input type="hidden" name="rqStart" id="rqStart" value="">
+      <input type="hidden" name="rqEnd" id="rqEnd" value="">
+      <input type="hidden" id="status" name="status" />
+      <input type="hidden" id="orderName" name="orderName" />
+      <input type="hidden" id="order" name="order" />
+      <input type="hidden" id="timemiddle" name="timemiddle" />
+      <input type="hidden" id="statusmiddle" name="statusmiddle" />
+      <input type="hidden" id="ordermiddle" name="ordermiddle" />
+      <br /><br />
+      <div id="list">
+
+      </div>
+    </section>
+  </article>
+  <div class="wx_opacity" style="display:none;" onclick="toHide();"></div>
+  <div class="wx_pulldownbox" style="display:none;">
+    <div class="pulldown">
+      <ul class="middlenav" id="xlsx3">
+      </ul>
+    </div>
+    <ul class="pullbtn">
+    </ul>
+  </div>
+  <!-- 查询时间选择页面 -->
+  <div id="datePage" style="width: 100%; height: 100%;z-index: 90;display: none;position: fixed;">
+    <div
+      style=" filter: Alpha(opacity=30); -moz-opacity: 0.3; opacity: 0.3; width: 100%; height: 100%; z-index: 55;position: fixed; left: 0; top: 0;  overflow: hidden; background-color: #000; display: block;">
+    </div>
+    <div class="wx_hypopbox" style="bottom: 40%;height: 138px;">
+      <div class="tit">按日期查询</div>
+      <div class="inner" style="height: 107px;">
+        <ul>
+          <li>
+            <label>选择时间:</label>
+            <div class="fle timefle" style="display: block;">
+              <input class="inp" type="" name="startTime" id="rqStart1" placeholder="开始日期">
+              <span>-</span>
+              <input class="inp" type="" name="endTime" id="rqEnd1" placeholder="结束日期">
+            </div>
+          </li>
+          <li></li>
+        </ul>
+        <div class="btn">
+          <a class="wx_hygreybtn" href="javaScript:;" onclick="doCancleDatePage()">取消</a>
+          <a class="wx_hybluebtn" id="dateQueryTrue" style="pointer-events:auto;" href="javaScript:;"
+            onclick="doDateQuery()">确定</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% include ../../_foot.html %>
+  <% include ../include/ygPopup.html %>
+  <script src="../salesman/mboptApply.js"></script>
+
+  <script id="list_page" type="text/html">
+         {{each data as value i}}
+         {{if position==0 && value.status ==0}}
+         {{else}}
+        <div class="wx_allot">
+          <div class="wx_allotitem">
+            <div class="info">
+              <div class="tit">
+                <h3>{{value.mbname}}</h3>
+                <em>{{#getDate(value.cdate,"yyyy-MM-dd")}}</em>
+              </div>
+              <div class="cont"  style="padding-top: 0px">
+                <div class="left">
+                  {{if position==2}}
+                  <p>新增操作员：{{value.aname}}</p>
+                  {{else}}
+                  <p>操作员姓名：{{value.aname}}</p>
+                  <p>操作员身份：{{value.identity}}</p>
+                  {{/if}}
+                  <p>手机号码：{{value.aphone}}</p>
+                  <p>法人：{{value.fr}}</p>
+                  {{if position!=2}}
+                  <p>申请人：{{value.username}}</p>
+                  {{/if}}
+                </div>
+                <div class="">
+                  <!--业务员 -->
+                  {{if position==2}}
+                    {{if value.status==0 || value.status==1 || value.status==2}}
+                    <a class="allotbtn"  href="javascript:void(0);" >审核中</a>
+                    {{else if value.status==3}}
+                    <a class="noallotbtn"  href="javascript:void(0);" >已审核</a>
+                    {{else if value.status==4}}
+                    <a class="noallotbtn"  href="javascript:void(0);" >被驳回</a>
+                    {{/if}}
+                  <!--产品经理 -->
+                  {{else if position==1}}
+                    {{if value.status==0}}
+                    <a class="allotbtn"  href="javascript:void(0);" onclick="doUpdateStauts({{value.pkid}},0)" >审核</a>
+                    <a class="allotbtn"  href="javascript:void(0);" onclick="doUpdateStauts({{value.pkid}},4)">驳回</a>
+                    {{else if value.status==1 || value.status==2}}
+                    <a class="allotbtn"  href="javascript:void(0);" >审核中</a>
+                    {{else if value.status==3}}
+                    <a class="noallotbtn"  href="javascript:void(0);" >已审核</a>
+                    {{else if value.status==4}}
+                    <a class="noallotbtn"  href="javascript:void(0);" >已驳回</a>
+                    {{/if}}
+                  <!--总助 -->
+                  {{else if position==0}}
+                    {{if value.status==1}}
+                    <a class="allotbtn"  href="javascript:void(0);" onclick="doUpdateStauts({{value.pkid}},0)">审核</a>
+                    <a class="allotbtn"  href="javascript:void(0);" onclick="doUpdateStauts({{value.pkid}},4)">驳回</a>
+                    {{else if value.status==0 }}
+                    <a class="allotbtn"  href="javascript:void(0);" >待审核</a>
+                    {{else if value.status==2 }}
+                    <a class="allotbtn"  href="javascript:void(0);" >审核中</a>
+                    {{else if value.status==3}}
+                    <a class="noallotbtn"  href="javascript:void(0);" >已审核</a>
+                    {{else if value.status==4}}
+                    <a class="noallotbtn"  href="javascript:void(0);" >已驳回</a>
+                    {{/if}}
+                  {{/if}}
+                </div>
+              </div>
+            </div> 
+      </div>
+    </div>
+    {{/if}}
+    {{/each}}
+      </script>
+  <script type="text/html" id="timelist_page">
+    <li id="time_bx" name="time_bx" onclick="middleSelect('日期','time','bx');"><span class="i18n" name="rl_buxian">不限</span></li>
+    <li onclick="middleSelect('近一周','time','1');" id="time_1" name="time_1">近一周</li>
+    <li onclick="middleSelect('近一个月','time','2');" id="time_1" name="time_1">近一个月</li>
+    <li onclick="middleSelect('近三个月','time','3');" id="time_1" name="time_1">近三个月</li>
+    <li onclick="middleSelect('自定义','time','4');" id="time_1" name="time_1">自定义</li>
+  </script>
+  <script type="text/html" id="statuslist_page">
+    <li id="status_bx" name="status_bx" onclick="middleSelect('状态','status','bx');"><span class="i18n" name="rl_buxian">不限</span></li>
+    {{if position==0}}
+    <li onclick="middleSelect('待审核','status','1');" id="status_1" name="status_1">待审核</li>
+    <li onclick="middleSelect('已审核','status','23');" id="status_23" name="status_23">已审核</li>
+    <li onclick="middleSelect('被驳回','status','4');" id="status_4" name="status_4">被驳回</li>
+    {{/if}}
+    {{if position==1}}
+    <li onclick="middleSelect('待审核','status','0');" id="status_0" name="status_0">待审核</li>
+    <li onclick="middleSelect('已审核','status','123');" id="status_123" name="status_123">已审核</li>
+    <li onclick="middleSelect('被驳回','status','4');" id="status_4" name="status_4">被驳回</li>
+    {{/if}}
+    {{if position==2}}
+    <li onclick="middleSelect('审核中','status','210');" id="status_012" name="status_210">审核中</li>
+    <li onclick="middleSelect('已审核','status','3');" id="status_3" name="status_3">已审核</li>
+    <li onclick="middleSelect('被驳回','status','4');" id="status_4" name="status_4">被驳回</li>
+    {{/if}}
+  </script>
+  <script type="text/html" id="orderlist_page">
+    <li id="order_bx" name="order_bx" onclick="middleSelect('排序','order','bx');"><span class="i18n" name="rl_buxian">默认</span></li>
+    <li onclick="middleSelect('cdate','order','asc');" id="order_cdateasc" name="order_cdateasc">时间升序</li>
+    <li onclick="middleSelect('cdate','order','desc');" id="order_cdatedesc" name="order_cdatedesc">时间降序</li>
+    <li onclick="middleSelect('status','order','asc');" id="order_cdateasc" name="order_cdateasc">状态升序</li>
+    <li onclick="middleSelect('status','order','desc');" id="order_cdatedesc" name="order_cdatedesc">状态降序</li>
+  </script>
+</body>
+
+</html>

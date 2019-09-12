@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>调查问卷</title>
+</head>
+<style type="text/css">
+  .wx_layout {background:#3e7caf;}
+</style>
+<% include ../../components/_head.art %>
+
+<body>
+<article class="wx_layout">
+  <section class="wx_main">
+    <div class="wx_lookinto_top">
+      <p class="logo"></p>
+      <h2>欢迎参与问卷调查！</h2>
+    </div>
+    <input type="hidden" id="needLogin">
+    <div class="wx_lookinto_cont">
+      <ul >
+        <li>
+          <span>企业名称</span>
+          <input type="text" id="companyName" placeholder="请输入您的企业名称">
+        </li>
+        <li>
+          <span>填写人</span>
+          <input type="text" id="userName" placeholder="请输入您的姓名">
+        </li>
+        <li>
+          <span>联系电话</span>
+          <input type="text" id="mobile" placeholder="请输入您的联系电话">
+        </li>
+        <li id="pmli">
+          <span>产品线</span>
+          <div class="selpro">
+            <em class="fl" id="pm">请选择</em>
+            <i class="arrow"></i>
+          </div>
+        </li>
+      </ul>
+      <div class="wx_lookinto_btn" onclick="start()"><a>开始</a></div>
+    </div>
+  </section>
+</article>
+<% include ../../_foot.html %>
+<script src="../customer/startQuestion.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>问题详情</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+        .wx_mainmesbox {
+            margin-top: 30%;
+        }
+
+        ul li {
+            list-style-type: disc;
+            list-style-position: inside;
+            text-indent: 2rem;
+        }
+
+        ol li {
+            list-style-type: decimal;
+            width: 200px;
+            list-style-position: inside;
+        }
+
+        em {
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main hy_main">
+            <div id="list">
+            </div>
+    </article>
+    </div>
+    </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../helpcenter/answar.js"></script>
+    <script id="list_page" type="text/html">
+	<div class="nfnw_question">
+  		<ul>
+  			<li >
+  				<label style="margin-left: -20px;">{{answar.problem}}</label>
+  			</li>
+  		</ul>
+  	</div>
+    <div  id="answar" class="hy_hdgz" style="margin: 5px 0 46px;">
+    </div>
+    </script>
+</body>
+
+</html>

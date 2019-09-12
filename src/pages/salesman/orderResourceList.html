@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>生成订单</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+    <style>
+        .wx_main {
+            bottom: 45px;
+            top: 281px;
+        }
+
+        .tab_a tr td:nth-child(1) {
+            width: 38%;
+        }
+
+        .tab_a tr td:nth-child(2) {
+            width: 26%;
+        }
+
+        .tab_a tr td:nth-child(3) {
+            width: 11%;
+        }
+
+        .tab_a tr td:nth-child(4) {
+            width: 14%;
+        }
+
+        .tab_a tr td:nth-child(5) {
+            width: 11%;
+        }
+
+        .tab_b tr td:nth-child(1) {
+            width: 21%;
+        }
+
+        .tab_b tr td:nth-child(2) {
+            width: 21%;
+        }
+
+        .tab_b tr td:nth-child(3) {
+            width: 21%;
+        }
+
+        .tab_b tr td:nth-child(4) {
+            width: 21%;
+        }
+
+        .tab_b tr td:nth-child(5) {
+            width: 16%;
+        }
+
+        .formtil_c li:nth-child(1),
+        .tab_c tr td:nth-child(1),
+        .formtil_c li:nth-child(2),
+        .tab_c tr td:nth-child(2),
+        .formtil_c li:nth-child(5),
+        .tab_c tr td:nth-child(5) {
+            width: 17%;
+        }
+
+        .formtil_c li:nth-child(3),
+        .tab_c tr td:nth-child(3) {
+            width: 10%;
+        }
+
+        .formtil_c li:nth-child(4),
+        .tab_c tr td:nth-child(4) {
+            width: 24%;
+        }
+
+        .formtil_c li:nth-child(6),
+        .tab_c tr td:nth-child(6) {
+            width: 15%;
+        }
+
+        .formtil_d li:nth-child(1),
+        .tab_d tr td:nth-child(1),
+        .formtil_d li:nth-child(2),
+        .tab_d tr td:nth-child(2),
+
+        .formtil_d li:nth-child(5),
+        .tab_d tr td:nth-child(5) {
+            width: 14%;
+        }
+
+        .formtil_d li:nth-child(3),
+        .tab_d tr td:nth-child(3) {
+            width: 10%;
+        }
+
+        .formtil_d li:nth-child(4),
+        .tab_d tr td:nth-child(4) {
+            width: 24%;
+        }
+
+        .formtil_d li:nth-child(6),
+        .tab_d tr td:nth-child(6) {
+            width: 15%;
+        }
+
+        .wx_formmes tr td.xbuy span i {
+            color: #8d8f99;
+        }
+
+        .wx_formmes tr td.current span i {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <div class="wx_mainmesbox" id="queryDiv">
+            <ul class="kindbtn">
+                <input type="hidden" id="pm" value="POY" />
+                <li tab="a" class="current"><span>POY</span></li>
+                <li tab="d"><span>DTY</span></li>
+                <li tab="a"><span>FDY</span></li>
+                <li tab="b"><span class="i18n" name="com_tlqp">涤纶切片</span></li>
+                <li tab="b"><span class="i18n" name="com_jlqp">锦纶切片</span></li>
+                <li tab="a"><span class="i18n" name="com_dq">短纤</span></li>
+            </ul>
+            <ul class="mainmes" style="margin-bottom: 1px;">
+                <li onclick="showMenberPopup();"><span class="i18n" name="or_customer">客户</span>
+                    <input type="hidden" id="hydm" value="" />
+                    <input type="text" id="mbname" class="i18n_ph" name="or_customernametip" placeholder="请选择客户，必填"
+                        readonly /><i class="iconfont icon-xiala"></i></li>
+                <li onclick="showGg();"><span class="i18n" name="com_gg">规格</span>
+                    <input id="gg" onchange="queryData();" type="text" class="i18n_ph" name="com_ggtip"
+                        placeholder="请选择规格，必填" readonly /><i class="iconfont icon-xiala"></i></li>
+                <li id="czxl1" onclick="showCz();"><span class="i18n" name="com_ph">批号</span>
+                    <input id="cz" type="text" placeholder="请选择批号" class="i18n_ph" name="com_phtip" readonly /><i
+                        class="iconfont icon-xiala"></i>
+                </li>
+                <li id="czxl2" style="display: none;"><span class="i18n" name="com_ph">批号</span>
+                    <input id="cz2" oninput="czChange();" type="text" class="i18n_ph" name="or_chooseph"
+                        placeholder="请输入批号进行筛选" />
+                </li>
+                <li onclick="showCdPopup();"><span class="i18n" name="com_cd">等级</span>
+                    <input id="cd" onchange="queryData();" type="text" placeholder="请选择等级" class="i18n_ph"
+                        name="com_cdtip" readonly />
+                    <i class="iconfont icon-xiala"></i>
+                </li>
+                <li onclick="showNxPopup();" id="listr02" style="display: none;"><span class="i18n"
+                        name="com_cd">捻向</span>
+                    <input id="nx" onchange="queryData();" type="text" placeholder="请选择捻向" class="i18n_ph"
+                        name="com_cdtip" readonly />
+                    <i class="iconfont icon-xiala"></i>
+                </li>
+                <li onclick="showSzPopup();" id="listr03" style="display: none;"><span class="i18n"
+                        name="com_cd">纱种</span>
+                    <input id="sz" onchange="queryData();" type="text" placeholder="请选择纱种" class="i18n_ph"
+                        name="com_cdtip" readonly />
+                    <i class="iconfont icon-xiala"></i>
+                </li>
+            </ul>
+            <ul id="title" class="formtil formtil_a">
+                <li class="i18n" name="com_gg">规格</li>
+                <li class="i18n" name="com_ph">批号</li>
+                <li class="i18n" name="com_cd">等级</li>
+                <li class="i18n" name="com_dj">单价</li>
+                <li class="i18n" name="or_choosebuy">选购</li>
+            </ul>
+            <ul id="title_c" class="formtil formtil_d" style="display:none;">
+                <li class="i18n" name="com_ph">批号</li>
+                <li class="i18n" name="com_cd">等级</li>
+                <li class="i18n" name="or_twist">捻向</li>
+                <li class="i18n" name="or_yarn">纱种</li>
+                <li class="i18n" name="or_yarn">库存</li>
+                <li class="i18n" name="com_dj">单价</li>
+                <li class="i18n" name="com_cd">选购</li>
+            </ul>
+        </div>
+        <section class="wx_main" id="wx_main">
+            <table id="list" width="100%" border="0" cellspacing="0" cellpadding="0" class="wx_formmes tab_a">
+            </table>
+        </section>
+    </article>
+    <footer class="wx_btnnext" onclick="goShoppingCart();"><span class="i18n" name="or_intoshopchart">进入购物车</span>
+    </footer>
+    <% include ../../_foot.html %>
+    <% include ../include/menberPopup.html %>
+    <% include ../include/ggPopup.html %>
+    <% include ../include/ggPopup2.html %>
+    <% include ../include/czPopup2.html %>
+    <% include ../include/cdPopup.html %>
+
+    <% include ../include/nxPopup.html %>
+    <% include ../include/szPopup.html %>
+    <script src="../salesman/orderResourceList.js"></script>
+    <script id="list_page" type="text/html">
+                                {{each data as value i}}
+                                <tr {{if value.isFocus==1 }}class="ever" {{/if}}>
+                                    {{if value.pm != "DTY"}}
+                                    <td>{{value.gg}}</td>
+                                    {{/if}}
+                                    <td>{{value.cz}}
+                                    {{if value.pm == "POY" && value.str02 != null}}
+                                        {{value.str02}}
+                                    {{/if}}
+                                    </td>
+                                    <td>{{value.cd}}</td>
+                                    {{if value.pm == "DTY"}}
+                                        <td>{{value.str02}}</td>
+                                        <td>{{value.str03}}</td>
+                                        <td>{{value.inventoryStr}}</td>
+                                    {{/if}}
+                                    <td class="pri">{{#value.price00Str}}</td>
+                                    <td id="{{value.gpls}}" onclick="saveShopping('{{value.gpls}}','{{value.wzid}}','{{value.depid}}','{{value.salesType}}');" class="xbuy {{if value.isxg == 1}} current{{/if}}"><span><i class="iconfont icon-hybuyk"></i></span></td>
+                                </tr>
+                                {{/each}}
+                            </script>
+    <script id="nodata" type="text/html">
+                                <tr>
+                                    <td style="width: 100%;text-align: center;">
+                                        <img style="width: 120px;" src="../../images/zwt.png" />
+                                    </td>
+                                </tr>
+                            </script>
+    <script id="cdList_page" type="text/html">
+                                {{each data as value i}}
+                                <em>{{value}}</em> {{/each}}
+                            </script>
+</body>
+
+</html>

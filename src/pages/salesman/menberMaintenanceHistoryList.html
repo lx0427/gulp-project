@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="sm_khwhlb">客户维护列表</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            bottom: 45px;
+        }
+
+        .wx_hyordermesbox .wx_hycustomlist li {
+            border-bottom: 5px solid #ddd;
+        }
+
+        .productCss1 {
+            color: #00FFFF;
+            font-size: 1.3em;
+            padding: 3px;
+        }
+
+        .productCss2 {
+            display: inline-block;
+            color: grey;
+            padding: 3px;
+        }
+
+        .productCss3 {
+            display: inline-block;
+            color: grey;
+            padding: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <div class="wx_hyordermesbox">
+                <ul class="wx_hycustomlist" id="list">
+                </ul>
+                <div class="weui-infinite-scroll">
+                    <div class="infinite-preloader"></div>
+                    <span class="i18n" name="sd_loading">正在加载</span>
+                </div>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/menberMaintenanceHistoryList.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <li onclick="info('{{value.pkid}}', '{{value.sapCustomerId}}')">
+                <p class="productCss1">{{value.pm}}</p>
+                <p class="productCss2">
+                    <span class="i18n" name="sm_sblx">设备类型</span>&nbsp;&nbsp;{{value.deviceType}}<br/>
+                    <span class="i18n" name="sm_sbsl">设备数量</span>&nbsp;&nbsp;{{value.deviceNum}}<br/>
+                    <span class="i18n" name="sm_sbkjl">设备开机率</span>&nbsp;&nbsp;{{value.bootRate}}<br/>
+                </p>
+                <hr style="border:1px solid #ddd;" />
+                <p class="productCss3">
+                    <span class="i18n" name="sm_ryl">日用量</span>&nbsp;&nbsp;{{value.dailyDosage}}<br/>
+                    <span class="i18n" name="sm_ylkc">原料库存</span>&nbsp;&nbsp;{{value.rawMaterialInventory}}<br/>
+                    <span class="i18n" name="sm_cpkc">产品库存</span>&nbsp;&nbsp;{{value.productInventory}}<br/>
+                    <span class="i18n" name="sm_whsj">维护时间</span>&nbsp;&nbsp;{{#getDate(value.cdate,"yyyy-MM-dd HH:mm:ss")}}
+                </p>
+            </li>
+            {{/each}}
+            
+        </script>
+</body>
+
+</html>

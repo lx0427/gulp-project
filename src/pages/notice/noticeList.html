@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>公告列表</title>
+    <meta id="i18n_pagename" content="strings">
+    <% include ../../components/_head.art %>
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" id="infinitePage">
+            <ul class="wx_hynotice_a" id="list">
+            </ul>
+            <div class="weui-infinite-scroll">
+                <div class="infinite-preloader"></div>
+                <span class="i18n" name="sd_loading">正在加载</span>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../notice/noticeList.js"></script>
+    <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <li onclick="info('{{value.pkid}}')">{{value.title}}&nbsp;<span>{{#getDate(value.modrq,"yyyy-MM-dd")}}</span></li>
+            {{/each}}
+        </script>
+</body>
+
+</html>

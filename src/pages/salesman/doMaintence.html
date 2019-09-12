@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>我要维护</title>
+    <% include ../../components/_head.art %>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <article class="wx_layout">
+        <section class="wx_main" style="bottom: 50px;">
+            <input type="hidden" id="pkid" value="" />
+            <div class="wx_addsitebox">
+                <div class="commontype1">
+                    <span>产品线</span>
+                    <input type="text" placeholder="请选择产品" id="pm_txt" class="hynewlytext" />
+                    <input type="hidden" id="pm" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype">
+                    <span>客户</span>
+                    <input type="hidden" id="hydm" value="" />
+                    <input onclick="showMenberPopup2();" type="text" id="mbname" placeholder="请选择客户，必填" readonly />
+                </div>
+                <div class="commontype">
+                    <span>设备类型</span>
+                    <input type="text" placeholder="请输入设备类型" id="deviceType" />
+                </div>
+                <div class="commontype1">
+                    <span>设备数量</span>
+                    <input type="text" placeholder="请输入设备数量" id="deviceNum" />
+                </div>
+                <div class="commontype1">
+                    <span>开机率</span>
+                    <input type="text" id="bootRate_txt" placeholder="开机率" class="hynewlytext" />
+                    <input type="hidden" id="bootRate" value="" />
+                    <i class="iconfont icon-rarrow"></i>
+                </div>
+                <div class="commontype1">
+                    <span>日用量（吨）</span>
+                    <input type="text" placeholder="请输入日用量" id="dailyDosage" />
+                </div>
+                <div class="commontype1">
+                    <span>原料库存（吨）</span>
+                    <input type="text" placeholder="请输入原料库存" id="rawMaterialInventory" />
+                </div>
+                <div class="commontype1">
+                    <span>产品库存（吨）</span>
+                    <input type="text" placeholder="请输入产品库存" id="productInventory" />
+                </div>
+            </div>
+        </section>
+    </article>
+    <footer class="wx_btnnew">
+        <div onclick="doEdit();">保存</div>
+    </footer>
+    <% include ../../_foot.html %>
+    <% include ../include/menberPopup.html %>
+    <script src="../salesman/doMaintence.js"></script>
+    <script src="../../js/md5.min.js"></script>
+</body>
+
+</html>

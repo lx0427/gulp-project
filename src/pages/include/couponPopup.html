@@ -1,0 +1,99 @@
+<style>
+.weui-popup-container,
+.weui-popup-overlay {
+    z-index: 1000;
+}
+
+.weui-popup-modal {
+    z-index: 1000;
+}
+.weui_mask {z-index: 1000}
+.weui_dialog, .weui_toast {z-index: 1000}
+</style>
+<div id="couponPopup" class='weui-popup-container'>
+    <div class="weui-popup-overlay"></div>
+    <div class="weui-popup-modal">
+        <header style="position: fixed; width: 100%; z-index: 100;">
+            <div class="tradecomp" style="text-align: center;"><h name="my_mydiscountcoupon" class="i18n">我的优惠券</h><span class="delete close-popup i18n" name="com_closename">关闭</span></div>
+        </header>
+        <article class="wx_layout">
+            <section class="wx_main" id="couponList" style="top: 40px; bottom: 0px;">
+            </section>
+        </article>
+    </div>
+</div>
+<script src="../include/couponPopup.js"></script>
+<script id="couponList_page" type="text/html">
+    {{each data as value i}}
+    {{if value.couponPrice < 100 }}
+                <div class="wx_voucher svalue" style="{{if value.status != 0}}background: -webkit-linear-gradient(117deg,#999,#999);{{/if}}" onclick="chooseCoupon('{{value.couponCode}}','{{value.couponName}}','{{value.couponPrice}}','{{value.limitMinimumPrice}}','{{value.ruleId}}');">
+                
+                <div class="left">
+                    <div class="value"><em>￥</em><label>{{value.couponPrice}}</label></div>
+                    <div class="range">
+                    {{if value.ruleId!=null}} {{if value.rulePm!=null}}{{value.rulePm}}可用{{else}}活动专享{{/if}}
+                {{else}}全品类可用
+            {{/if}}</div>
+                </div>
+                <div class="right">
+                    <dl>
+                        <dt>代 金 券</dt>
+                        <dd class="fs18">{{if value.limitMinimumPrice !=null}}满{{value.limitMinimumPrice}}元{{/if}}可用</dd>
+                        <dd class="fs12 cf4eb01" style="{{if value.status != 0}}font-size: #fff{{/if}}">有效期：{{#getDate(value.startDate,"yyyy.MM.dd")}}-{{#getDate(value.endDate,"yyyy.MM.dd")}}</dd>
+                        <dd><label>{{value.couponName}}</label></dd>
+                    </dl>
+                </div>
+                <div class="dot top"><i></i><i></i></div>
+                <div class="circle"></div>
+                <div class="dot bom"><i></i><i></i></div>
+            </div>
+            {{else if value.couponPrice < 1000}}
+            <div class="wx_voucher mvalue" style="{{if value.status != 0}}background: -webkit-linear-gradient(117deg,#999,#999);{{/if}}" onclick="chooseCoupon('{{value.couponCode}}','{{value.couponName}}','{{value.couponPrice}}','{{value.limitMinimumPrice}}','{{value.ruleId}}');">
+                
+                <div class="left">
+                    <div class="value"><em>￥</em><label>{{value.couponPrice}}</label></div>
+                    <div class="range">
+                    {{if value.ruleId!=null}} {{if value.rulePm!=null}}{{value.rulePm}}可用{{else}}活动专享{{/if}}
+                {{else}}全品类可用
+            {{/if}}
+        </div>
+                </div>
+                <div class="right">
+                    <dl>
+                        <dt>代 金 券</dt>
+                        <dd class="fs18">{{if value.limitMinimumPrice !=null}}满{{value.limitMinimumPrice}}元{{/if}}可用</dd>
+                        <dd class="fs12 cf4eb01" style="{{if value.status != 0}}font-size: #fff{{/if}}">有效期：{{#getDate(value.startDate,"yyyy.MM.dd")}}-{{#getDate(value.endDate,"yyyy.MM.dd")}}</dd>
+                        <dd><label>{{value.couponName}}</label></dd>
+                    </dl>
+                </div>
+                <div class="dot top"><i></i><i></i></div>
+                <div class="circle"></div>
+                <div class="dot bom"><i></i><i></i></div>
+            </div>
+            {{else}}
+            <div class="wx_voucher lvalue" style="{{if value.status != 0}}background: -webkit-linear-gradient(117deg,#999,#999);{{/if}}" onclick="chooseCoupon('{{value.couponCode}}','{{value.couponName}}','{{value.couponPrice}}','{{value.limitMinimumPrice}}','{{value.ruleId}}');">
+                
+                <div class="twrap">
+                    <div class="value"><em>￥</em><label>{{value.couponPrice}}</label></div>
+                    <dl class="range">
+                        <dt>代 金 券</span>
+                        <dd class="fs15">
+                    {{if value.ruleId!=null}} {{if value.rulePm!=null}}{{value.rulePm}}可用{{else}}活动专享{{/if}}
+                {{else}}全品类可用
+            {{/if}}</dd>
+                    </dl>
+                </div>
+                <div class="bwrap">
+                    <dl>
+                        <dd class="fs18">{{if value.limitMinimumPrice !=null}}满{{value.limitMinimumPrice}}元{{/if}}可用</dd>
+                        <dd class="fs12 cf4eb01" style="{{if value.status != 0}}font-size: #fff{{/if}}">有效期：{{#getDate(value.startDate,"yyyy.MM.dd")}}-{{#getDate(value.endDate,"yyyy.MM.dd")}}</dd>
+                        <dd class="quan"><label>{{value.couponName}}</label></dd>
+                    </dl>
+                </div>
+                <div class="dot top"><i></i><i></i></div>
+                <div class="circle"></div>
+                <div class="dot bom"><i></i><i></i></div>
+            </div>
+            {{/if}}
+    {{/each}}
+</script>

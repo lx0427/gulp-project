@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>活动讨论区</title>
+  <% include ../../components/_head.art %>
+  <style>
+    .wx_main {
+      bottom: 49px;
+    }
+
+    .reply1 {
+      padding: 15px 10px;
+      background: #fff;
+      border-top: 1px #c5c5c5 dashed;
+    }
+
+    .box1 {
+      border: 1px #c4c2c2 solid;
+      padding: 5px;
+    }
+
+    .reply1 div textarea {
+      width: 100%;
+      height: 90px;
+      resize: none;
+      border: none;
+      margin: 0;
+      padding: 0;
+      outline: 0 none;
+      vertical-align: middle;
+    }
+
+    .btn1 {
+      padding-top: 10px;
+      text-align: right;
+    }
+
+    .replybtn1 {
+      display: inline-block;
+      font-size: 1.4rem;
+      line-height: 24px;
+      padding: 0 10px;
+      background: #006699;
+      color: #fff;
+      margin-right: 5px;
+    }
+
+    .cancelbtn1 {
+      display: inline-block;
+      font-size: 1.4rem;
+      line-height: 24px;
+      padding: 0 10px;
+      color: #006699;
+    }
+  </style>
+
+</head>
+
+<body>
+  <article class="wx_layout">
+    <section class="wx_main">
+      <div class="wx_priceexp">
+        <div class="tit bluebg">
+          <h2>活动讨论区</h2>
+        </div>
+        <ul class="tabnav">
+          <li class="on" id="all" onclick="toPmArea('')">全部</li>
+          <li id="poy" onclick="toPmArea('POY')">POY</li>
+          <li id="fdy" onclick="toPmArea('FDY')">FDY</li>
+          <li id="dty" onclick="toPmArea('DTY')">DTY</li>
+          <li id="qp" onclick="toPmArea('切片')">切片</li>
+        </ul>
+        <div class="tabnew" style="display: none;" onclick="showMyMessage()">
+          <span id="messageNum">2条新消息</span>
+        </div>
+        <div class="tabcont" id="productList">
+
+        </div>
+        <div class="tabcont" id="list"> </div>
+        <div class="tabcont" id="list_poy"> </div>
+        <div class="tabcont" id="list_fdy"> </div>
+        <div class="tabcont" id="list_dty"> </div>
+        <div class="tabcont" id="list_qp"> </div>
+      </div>
+
+      <div class="reply reply1">
+        <div class="box box1">
+          <textarea placeholder="请输入您的内容（不超过300字）" id="content"></textarea>
+        </div>
+        <p class="btn btn1">
+          <a class="replybtn replybtn1" href="javaScript:void(0)" onclick="doReply('')">评价</a>
+          <a class="cancelbtn cancelbtn1" href="javaScript:void(0)" onclick="replyCancel('')">取消</a>
+        </p>
+      </div>
+    </section>
+  </article>
+
+  <footer class="wx_footerbtn">
+    <ul>
+      <li class="whitebtn" onclick="toIndex()"><i class="iconfont icon-shouye"></i>返回首页</li>
+      <li class="bluebtn" onclick="toActivityIndex()">活动首页</li>
+    </ul>
+  </footer>
+  <% include ../../_foot.html %>
+  <script src="../customer/guessPriceDiscuss.js"></script>
+  <script src="../../lib/swiper.min.js"></script>
+
+  <script id="productList_page" type="text/html">
+      {{if groupList==null || groupList.length==0}}
+        <div style="text-align: center; margin-top: 120px; display: none;" id="noneData">
+            <img src="../../images/zwt.png" style="width: 109px;">
+        </div>
+      {{else}}
+      {{each groupList as value i}} 
+        <div class="bgfff wx_exppro" 
+        	{{if value.pm==null}}id="ul_all" {{/if}}
+        	{{if value.pm=='POY'}}id="ul_poy" {{/if}}
+        	{{if value.pm=='DTY'}}id="ul_dty" {{/if}}
+        	{{if value.pm=='FDY'}}id="ul_fdy" {{/if}}
+        	{{if value.pm=='切片'}}id="ul_qp" {{/if}}
+        	style="display:none;">
+          <ul>
+          {{each value.mxList as item}} 
+          <li>
+            <dl>
+            <dt>{{item.pm}} {{item.cz}}</dt>
+            <dd>{{item.gg}} {{item.cd}}</dd>
+            </dl>
+            <div class="price">
+            <p class="rt">本期均价：<span class="cdb0a0f">¥ {{if item.avgPrice==null}}???{{else}}{{item.avgPrice}}{{/if}}</span></p>
+            </div>
+          </li>
+          {{/each}}
+          </ul>
+        </div>
+      {{/each}}
+      {{/if}}
+    </script>
+  <script id="list_page" type="text/html">
+      {{each data as discuss i}}
+      <div class="wx_expcomment">
+          <ul>
+            <li>
+              <div class="item">
+                <dl class="top">
+                  <dt><h2>{{discuss.str02}} {{discuss.creatorName}}</h2><span class="time">{{#getDate(discuss.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                  <dd class="cont">{{discuss.content}}</dd>
+                  <dd class="txtr">{{if discuss.collectFlag!=null && discuss.collectFlag==1}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-shi"></i>{{else}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-xian"></i>{{/if}}
+                  {{discuss.collectNum}}</span>
+                  <a class="rept" onclick="toShowReply('{{discuss.pkid}}')" href="javaScript:void(0)">回复({{discuss.flag01}})</a></dd>
+                </dl>
+                <div class="reply" id="id_{{discuss.pkid}}" style="display: none;">
+                  <div class="box">
+                    <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{discuss.pkid}}"></textarea>
+                  </div>
+                  <p class="btn">
+                    <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{discuss.pkid}}')">评价</a>
+                    <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{discuss.pkid}}')">取消</a>
+                  </p>
+                </div>
+
+                <div class="replylist" {{if discuss.list==null||discuss.list.length==0}}style="display:none;"{{/if}}>
+                  {{each discuss.list as item}}
+                  {{if item.parentidccid==null}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><h2>{{item.str02}} {{item.creatorName}}</h2><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{else}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dt><h2>{{item.str02}} {{item.creatorName}}<em>回复</em>{{item.str04}} {{item.str03}}</h2></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{/if}}
+                  <div class="reply" id="id_{{item.pkid}}" style="display: none;">
+                    <div class="box">
+                      <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{item.pkid}}"></textarea>
+                    </div>
+                    <p class="btn">
+                      <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{item.pkid}}')">评价</a>
+                      <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{item.pkid}}')">取消</a>
+                    </p>
+                  </div>
+                  {{/each}}
+                  </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+        {{/each}}
+      </script>
+
+  <script id="list_poy_page" type="text/html">
+      {{each data as discuss i}}
+      <div class="wx_expcomment">
+          <ul>
+            <li>
+              <div class="item">
+                <dl class="top">
+                  <dt><h2>{{discuss.str02}} {{discuss.creatorName}}</h2><span class="time">{{#getDate(discuss.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                  <dd class="cont">{{discuss.content}}</dd>
+                  <dd class="txtr">{{if discuss.collectFlag!=null && discuss.collectFlag==1}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-shi"></i>{{else}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-xian"></i>{{/if}}
+                  {{discuss.collectNum}}</span>
+                  <a class="rept" onclick="toShowReply('{{discuss.pkid}}')" href="javaScript:void(0)">回复({{discuss.flag01}})</a></dd>
+                </dl>
+                <div class="reply" id="id_{{discuss.pkid}}" style="display: none;">
+                  <div class="box">
+                    <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{discuss.pkid}}"></textarea>
+                  </div>
+                  <p class="btn">
+                    <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{discuss.pkid}}')">评价</a>
+                    <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{discuss.pkid}}')">取消</a>
+                  </p>
+                </div>
+
+                <div class="replylist" {{if discuss.list==null||discuss.list.length==0}}style="display:none;"{{/if}}>
+                  {{each discuss.list as item}}
+                  {{if item.parentidccid==null}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><h2>{{item.str02}} {{item.creatorName}}</h2><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{else}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dt><h2>{{item.str02}} {{item.creatorName}}<em>回复</em>{{item.str04}} {{item.str03}}</h2></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{/if}}
+                    <div class="reply" id="id_{{item.pkid}}" style="display: none;">
+                      <div class="box">
+                        <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{item.pkid}}"></textarea>
+                      </div>
+                      <p class="btn">
+                        <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{item.pkid}}')">评价</a>
+                        <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{item.pkid}}')">取消</a>
+                      </p>
+                    </div>
+                  {{/each}}
+                  </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+        {{/each}}
+      </script>
+
+  <script id="list_fdy_page" type="text/html">
+      {{each data as discuss i}}
+      <div class="wx_expcomment">
+          <ul>
+            <li>
+              <div class="item">
+                <dl class="top">
+                  <dt><h2>{{discuss.str02}} {{discuss.creatorName}}</h2><span class="time">{{#getDate(discuss.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                  <dd class="cont">{{discuss.content}}</dd>
+                  <dd class="txtr">{{if discuss.collectFlag!=null && discuss.collectFlag==1}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-shi"></i>{{else}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-xian"></i>{{/if}}
+                  {{discuss.collectNum}}</span>
+                  <a class="rept" onclick="toShowReply('{{discuss.pkid}}')" href="javaScript:void(0)">回复({{discuss.flag01}})</a></dd>
+                </dl>
+                <div class="reply" id="id_{{discuss.pkid}}" style="display: none;">
+                  <div class="box">
+                    <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{discuss.pkid}}"></textarea>
+                  </div>
+                  <p class="btn">
+                    <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{discuss.pkid}}')">评价</a>
+                    <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{discuss.pkid}}')">取消</a>
+                  </p>
+                </div>
+
+                <div class="replylist" {{if discuss.list==null||discuss.list.length==0}}style="display:none;"{{/if}}>
+                  {{each discuss.list as item}}
+                  {{if item.parentidccid==null}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><h2>{{item.str02}} {{item.creatorName}}</h2><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{else}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dt><h2>{{item.str02}} {{item.creatorName}}<em>回复</em>{{item.str04}} {{item.str03}}</h2></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{/if}}
+                  <div class="reply" id="id_{{item.pkid}}" style="display: none;">
+                    <div class="box">
+                      <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{item.pkid}}"></textarea>
+                    </div>
+                    <p class="btn">
+                      <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{item.pkid}}')">评价</a>
+                      <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{item.pkid}}')">取消</a>
+                    </p>
+                  </div>
+                  {{/each}}
+                  </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+        {{/each}}
+      </script>
+
+  <script id="list_dty_page" type="text/html">
+      {{each data as discuss i}}
+      <div class="wx_expcomment">
+          <ul>
+            <li>
+              <div class="item">
+                <dl class="top">
+                  <dt><h2>{{discuss.str02}} {{discuss.creatorName}}</h2><span class="time">{{#getDate(discuss.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                  <dd class="cont">{{discuss.content}}</dd>
+                  <dd class="txtr">{{if discuss.collectFlag!=null && discuss.collectFlag==1}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-shi"></i>{{else}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-xian"></i>{{/if}}
+                  {{discuss.collectNum}}</span>
+                  <a class="rept" onclick="toShowReply('{{discuss.pkid}}')" href="javaScript:void(0)">回复({{discuss.flag01}})</a></dd>
+                </dl>
+                <div class="reply" id="id_{{discuss.pkid}}" style="display: none;">
+                  <div class="box">
+                    <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{discuss.pkid}}"></textarea>
+                  </div>
+                  <p class="btn">
+                    <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{discuss.pkid}}')">评价</a>
+                    <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{discuss.pkid}}')">取消</a>
+                  </p>
+                </div>
+
+                <div class="replylist" {{if discuss.list==null||discuss.list.length==0}}style="display:none;"{{/if}}>
+                  {{each discuss.list as item}}
+                  {{if item.parentidccid==null}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><h2>{{item.str02}} {{item.creatorName}}</h2><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{else}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dt><h2>{{item.str02}} {{item.creatorName}}<em>回复</em>{{item.str04}} {{item.str03}}</h2></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{/if}}
+                  <div class="reply" id="id_{{item.pkid}}" style="display: none;">
+                    <div class="box">
+                      <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{item.pkid}}"></textarea>
+                    </div>
+                    <p class="btn">
+                      <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{item.pkid}}')">评价</a>
+                      <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{item.pkid}}')">取消</a>
+                    </p>
+                  </div>
+                  {{/each}}
+                  </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+        {{/each}}
+      </script>
+
+  <script id="list_qp_page" type="text/html">
+      {{each data as discuss i}}
+      <div class="wx_expcomment">
+          <ul>
+            <li>
+              <div class="item">
+                <dl class="top">
+                  <dt><h2>{{discuss.str02}} {{discuss.creatorName}}</h2><span class="time">{{#getDate(discuss.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                  <dd class="cont">{{discuss.content}}</dd>
+                  <dd class="txtr">{{if discuss.collectFlag!=null && discuss.collectFlag==1}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-shi"></i>{{else}}
+                    <span class="zan" id="{{discuss.collectNum}}_{{discuss.pkid}}_{{discuss.collectFlag}}">
+                    <i class="iconfont icon-aixin-xian"></i>{{/if}}
+                  {{discuss.collectNum}}</span>
+                  <a class="rept" onclick="toShowReply('{{discuss.pkid}}')" href="javaScript:void(0)">回复({{discuss.flag01}})</a></dd>
+                </dl>
+                <div class="reply" id="id_{{discuss.pkid}}" style="display: none;">
+                  <div class="box">
+                    <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{discuss.pkid}}"></textarea>
+                  </div>
+                  <p class="btn">
+                    <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{discuss.pkid}}')">评价</a>
+                    <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{discuss.pkid}}')">取消</a>
+                  </p>
+                </div>
+
+                <div class="replylist" {{if discuss.list==null||discuss.list.length==0}}style="display:none;"{{/if}}>
+                  {{each discuss.list as item}}
+                  {{if item.parentidccid==null}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><h2>{{item.str02}} {{item.creatorName}}</h2><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{else}}
+                    <div class="subitem">
+                      <dl class="top">
+                        <dt><span class="time">{{#getDate(item.cdate,"yyyy.MM.dd HH:mm")}}</span></dt>
+                        <dt><h2>{{item.str02}} {{item.creatorName}}<em>回复</em>{{item.str04}} {{item.str03}}</h2></dt>
+                        <dd class="cont">{{item.content}} </dd>
+                        <dd class="txtr">
+                          {{if item.collectFlag!=null && item.collectFlag==1}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-shi"></i>
+                            {{else}}
+                            <span class="zan" id="{{item.collectNum}}_{{item.pkid}}_{{item.collectFlag}}">
+                            <i class="iconfont icon-aixin-xian"></i>
+                          {{/if}}
+                          {{item.collectNum}}</span>
+                          <a class="rept" href="javaScript:void(0)" onclick="toShowReply('{{item.pkid}}')">回复({{item.flag01}})</a>
+                        </dd>
+                      </dl>
+                    </div>
+                  {{/if}}
+                  <div class="reply" id="id_{{item.pkid}}" style="display: none;">
+                    <div class="box">
+                      <textarea placeholder="请输入您的内容（不超过300字）" id="content_{{item.pkid}}"></textarea>
+                    </div>
+                    <p class="btn">
+                      <a class="replybtn" href="javaScript:void(0)" onclick="doReply('{{item.pkid}}')">评价</a>
+                      <a class="cancelbtn" href="javaScript:void(0)" onclick="toHideReply('{{item.pkid}}')">取消</a>
+                    </p>
+                  </div>
+                  {{/each}}
+                  </div>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+        {{/each}}
+      </script>
+</body>
+
+</html>

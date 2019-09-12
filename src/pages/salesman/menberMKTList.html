@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="menberList_title">MKX客户信息</title>
+    <% include ../../components/_head.art %>
+    <style>
+        .wx_main {
+            top: 89px;
+        }
+
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+
+        .scdd_bottom {
+            position: fixed;
+            height: 48px;
+            width: 100%;
+            bottom: 0;
+            display: flex;
+            display: -webkit-flex;
+            /*chorme*/
+            display: -ms-flex;
+            /*ie*/
+        }
+
+        .scdd_bottom .scdd_bottom_sure,
+        .scdd_bottom .scdd_bottom_cancel {
+            font-size: 1.8rem;
+            color: #fff;
+            flex: 1;
+            text-align: center;
+            line-height: 48px;
+        }
+
+        .scdd_bottom .scdd_bottom_sure {
+            background: #008cee;
+        }
+
+        .scdd_bottom .scdd_bottom_cancel {
+            background: #ff9402;
+        }
+
+        .buybtn1 {
+            position: absolute;
+            right: 0px;
+            bottom: 10px;
+            border: 1px solid #fe9311;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+
+        .buybtn2 {
+            position: absolute;
+            right: 50px;
+            bottom: 10px;
+            border: 1px solid #fe9311;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+
+        .buybtn3 {
+            position: absolute;
+            right: 100px;
+            bottom: 10px;
+            border: 1px solid #fe9311;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+
+        .wx_hyfilter li {
+            float: left;
+            box-sizing: border-box;
+            width: 50%;
+            height: 24px;
+            font-size: 1.5rem;
+            line-height: 24px;
+            color: #333;
+            text-align: center;
+            border-right: solid 1px #ddd;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox">
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_ph" name="mn_searchkeyword" id="querykey"
+                        placeholder="请输入客户名称" value="" />
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span class="i18n" name="mn_searchkeywordtip">请输入关键字</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel i18n" name="com_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+        <ul class="wx_hyfilter">
+            <input type="hidden" id="pm1" value="" />
+            <input type="hidden" id="levelName" value="" />
+            <input type="hidden" id="orderName" value="" />
+            <input type="hidden" id="order" value="" />
+            <input type="hidden" id="querykey" value="" />
+            <li id="pm">
+                <span class="i18n" name="com_status">品名</span><span class="xl"></span>
+            </li>
+            <li id="level">
+                <span class="i18n" name="com_status">等级</span><span class="xl"></span>
+            </li>
+        </ul>
+        <section class="wx_main" id="infinitePage">
+            <div id="list"></div>
+            <div class="weui-infinite-scroll">
+                <div class="infinite-preloader"></div><span class="i18n" name="com_loading">正在加载</span>
+            </div>
+        </section>
+    </article>
+    <% include ../../_foot.html %>
+    <script src="../salesman/menberMKTList.js"></script>
+    <script id="list_page" type="text/html">
+                {{each data as value i}}
+               <div class="wx_hyordermesbox" onclick="info({{value.mktid}})">
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        <li style="border-bottom: solid 1px #fff;">
+                            <p class="proname_a">
+                                {{value.mbname}} &nbsp;({{value.sapCustomerId}})
+                            </p>
+                            <p class="size_a">
+                                等级：{{value.levelName}}&nbsp;&nbsp;品名：{{value.pm1}}
+                            </p>
+							 <p class="size_a">
+                            业务员：{{value.optuserName}}</p>
+                        </li>
+                    </ul>
+                 </div>
+               </div>
+                {{/each}}  
+            </script>
+
+</body>
+
+</html>

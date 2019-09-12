@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title name="customerComplaint_title">客户投诉</title>
+  <% include ../../components/_head.art %>
+  <link rel="stylesheet" href="../../css/weui-select.min.css">
+  <style>
+    .tslx {
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      box-sizing: border-box;
+      color: #333;
+      display: block;
+      float: right;
+      font-size: 1.4rem;
+      height: 26px;
+      line-height: 24px;
+      margin-left: 10px;
+      text-align: center;
+      padding: 0px 10px;
+    }
+    .tslx.active{
+      background: #3e7baf none repeat scroll 0 0;
+      border: medium none;
+      color: #fff;
+      line-height: 26px;
+    }
+
+    #img_ul img {width:75px; height: 75px;}
+
+    .wrapper{height:20px;}
+    
+    .li{float:left;width:26px;height:20px;background:url(../../images/star.png) 0 0px no-repeat; margin-right: 15px;}/*开始默认选中*/
+
+
+  </style>
+
+
+</head>
+
+<body>
+<article class="wx_layout">
+  <input type="hidden" id="openid" value=""/>
+  <input type="hidden" id="hydm" value=""/>
+  <input type="hidden" id="sapCustomerId" value=""/>
+
+  <section class="wx_main" style="bottom: 50px;">
+    <div class="wx_addsitebox">
+      <div class="commontype">
+         <span class="i18n"  name="cu_customername">客户名称</span>
+         <input type="text"  placeholder="请输入客户名称" class="i18n_ph"  name="cu_customernametip" id="mbname" />
+      </div>
+      <div class="commontype">
+         <span class="i18n"  name="cu_contactperson">联系人</span>
+         <input type="text"  placeholder="请输入联系人" class="i18n_ph"  name="cu_contactpersontip" id="coplxr" />
+      </div>
+      <div class="commontype">
+         <span class="i18n"  name="cu_phonenumber">联系电话</span>
+         <input type="text"  placeholder="请输入联系电话" class="i18n_ph"  name="cu_phonenumbertip" id="coptel" />
+      </div>
+      <div class="commontype">
+         <span class="i18n"  name="cu_address">联系地址</span>
+         <input type="text"  placeholder="请输入联系地址" class="i18n_ph"  name="cu_addresstip" id="copaddr" />      
+      </div>
+    </div>
+
+    <div class="wx_addsitebox">
+      <div class="commontype1">
+         <span class="i18n"  name="cu_producttype">产品分类</span>
+         <input type="text" placeholder="请选择产品分类" class="i18n_ph"  name="cu_producttypetip" id="pm" readonly />
+         <i class="iconfont icon-rarrow"></i>
+      </div>
+      <div class="commontype1">
+         <span class="i18n"  name="cu_salesman">所属业务员</span>
+         <input type="text" placeholder="请选择所属业务员" class="i18n_ph"  name="cu_salesmantip" id="username" readonly />
+         <input type="hidden" id="userid" value="" />
+         <i class="iconfont icon-rarrow"></i>
+      </div>
+    </div>
+
+    <div class="wx_addsitebox">
+        <div class="commontype" id="complaintType">
+          <span class="i18n"  name="cu_complainttype">投诉类型</span>
+          <em val="1" class="tslx i18n" name="cu_serviceattitude">服务态度投诉</em>
+          <em val="2" class="tslx active i18n" name="cu_productquality">产品质量投诉</em>           
+      </div>
+    </div>
+
+    <div id="tslx_1" style="display:none;">    
+      <div class="wx_addsitebox">
+        <div class="commontype">
+           <span class="i18n"  name="cu_salesman">业务员</span>
+           <!--星星评分-->
+           <div id="t_ywyStar">
+              <ul class="wrapper">
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+              </ul>
+              <input type="hidden"  id="ywyStar" value="5" />
+            </div>
+        </div>
+        <div class="commontype">
+            <input type="text" id="ywy" placeholder="请输入对业务员评价" class="i18n_ph"  name="cu_scoresalesmantip" style="text-align:left;" />            
+        </div>
+
+
+
+        <div class="commontype">
+           <span class="i18n" name="cu_storekeeper">仓库人员</span>
+           <!--星星评分-->
+           <div  id="t_ckyStar">
+              <ul class="wrapper">
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+              </ul>
+              <input type="hidden" id="ckyStar" value="5">
+            </div>
+        </div>
+        <div class="commontype">
+          <input type="text" id="cky" placeholder="请输入对仓库人员评价" class="i18n_ph"  name="cu_storekeepertip" style="text-align:left;" />
+          
+        </div>
+
+
+
+        <div class="commontype">
+           <span class="i18n" name="cu_treasurer">财务员</span>
+           <!--星星评分-->
+           <div  id="t_cwyStar">
+              <ul class="wrapper">
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+              </ul>
+              <input type="hidden" id="cwyStar" value="5">
+            </div>
+        </div>
+        <div class="commontype">
+          <input type="text" id="cwy" class="i18n_ph"  name="cu_treasurertip" placeholder="请输入对财务员评价" style="text-align:left;" />
+        </div>
+
+
+        <div class="commontype">
+           <span class="i18n" name="cu_serviceworker">服务人员</span>
+           <!--星星评分-->
+           <div  id="t_fwyStar">
+              <ul class="wrapper">
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+                <li class="li"></li>
+              </ul>
+              <input type="hidden" id="fwyStar" value="5"> 
+            </div>
+        </div>
+        <div class="commontype">
+            <input type="text" id="fwy" placeholder="请输入对服务人员评价" class="i18n_ph"  name="cu_serviceworkertip" style="text-align:left;" />
+        </div>
+
+      </div>
+    </div>
+    
+
+
+    <div id="tslx_2" style="display:none;">
+
+      <div class="wx_addsitebox">
+        <div class="commontype1" onclick="removeInputBlur()">
+           <span class="i18n"  name="cu_productdate">生产日期</span>
+           <input type="text" placeholder="请选择生产日期" class="i18n_ph"  name="cu_productdatetip" id="scrq"  />
+           <i class="iconfont icon-rarrow"></i>
+        </div>
+        <div class="commontype">
+           <span class="i18n"  name="cu_productionnumber">产品批号</span>
+           <input type="text" placeholder="请输入批号" class="i18n_ph"  name="cu_productionnumbertip" id="cz" />
+        </div>
+        <div class="commontype">
+           <span class="i18n"  name="cu_productstandard">产品规格</span>
+           <input type="text" placeholder="请输入产品规格" class="i18n_ph"  name="cu_productstandardtip" id="gg" />
+        </div>
+        <div class="commontype">
+           <span class="i18n"  name="cu_productgrade">产品等级</span>
+           <input type="text" placeholder="请输入产品等级" class="i18n_ph"  name="cu_productgradetip" id="cd" />
+        </div>
+        <div class="check" id="problemList">
+           
+        </div>
+      </div>
+    </div>
+
+
+
+  <div class="wx_addsitebox">
+      <div class="commontype1">
+         <span class="i18n"  name="cu_complaintdemand">投诉要求</span>
+         <input type="text" placeholder="请选择投诉要求" class="i18n_ph"  name="cu_complaintdemandtip" id="complaintCategoryStr" readonly />
+         <input type="hidden" id="complaintCategory" value=""/>
+         <i class="iconfont icon-rarrow"></i>
+      </div>
+    </div>
+    <div class="wx_textcontbox">
+      <textarea cols="" rows="4" class="wx_textcont i18n" name="cu_setcontent" id="complaintDetail" placeholder="请输入内容.."></textarea>
+    </div>
+
+    <!--图片路径，可能多张,逗号分隔-->
+    <input type="hidden" id="complaintImages" value=""/>
+    <ul class="wx_qdphoto wx_cjht" id="img_ul">
+        <li id="addImg">
+          <p><img src="../../images/add.jpg"></p>
+        </li>  
+    </ul>
+  </section>
+</article>
+<footer class="wx_btnnew">
+  <div onclick="doSave();" class="i18n"  name="cu_submitcomplaint">提交投诉</div>  
+</footer>
+
+    <% include ../../_foot.html %>
+    <script src="../../js/oauth2.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        $(function(){
+            wxconfig();
+        });
+    </script>
+    <script src="../complaint/customerComplaint.js"></script>
+    <script src="../../lib/jquery.i18n.properties.js"></script>
+    <script src="../../js/language.min.js"></script>
+    <script id="problemList_page" type="text/html">
+      {{each list as value i}}
+          <!-- iconfont icon-check 选中-->
+          <!-- iconfont icon-checkk 未选中-->
+          <span>
+            <i class="iconfont icon-checkk" val="{{value.problemType}}"></i>
+            {{value.problemType}}
+          </span>
+      {{/each}}
+    </script>
+
+
+    <script type="text/javascript">
+
+        $(function(){
+          //业务员，仓库员，财务员，服务员
+          var array = ["ywyStar","ckyStar","cwyStar","fwyStar"];
+          for (var i = 0; i <array.length; i++) {
+            var instance = array[i];
+            console.log(instance);
+            var star = $("#t_"+instance+" > ul > li");
+            // var oDiv = $("#t_"+instance+" > ul")[0];
+            showStar(star,instance);
+          }
+        });
+
+        //点击以及改变样式
+        function showStar(star,instance){
+          var temp = 0;
+          for(var i = 0, len = star.length; i < len; i++){//star.length=5
+            star[i].index = i;
+            star[i].onclick = function(){
+              clear();//点击的时候清除样式
+              temp = this.index + 1;
+              $("#"+instance).val(temp);
+              current(temp);
+            }
+          }
+          //清除所有
+          function clear(){
+            for(var i = 0, len = star.length; i < len; i++){
+              star[i].style.backgroundPosition = '0 -20px';
+            }
+          }
+          //显示当前第几颗星
+          function current(temp){
+            for(var i = 0; i < temp; i++){
+              star[i].style.backgroundPosition = '0 0px';
+            }
+          }
+        };
+
+    </script>
+    
+
+
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title name="uo_title" >预约订单</title>
+    <% include ../../components/_head.art %>
+        <style>
+        .wx_main {
+            top: 89px;
+        }
+        
+        .wx_searchbox .searchbg {
+            opacity: 1;
+            border-radius: 4px;
+        }
+        
+        .wx_searchbox .search_s {
+            color: #3e7baf;
+        }
+        
+        .wx_searchbox,
+        .wx_searchboxbg {
+            padding: 0px 0px;
+        }
+        
+        .zxf_a {
+            font-size: 1.3rem;
+            line-height: 23px;
+            color: #999;
+        }
+        
+        .wx_hyfilter li {
+            width: 33%;
+        }
+        
+        .size_a .price {
+            color: #fe9311;
+            margin-right: 10px;
+        }
+        
+        .buybtn {
+            position: absolute;
+            right: 0px;
+            bottom: 10px;
+            border: 1px solid #fe9311;
+            border-radius: 2px;
+            color: #fe9311;
+            padding: 0px 5px;
+            font-size: 1.3rem;
+            line-height: 22px;
+        }
+        .orderbtn .status {border:none; float:left; color: #3e7baf; padding: 0px; margin: 0px;}
+        </style>
+        <link rel="stylesheet" href="../../css/weui-select.min.css">
+</head>
+
+<body>
+    <header class="wx_searchbox" > 
+        <div class="weui_search_bar">
+            <form id="form" class="weui_search_outer">
+                <div class="weui_search_inner">
+                    <i class="weui_icon_search"></i>
+                    <input type="search" class="weui_search_input i18n_va" id="querykey" placeholder="搜索订单" value="" name="so_searchname"/>
+                    <a href="javascript:" class="weui_icon_clear"></a>
+                </div>
+                <label for="querykey" class="weui_search_text">
+                    <i class="weui_icon_search"></i>
+                    <span  name="so_searchname" class="i18n">搜索订单</span>
+                </label>
+            </form>
+            <a href="javascript:" class="weui_search_cancel">取消</a>
+        </div>
+    </header>
+    <article class="wx_layout">
+	<ul class="wx_hyfilter" >
+		<li class="" style="position: relative;"><em id="dateli">
+			<span class="i18n"  name="com_date">日期</span>
+			</em>
+			<span class="xl"></span>
+			<input type="text" id="date10Str" value="" style="opacity: 0;top:0;position: absolute;left: 0px;width: 100%;" />
+		</li>
+		<li class="" id="status">
+			<span class="i18n" name="com_status">状态</span>
+			<span class="xl"></span>
+		</li>
+		<li class="" id="sort">
+			<span class="i18n" name="com_sorting">排序</span>
+			<span class="xl"></span>
+		</li>
+		<input type="hidden" id="cdate" value="" />
+		<input type="hidden" id="apStatus" value="" />
+		<input type="hidden" id="orderName" value="" />
+		<input type="hidden" id="order" value="" />
+	</ul>
+	<section class="wx_main" id="infinitePage">
+		<div id="list"></div>
+	</section>
+</article>
+    <% include ../../_foot.html %>
+        <script src="../customer/appointmentOrder.js"></script>
+        <!--显示悬浮图标-->
+        <script type="text/javascript">
+            $(function() {
+                initSuspendIcon();
+            });
+        </script>
+        <script src="../../lib/swiper.min.js"></script>
+        <script id="list_page" type="text/html">
+            {{each data as value i}}
+            <div class="wx_hyordermesbox">
+                <p class="ddnumber">{{value.aphm}}<span>
+            {{if (isSaleman != null && isSaleman === 1)}}
+              （{{value.hyname}}）
+            {{else}}
+                {{if value.depname2 != null}}
+                （{{value.depname2}}）
+                {{else}}
+                  （{{value.hzname}}）
+                {{/if}}              
+            {{/if}}
+            {{if value.htflag11 == 1}} 
+                合约A   
+           {{/if}}
+           {{if value.htflag11 == 2}} 
+                合约B    
+           {{/if}}
+           {{value.fphm}}
+            </span></p>
+                <div class="ordermesbox">
+                    <ul class="ordermes" id="ul_{{value.fphm}}">
+                        {{each value.apmxlist as mx i}}
+                        <li id="{{mx.wzgid}}" gpls="{{mx.extbillno}}">
+                            <input type="hidden" id="cfxx_{{mx.wzgid}}" value="{{value.circleId}}_{{value.hzdm}}_{{mx.pm}}_{{value.depid2}}_{{value.orderType}}" />
+                            <p class="proname_a">
+                                {{mx.pm}}
+                                <span class="perty_a">{{mx.cz}}</span> {{if mx.pm == "DTY"}}
+                                <span class="perty_a">{{mx.str02}}</span>
+                                <span class="perty_a">{{mx.str03}}</span> {{else if (mx.pm == "切片" || mx.pm == "锦纶切片")}}
+                                <span class="perty_a">{{mx.gg}}</span>
+                                <span class="perty_a">{{mx.cd}}</span> {{else}}
+                                <span class="perty_a">{{mx.wzlb}}</span> {{if mx.str04 != null}}
+                                <span class="perty_a">{{mx.str04}}</span> {{/if}} {{if mx.str02 != null}}
+                                <span class="perty_a">{{mx.str02}}</span> {{/if}} {{/if}}
+								{{if mx.differentiation == "1"}}<span class="perty_a">差异化</span>{{/if}}
+                            </p>
+                            {{if (mx.pm != "切片" && mx.pm != "锦纶切片")}}
+                            <p class="size">{{mx.gg}}&nbsp;&nbsp;&nbsp;&nbsp;{{mx.cd}}</p>
+                            {{/if}}
+                            
+                            {{if (value.couponType != null && value.couponType==13)}}
+                            <p class="size">
+                            	<span class="perty_a">货价:￥{{mx.htamt}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            	<span>保费:￥{{mx.brateFeeAmt}}</span>
+                            </p>
+                            <p class="size">
+                            	<span class="perty_a">利息:￥{{mx.rateAmt}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+	                            {{if (mx.brateAmt!=0)}}
+	                            <span>保证金:￥{{mx.brateAmt}}</span>
+	                            {{/if}}
+                            </p>
+                            {{/if}}
+                            
+                            <p class="size_a">
+                                <span class="price">{{if mx.price!=null}}{{if (value.languageFlag == 1)}}$ {{else}}￥{{/if}}<em>{{mx.price}}</em>{{/if}}</span> <span name="com_zl" class="i18n">重量</span>：{{mx.sl2}}{{mx.sldw2}}&nbsp;&nbsp;&nbsp;&nbsp;<span name="com_xbs" class="i18n">箱包数</span>：{{mx.sl1}}
+                            </p>
+							{{if (mx.pm == "切片" || mx.pm == "锦纶切片")}}
+                            <p class="size">&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                            {{/if}}
+
+                            <div class="status">
+                                {{if value.apStatus == 0}} <span name="com_dsh" class="i18n">新建</span> 
+                                {{else if value.apStatus == 1}} <span name="com_shz" class="i18n">已转化</span> 
+                                {{else if value.apStatus == 2}} <span name="com_yjj" class="i18n">已失效</span> 
+                                {{/if}}
+                            </div>
+                          
+                        </li>
+                        {{/each}}
+                    </ul>
+                    <div class="time">{{#getDate(value.cdate,"yyyy-MM-dd HH:mm")}}
+                        <div class="total">
+                         {{if value.couponType != null && value.couponType==5}}
+                             <span class="xd i18n" name="com_promise"> 逸控代 </span>
+                         {{/if}}
+						 {{if value.couponType != null && value.couponType==13}}
+                             <span class="xd i18n" name="com_promise"> 逸信代 </span>
+                         {{/if}}
+						
+						{{if value.orderType == 1}} 
+                             <span class="xd i18n" name="com_dkxd"> 代客下单 </span>
+                         {{else value.orderType == 0}} 
+                             <span class="xd i18n" name="com_khxd"> 客户下单 </span>
+                         {{/if}}
+                         {{if value.htamt!=null && value.htamt!=0}}
+                         <span class="xd i18n" name="com_hj">合计</span>
+                         <span class="jg">{{if (value.languageFlag == 1)}}$ {{else}}￥{{/if}}<em>
+                        	{{if value.couponType!=null && value.couponType==13}}{{value.creditAmt}}
+                        	{{else}}{{value.htamt}}{{/if}}
+                         </em>
+                         </span>
+                         {{/if}}
+                        </div>
+                    </div>
+                    {{if (value.couponType != null && value.couponAmt != null && value.couponAmt != 0)}}
+                    <div class="time" style="border-top: 1px solid #ddd;">
+                        {{value.couponName}}
+                        <div class="total">
+                            <span class="i18n" name="uo_discount">优惠</span><span class="jg">{{if (value.languageFlag == 1)}}$ {{else}}￥{{/if}}<em>{{value.couponAmt}}</em></span>
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{if (value.status == 100 && value.status01 != null)}}
+                    <ul class="orderbtn">   
+                        <li class="status">{{value.status01Str}}</li>
+                        {{if (value.status01 == 0 && creditFlag)}}              
+                        <li onclick="jksq('{{value.fphm}}');">融资申请</li>
+                        {{/if}}
+                        {{if (value.status01 == 10)}}
+                        <li onclick="hksq('{{value.fphm}}');">发货申请</li>
+                        {{/if}}
+					</ul>
+                    {{/if}}
+					{{if (value.languageFlag == 1)}}
+					  <ul class="orderbtn"> 
+					   <li onclick="upPho('{{value.fphm}}');"  class="i18n" name="com_upPho" >上传图片</li>
+					 </ul>
+					{{/if}}
+                </div>
+            </div>
+            {{/each}}
+        </script>
+        
+</body>
+
+</html>

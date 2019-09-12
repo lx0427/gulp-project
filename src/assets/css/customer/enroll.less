@@ -1,0 +1,245 @@
+body {
+  min-height: 100%;
+  background-color: #fff;
+}
+
+.toolbar {
+  font-size: 17px;
+  color: #3d4145;
+  width: 100%;
+
+  .title {
+    font-size: 17px;
+    position: absolute;
+    display: block;
+    padding: 0;
+    font-weight: 400;
+    line-height: 2.8rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .toolbar-inner {
+    height: 2.8rem;
+    display: flex;
+    text-align: center;
+
+    .close-picker {
+      line-height: 2.8rem;
+      padding: 0 .5rem;
+      color: #04be02;
+    }
+  }
+
+  .clear-button,
+  .picker-button {
+    height: 2.8rem;
+    color: #04BE02;
+    z-index: 1;
+    line-height: 2.8rem;
+    padding: 0 .5rem;
+    position: absolute;
+    box-sizing: border-box;
+  }
+}
+
+@formItemWidth: 254px;
+
+.enroll {
+  &__nav {
+    background-color: blue;
+    height: 46px;
+    display: flex;
+
+    li {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      a {
+        color: #fff;
+      }
+
+
+      &:nth-child(1) {
+        background: linear-gradient(to right, #3155BD, #5393F9);
+      }
+
+      &:nth-child(2) {
+        background: linear-gradient(to right, #F3A32C, #EFDF76);
+      }
+    }
+  }
+
+  &__banner {
+    width: 100%;
+    height: 233px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__explain {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+
+    span {
+      font-size: 12px;
+      line-height: 1;
+      color: #EA0606;
+      padding: 15px 10px;
+    }
+  }
+
+  &__newForm {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .formItem+.formItem {
+      margin-top: 10px;
+    }
+
+    .formItem {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      label {
+        width: 72px;
+        color: #272727;
+        font-size: 18px;
+        margin-right: 6px;
+        font-weight: 500;
+      }
+
+      input {
+        box-sizing: border-box;
+        border: 1px solid #A9AAAA;
+        padding-left: 10px;
+        height: 100%;
+        width: 200px;
+      }
+
+      .dropdown {
+        position: absolute;
+        right: 10px;
+      }
+    }
+  }
+
+  &__apply {
+    width: 107px;
+    height: 33px;
+    line-height: 33px;
+    text-align: center;
+    font-size: 19px;
+    background-color: #2781D9;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    margin-top: 30px;
+  }
+
+  &__newFooter {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #2C2C2B;
+    padding-bottom: 25px;
+
+    p {
+      text-align: center;
+    }
+  }
+
+  &__form {
+    height: 100%;
+    background-color: #3e7baf;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .formItem {
+      width: @formItemWidth;
+      height: 40px;
+      overflow: hidden;
+      background-color: #fff;
+      margin-top: 7px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      label {
+        font-size: 1.5rem;
+        color: #333333;
+        flex-shrink: 0;
+        width: 75px;
+        padding-left: 10px;
+
+        &::before {
+          content: '*';
+          font-size: 1.3rem;
+          color: #f00;
+          margin-right: 3px;
+        }
+      }
+
+      input {
+        font-size: 1.2rem;
+        height: 40px;
+        padding: 0 10px;
+        border: none;
+      }
+
+      .dropdown {
+        position: absolute;
+        right: 16px;
+        color: #333;
+      }
+    }
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 40px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+  }
+
+  &__tip {
+    font-size: 1.6rem;
+    line-height: 25px;
+    margin-bottom: 15px;
+  }
+
+
+  &__submit {
+    background-color: #6e9cc3;
+    font-weight: 600;
+    font-size: 2rem;
+    width: @formItemWidth;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  &__footer {
+    width: 285px;
+    font-size: 1.5rem;
+    line-height: 24px;
+    text-align: center;
+  }
+}
