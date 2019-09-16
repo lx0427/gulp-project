@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp delRev && gulp",
-    "start": "gulp && gulp start",
+    "dev": "gulp && gulp start",
+    "test": "gulp delRev && gulp",
     "build": "gulp cache-clean && gulp delRev &&  gulp --env production &&  gulp html --env production"
   },
   "author": "",
