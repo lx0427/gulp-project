@@ -13,14 +13,14 @@
 // var filePathOld = 'https://weisc.hengyi.com/webresource'
 // var filePath = 'https://weisc.hengyi.com/webresource'
 // var oauthServerPath = 'https://weisc.hengyi.com/hengyi-mobile/m' // 微信授权服务地址
-// var scanRecordPath = 'https://weisc.hengyi.com/hengyi-mobile' // 浏览记录
+// var browsePath = 'https://weisc.hengyi.com/hengyi-mobile' // 浏览记录
 
 // 客户生产环境配置
 var requestPath = 'http://wxmall.hengyi.com/hengyi-mobile' //请求地址
 var filePathOld = 'http://wxmall.hengyi.com/webresource'
 var filePath = 'http://wxstore.hengyi.com:9099/webresource'
 var oauthServerPath = 'http://wxmall.hengyi.com/hengyi-mobile/m' // 微信授权服务地址
-var scanRecordPath = 'http://wxstore.hengyi.com:9099/hengyi-webservice' // 浏览记录
+var browsePath = 'http://wxstore.hengyi.com:9099/hengyi-webservice' // 浏览记录
 
 var wxHtmlVersion = 'wx18'
 var appPath =
