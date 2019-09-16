@@ -5,8 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp && gulp start",
-    "build": "gulp cache-clean && gulp delRev &&  gulp build --env production"
+    "dev": "gulp delRev && gulp",
+    "start": "gulp && gulp start",
+    "build": "gulp cache-clean && gulp delRev &&  gulp --env production &&  gulp html --env production"
   },
   "author": "",
   "license": "ISC",
