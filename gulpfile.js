@@ -1,5 +1,6 @@
 const gulp = require('gulp')
 const less = require('gulp-less') // 合并文件
+const autoprefixer = require('gulp-autoprefixer') // 自动添加css前缀
 const concat = require('gulp-concat') // 合并文件
 const uglify = require('gulp-uglify') // js 压缩
 const rename = require('gulp-rename')
@@ -28,16 +29,16 @@ let knownOptions = {
 }
 let pkg = require('./package.json')
 let appType = pkg.appType
-let project = pkg.project
 
 // 配置
 let config = {
   filePath: {
     commonLess: ['./src/css/common/*.less'],
-    appJs: ['./config/**/*.js'],
+    appJs: ['./config/*.js', './config/' + appType + '/app.min.js'],
     less: ['./src/**/*.{less,css}', '!./src/css/common/*.less'],
     art: ['./src/**/*.art'],
-    commonJs: ['./src/**/*.js', '!./src/pages/**/*.js'],
+    libJs: ['./src/lib/*.js'],
+    commonJs: ['./src/js/**/*.js'],
     pageJs: ['./src/pages/**/*.js'],
     html: ['./rev/**/*.json', './src/**/*.html'],
     image: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
@@ -53,6 +54,16 @@ gulp.task('fonts', function () {
 })
 gulp.task('i18n', function () {
   return gulp.src(config.filePath.i18n).pipe(gulp.dest('dist/i18n/'))
+})
+gulp.task('libJs', function () {
+  // 老版本的art-template使用babel转义出错
+  return gulp
+    .src(config.filePath.libJs)
+    .pipe(gulpif(config.command.env === 'production', uglify()))
+    .pipe(gulp.dest('dist/lib/'))
+    .pipe(rev())
+    .pipe(rev.manifest())
+    .pipe(gulp.dest('./rev/libJs/'))
 })
 gulp.task('appJs', function () {
   return gulp
@@ -70,7 +81,7 @@ gulp.task('commonJs', function () {
     .src(config.filePath.commonJs)
     .pipe(babel())
     .pipe(gulpif(config.command.env === 'production', uglify()))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dist/js/'))
     .pipe(rev())
     .pipe(rev.manifest())
     .pipe(gulp.dest('./rev/commonJs/'))
@@ -90,6 +101,7 @@ gulp.task('commonLess', function () {
     .src(config.filePath.commonLess)
     .pipe(replace('@/', '../../'))
     .pipe(less())
+    .pipe(autoprefixer())
     .pipe(concat('common.css'))
     .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist/css/'))
@@ -102,6 +114,7 @@ gulp.task('less', function () {
     .src(config.filePath.less)
     .pipe(replace('@/', '../../'))
     .pipe(less())
+    .pipe(autoprefixer())
     .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist'))
     .pipe(rev())
@@ -133,7 +146,7 @@ gulp.task('html', function () {
   return (
     gulp
     .src(config.filePath.html)
-    .pipe(ejs())
+    .pipe(ejs({}))
     // .pipe(template())
     .pipe(replace('.less', '.css')) // 替换less文件名
     .pipe(replace('@/', '../../'))
@@ -193,17 +206,7 @@ gulp.task('server', function () {
   )
 })
 gulp.task('default', ['del'], function () {
-  gulp.start(
-    'fonts',
-    'i18n',
-    'appJs',
-    'commonJs',
-    'pageJs',
-    'commonLess',
-    'less',
-    'images',
-    'html'
-  )
+  gulp.start('libJs', 'appJs', 'commonJs', 'pageJs', 'commonLess', 'less', 'fonts', 'i18n', 'images', 'html')
 })
 
 // dev
@@ -212,7 +215,7 @@ gulp.task('start', ['server', 'watch'])
 // build
 gulp.task(
   'build',
-  ['fonts', 'i18n', 'appJs', 'commonJs', 'pageJs', 'commonLess', 'less', 'images'],
+  ['libJs', 'appJs', 'commonJs', 'pageJs', 'commonLess', 'less', 'fonts', 'i18n', 'images'],
   function () {
     gulp.start('html') // 确保上述css,js对应的rev-manifest.json生成完毕后执行
   }

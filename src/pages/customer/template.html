@@ -1,24 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 
 <head>
-  <title name="re_title">模板语法引入</title>
-  <!-- 插入子模板 -->
+  <meta charset="UTF-8">
+  <title>模板语法</title>
   <% include ../../components/_head.art %>
 </head>
 
 <body>
-  <div id="target"></div>
+  <div id="eachWrap"></div>
+
   <% include ../../components/_foot.art %>
   <script src="../customer/template.js"></script>
 
-  <script id="varTemplate" type="text/html">
-    <ul>
-        {{each data as value i }}
-        <li>{{value}}</li>
-        {{/each}}
-    </ul>
+  <!-- template not found: Cannot read property 'value' of null -->
+  <!-- 使用模板时，模板还未加载完成 -->
+  <!-- 默认值 -->
+  <script id="arrTpl" type="text/html">
+  <ul>
+    {{each $data}}
+    <li>{{$index}} {{$value.name}} {{$value.age}}</li>
+    {{/each}}
+  </ul>
   </script>
+  <!-- 循环 -->
+  <script id="eachTpl" type="text/html">
+    <h1>{{title}}</h1>
+    <ul>
+      {{each list value i}}
+        <li>索引 {{i + 1}} ：{{@ value}}</li>
+      {{/each}}
+    </ul>
+    {{$data}}
+  </script>
+
 </body>
 
 </html>

@@ -12,6 +12,7 @@
 <script src="../../js/gui.min.js"></script>
 <script src="../../js/common.min.js"></script>
 <script src="../../lib/art-template.js"></script>
+<!-- 老版本 -->
 <!-- <script src="../../lib/template.min.js"></script> -->
 <script src="../../js/app.min.js"></script>
 <script src="../../js/custom.min.js"></script>
