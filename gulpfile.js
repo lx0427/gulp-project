@@ -34,14 +34,11 @@ let project = pkg.project
 let config = {
   filePath: {
     commonLess: ['./src/css/common/*.less'],
-    appJs: ['./src/js/' + appType + '/app.min.js', './src/js/app_config.js'],
+    appJs: ['./config/**/*.js'],
     less: ['./src/**/*.{less,css}', '!./src/css/common/*.less'],
     art: ['./src/**/*.art'],
-    js: [
-      './src/**/*.js',
-      '!./src/js/' + appType + '/*.js',
-      '!./src/js/app_config.js'
-    ],
+    commonJs: ['./src/**/*.js', '!./src/pages/**/*.js'],
+    pageJs: ['./src/pages/**/*.js'],
     html: ['./rev/**/*.json', './src/**/*.html'],
     image: ['./src/**/*.{jpg,png,gif,jpeg,svg}'],
     fonts: ['./src/fonts/*.*'],
@@ -51,13 +48,13 @@ let config = {
 }
 console.log(JSON.stringify(config))
 
-gulp.task('fonts', function() {
+gulp.task('fonts', function () {
   return gulp.src(config.filePath.fonts).pipe(gulp.dest('dist/fonts/'))
 })
-gulp.task('i18n', function() {
+gulp.task('i18n', function () {
   return gulp.src(config.filePath.i18n).pipe(gulp.dest('dist/i18n/'))
 })
-gulp.task('appJs', function() {
+gulp.task('appJs', function () {
   return gulp
     .src(config.filePath.appJs)
     .pipe(babel())
@@ -68,29 +65,39 @@ gulp.task('appJs', function() {
     .pipe(rev.manifest())
     .pipe(gulp.dest('./rev/appJs/'))
 })
-gulp.task('js', function() {
+gulp.task('commonJs', function () {
   return gulp
-    .src(config.filePath.js)
+    .src(config.filePath.commonJs)
     .pipe(babel())
     .pipe(gulpif(config.command.env === 'production', uglify()))
     .pipe(gulp.dest('dist'))
     .pipe(rev())
     .pipe(rev.manifest())
+    .pipe(gulp.dest('./rev/commonJs/'))
+})
+gulp.task('pageJs', function () {
+  return gulp
+    .src(config.filePath.pageJs)
+    .pipe(babel())
+    .pipe(gulpif(config.command.env === 'production', uglify()))
+    .pipe(gulp.dest('dist/pages/'))
+    .pipe(rev())
+    .pipe(rev.manifest())
     .pipe(gulp.dest('./rev/js/'))
 })
-gulp.task('commonLess', function() {
+gulp.task('commonLess', function () {
   return gulp
     .src(config.filePath.commonLess)
     .pipe(replace('@/', '../../'))
     .pipe(less())
-    .pipe(concat('common.min.css'))
+    .pipe(concat('common.css'))
     .pipe(gulpif(config.command.env === 'production', csso()))
     .pipe(gulp.dest('dist/css/'))
     .pipe(rev())
     .pipe(rev.manifest())
     .pipe(gulp.dest('./rev/commonLess/'))
 })
-gulp.task('less', function() {
+gulp.task('less', function () {
   return gulp
     .src(config.filePath.less)
     .pipe(replace('@/', '../../'))
@@ -101,7 +108,7 @@ gulp.task('less', function() {
     .pipe(rev.manifest())
     .pipe(gulp.dest('./rev/less/'))
 })
-gulp.task('images', function() {
+gulp.task('images', function () {
   return gulp
     .src(config.filePath.image)
     .pipe(
@@ -112,11 +119,9 @@ gulp.task('images', function() {
             optimizationLevel: 5, // 默认：3  取值范围：0-7（优化等级）
             progressive: true, // 默认：false 无损压缩jpg图片
             multipass: true, // 默认：false 多次优化svg直到完全优化
-            svgoPlugins: [
-              {
-                removeViewBox: false
-              }
-            ], // 不要移除svg的viewbox属性
+            svgoPlugins: [{
+              removeViewBox: false
+            }], // 不要移除svg的viewbox属性
             use: [pngquant()]
           })
         )
@@ -124,30 +129,30 @@ gulp.task('images', function() {
     )
     .pipe(gulp.dest('dist'))
 })
-gulp.task('html', function() {
+gulp.task('html', function () {
   return (
     gulp
-      .src(config.filePath.html)
-      .pipe(ejs())
-      // .pipe(template())
-      .pipe(replace('.less', '.css'))
-      .pipe(replace('@/', '../../'))
-      .pipe(revCollector())
-      .pipe(
-        gulpif(
-          config.command.env === 'production',
-          htmlmin({
-            collapseWhitespace: true,
-            minifyCSS: true,
-            minifyJS: true
-          })
-        )
+    .src(config.filePath.html)
+    .pipe(ejs())
+    // .pipe(template())
+    .pipe(replace('.less', '.css')) // 替换less文件名
+    .pipe(replace('@/', '../../'))
+    .pipe(revCollector())
+    .pipe(
+      gulpif(
+        config.command.env === 'production',
+        htmlmin({
+          collapseWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true
+        })
       )
-      .pipe(gulp.dest('dist'))
+    )
+    .pipe(gulp.dest('dist'))
   )
 })
 // 删除dist
-gulp.task('del', function() {
+gulp.task('del', function () {
   return gulp
     .src(['./dist/'], {
       read: false,
@@ -156,7 +161,7 @@ gulp.task('del', function() {
     .pipe(clean())
 })
 // 清理上个版本rev-manifest.json
-gulp.task('delRev', function() {
+gulp.task('delRev', function () {
   return gulp
     .src(['./rev/'], {
       read: false,
@@ -164,18 +169,19 @@ gulp.task('delRev', function() {
     })
     .pipe(clean())
 })
-gulp.task('cache-clean', function() {
+gulp.task('cache-clean', function () {
   cache.clearAll()
 })
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch(config.filePath.appJs, ['appJs'])
-  gulp.watch(config.filePath.js, ['js'])
+  gulp.watch(config.filePath.commonJs, ['commonJs'])
+  gulp.watch(config.filePath.pageJs, ['pageJs'])
   gulp.watch(config.filePath.commonLess, ['commonLess'])
   gulp.watch(config.filePath.less, ['less'])
   gulp.watch(config.filePath.image, ['images'])
   gulp.watch([...config.filePath.html, ...config.filePath.art], ['html'])
 })
-gulp.task('server', function() {
+gulp.task('server', function () {
   gulp.src('./').pipe(
     webserver({
       host: '0.0.0.0',
@@ -186,12 +192,13 @@ gulp.task('server', function() {
     })
   )
 })
-gulp.task('default', ['del'], function() {
+gulp.task('default', ['del'], function () {
   gulp.start(
     'fonts',
     'i18n',
     'appJs',
-    'js',
+    'commonJs',
+    'pageJs',
     'commonLess',
     'less',
     'images',
@@ -205,8 +212,8 @@ gulp.task('start', ['server', 'watch'])
 // build
 gulp.task(
   'build',
-  ['fonts', 'i18n', 'appJs', 'js', 'commonLess', 'less', 'images'],
-  function() {
+  ['fonts', 'i18n', 'appJs', 'commonJs', 'pageJs', 'commonLess', 'less', 'images'],
+  function () {
     gulp.start('html') // 确保上述css,js对应的rev-manifest.json生成完毕后执行
   }
 )
