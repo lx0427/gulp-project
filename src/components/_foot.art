@@ -11,7 +11,8 @@
 <script src="../../lib/jquery-weui.min.js"></script>
 <script src="../../js/gui.min.js"></script>
 <script src="../../js/common.min.js"></script>
-<script src="../../lib/template.min.js"></script>
+<script src="../../lib/art-template.js"></script>
+<!-- <script src="../../lib/template.min.js"></script> -->
 <script src="../../js/app.min.js"></script>
 <script src="../../js/custom.min.js"></script>
 <script src="../../lib/jquery.i18n.properties.js"></script>

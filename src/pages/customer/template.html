@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title name="re_title">模板语法引入</title>
+  <!-- 插入子模板 -->
+  <% include ../../components/_head.art %>
+</head>
+
+<body>
+  <div id="target"></div>
+  <% include ../../components/_foot.art %>
+  <script src="../customer/template.js"></script>
+
+  <script id="varTemplate" type="text/html">
+    <ul>
+        {{each data as value i }}
+        <li>{{value}}</li>
+        {{/each}}
+    </ul>
+  </script>
+</body>
+
+</html>
